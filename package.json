@@ -2,32 +2,31 @@
   "name": "rmst-tools-wpk",
   "version": "1.0.0",
   "description": "",
-  "main": "out/main/index.js",
+  "main": "output/main/index.js",
   "scripts": {
-    "build-main": "webpack --config cfg/wpk.ts",
-    "dev": "electronmon ."
+    "dev": "ts-node cfg/dev.ts",
+    "build-main": "webpack --config cfg/wpk.main.ts",
+    "div:renderer": "webpack serve --config cfg/wpk.renderer.dev.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
     "@types/node": "^20.14.11",
     "@types/webpack": "^5.28.5",
     "cross-env": "^7.0.3",
+    "cross-spawn": "^7.0.3",
     "electron": "^31.2.1",
     "electronmon": "^2.0.3",
+    "html-webpack-plugin": "^5.6.0",
+    "picocolors": "^1.0.1",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
     "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
     "webpack-merge": "^6.0.1"
-  },
-  "electronmon": {
-    "patterns": [
-      "!**/**",
-      "out/main/**"
-    ],
-    "logLevel": "quiet"
   }
 }

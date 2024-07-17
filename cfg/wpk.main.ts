@@ -1,8 +1,8 @@
 import * as path from 'path'
 import * as webpack from 'webpack'
+import webpackPaths from './webpack.paths'
 
 const entry = path.join(__dirname, '../src/main/index.ts')
-const out = path.resolve(__dirname, '../out/main')
 
 const config: webpack.Configuration = {
   watch: true,
@@ -12,7 +12,7 @@ const config: webpack.Configuration = {
   devtool: 'inline-source-map',
   entry: entry,
   output: {
-    path: out,
+    path: webpackPaths.outputMainPath,
     filename: 'index.js',
     library: {
       type: 'commonjs'
