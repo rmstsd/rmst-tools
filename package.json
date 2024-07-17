@@ -1,0 +1,33 @@
+{
+  "name": "rmst-tools-wpk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "out/main/index.js",
+  "scripts": {
+    "build-main": "webpack --config cfg/wpk.ts",
+    "dev": "electronmon ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "@types/webpack": "^5.28.5",
+    "cross-env": "^7.0.3",
+    "electron": "^31.2.1",
+    "electronmon": "^2.0.3",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-merge": "^6.0.1"
+  },
+  "electronmon": {
+    "patterns": [
+      "!**/**",
+      "out/main/**"
+    ],
+    "logLevel": "quiet"
+  }
+}
