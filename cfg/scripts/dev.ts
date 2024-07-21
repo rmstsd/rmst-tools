@@ -1,4 +1,3 @@
-// @ts-ignore
 import electronmon from 'electronmon'
 import WebpackDevServer from 'webpack-dev-server'
 import { webpack } from 'webpack'
@@ -10,27 +9,36 @@ import wpkRenderConfig from '../wpk.renderer.dev'
 import mainConfig from '../wpk.main'
 import preloadConfig from '../wpk.preload'
 
+import { Default_Port } from '../utils/constants'
+
+process.env.Port = String(Default_Port)
+process.env.Renderer_Url = `http://localhost:${Default_Port}`
+
 dev()
 
 async function dev() {
   await runServer()
-  // await buildMain()
-  // await buildPreload()
+  await buildPreload()
+  await buildMain()
 
-  // await electronmon({
-  //   cwd: webpackPaths.rootPath,
-  //   patterns: ['!**/**', 'output/main/**']
-  // })
+  await electronmon({
+    cwd: webpackPaths.rootPath,
+    patterns: ['!**/**', 'out/main/**']
+  })
 
   console.log(picocolors.green('✔ electron 应用启动'))
   console.log('')
 }
 
-const Port = 10000
-
 async function runServer() {
   const compiler = webpack(wpkRenderConfig)
-  const server = new WebpackDevServer({ port: Port }, compiler)
+  const server = new WebpackDevServer(
+    {
+      port: process.env.Port,
+      client: { overlay: false }
+    },
+    compiler
+  )
 
   console.log(picocolors.green(`Starting server...`))
 
@@ -40,29 +48,38 @@ async function runServer() {
 }
 
 function buildMain() {
-  console.log(picocolors.green('main start build'))
+  console.log(picocolors.green('主进程开始 build'))
 
   const compiler = webpack(mainConfig)
+  return new Promise<void>((resolve, reject) => {
+    compiler.watch({ ignored: ['**/node_modules'] }, (err, stats) => {
+      if (err || stats?.hasErrors()) {
+        console.log(picocolors.red('Error 主进程 compiler.watch'))
+        console.log(stats?.toString({ colors: true }))
 
-  return new Promise((resolve, reject) => {
-    compiler.run((err, stats) => {
-      if (!err) {
-        resolve(undefined)
+        reject()
+        return
       }
+
+      resolve()
     })
   })
 }
 
 export function buildPreload() {
-  console.log(picocolors.green('preload start build'))
+  console.log(picocolors.green('preload 开始 build'))
 
   const compiler = webpack(preloadConfig)
-
-  return new Promise((resolve, reject) => {
-    compiler.run((err, stats) => {
-      if (!err) {
-        resolve(undefined)
+  return new Promise<void>((resolve, reject) => {
+    compiler.watch({ ignored: ['**/node_modules'] }, (err, stats) => {
+      if (err || stats?.hasErrors()) {
+        console.log(picocolors.red('Error preload compiler.watch'))
+        console.log(stats?.toString({ colors: true }))
+        reject()
+        return
       }
+
+      resolve()
     })
   })
 }

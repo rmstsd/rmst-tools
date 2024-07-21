@@ -13,7 +13,7 @@ const appPackagePath = path.join(appPath, 'package.json')
 const appNodeModulesPath = path.join(appPath, 'node_modules')
 const srcNodeModulesPath = path.join(srcPath, 'node_modules')
 
-const outputPath = path.join(rootPath, 'output')
+const outputPath = path.join(rootPath, 'out')
 const outputMainPath = path.join(outputPath, 'main')
 const outputPreloadPath = path.join(outputPath, 'preload')
 const outputRendererPath = path.join(outputPath, 'renderer')

@@ -2,14 +2,16 @@ import * as path from 'path'
 import * as webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpackPaths from './utils/wpk.paths'
+import { getWebpackResolveAlias } from './utils'
 
 const config: webpack.Configuration = {
   mode: 'development',
   target: ['web', 'electron-renderer'],
   devtool: 'inline-source-map',
-  entry: path.join(webpackPaths.srcRendererPath, 'index.js'),
+  entry: path.join(webpackPaths.srcRendererPath, 'index.ts'),
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js'],
+    alias: getWebpackResolveAlias()
   },
   stats: 'errors-only',
   module: {
@@ -18,6 +20,14 @@ const config: webpack.Configuration = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.less$/i,
+        use: ['style-loader', 'css-loader', 'less-loader']
       }
     ]
   },

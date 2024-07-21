@@ -1,10 +1,10 @@
 import * as path from 'path'
 import * as webpack from 'webpack'
+import nodeExternals from 'webpack-node-externals'
 import webpackPaths from './utils/wpk.paths'
+import { getWebpackResolveAlias } from './utils'
 
 const config: webpack.Configuration = {
-  watch: true,
-
   mode: 'development',
   target: 'electron-main',
   devtool: 'inline-source-map',
@@ -12,17 +12,28 @@ const config: webpack.Configuration = {
   output: {
     path: webpackPaths.outputMainPath,
     filename: 'index.js',
+    libraryTarget: 'commonjs2',
     clean: true
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.ts', '.js', '.json'],
+    alias: getWebpackResolveAlias()
   },
+  externals: [nodeExternals({ allowlist: 'electron-store' })],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+            compilerOptions: {
+              module: 'Commonjs'
+            }
+          }
+        }
       }
     ]
   }

@@ -3,7 +3,6 @@ import * as webpack from 'webpack'
 import webpackPaths from './utils/wpk.paths'
 
 const config: webpack.Configuration = {
-  watch: true,
   mode: 'development',
   target: 'electron-preload',
   devtool: 'inline-source-map',

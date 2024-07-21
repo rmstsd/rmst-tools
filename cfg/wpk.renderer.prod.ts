@@ -1,4 +1,5 @@
-import * as webpack from 'webpack'
+import webpack from 'webpack'
+import TerserPlugin from 'terser-webpack-plugin'
 
 import baseConfig from './wpk.renderer.dev'
 
@@ -14,6 +15,9 @@ const config: webpack.Configuration = {
     path: webpackPaths.outputRendererPath,
     publicPath: './',
     clean: true
+  },
+  optimization: {
+    minimizer: [new TerserPlugin({ extractComments: false })]
   }
 }
 

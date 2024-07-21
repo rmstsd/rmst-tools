@@ -6,8 +6,7 @@ import baseConfig from './wpk.preload'
 
 const config: webpack.Configuration = {
   mode: 'production',
-  devtool: false,
-  watch: false
+  devtool: false
 }
 
 const wpkPreloadProdConfig = merge(baseConfig, config)
