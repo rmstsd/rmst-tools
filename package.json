@@ -4,9 +4,8 @@
   "description": "",
   "main": "output/main/index.js",
   "scripts": {
-    "dev": "ts-node cfg/dev.ts",
-    "build-main": "webpack --config cfg/wpk.main.ts",
-    "div:renderer": "webpack serve --config cfg/wpk.renderer.dev.ts"
+    "dev": "ts-node cfg/scripts/dev.ts",
+    "build": "ts-node cfg/scripts/build.ts"
   },
   "keywords": [],
   "author": "",
@@ -28,5 +27,9 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
     "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^3.0.0"
   }
 }

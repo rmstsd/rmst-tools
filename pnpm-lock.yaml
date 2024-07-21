@@ -7,6 +7,13 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@electron-toolkit/preload':
+        specifier: ^3.0.1
+        version: 3.0.1(electron@31.2.1)
+      '@electron-toolkit/utils':
+        specifier: ^3.0.0
+        version: 3.0.0(electron@31.2.1)
     devDependencies:
       '@types/cross-spawn':
         specifier: ^6.0.6
@@ -66,6 +73,16 @@ packages:
   '@discoveryjs/json-ext@0.5.7':
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==}
     engines: {node: '>=10.0.0'}
+
+  '@electron-toolkit/preload@3.0.1':
+    resolution: {integrity: sha512-EzoQmpK8jqqU8YnM5jRe0GJjGVJPke2KtANqz8QtN2JPT96ViOvProBdK5C6riCm0j1T8jjAGVQCZLQy9OVoIA==}
+    peerDependencies:
+      electron: '>=13.0.0'
+
+  '@electron-toolkit/utils@3.0.0':
+    resolution: {integrity: sha512-GaXHDhiT7KCvMJjXdp/QqpYinq69T/Pdl49Z1XLf8mKGf63dnsODMWyrmIjEQ0z/vG7dO8qF3fvmI6Eb2lUNZA==}
+    peerDependencies:
+      electron: '>=13.0.0'
 
   '@electron/get@2.0.3':
     resolution: {integrity: sha512-Qkzpg2s9GnVV2I2BjRksUi43U5e6+zaQMcjoJy0C+C5oxaKl+fmckGDQFtRpZpZV0NQekuZZ+tGz7EA9TVnQtQ==}
@@ -1860,6 +1877,14 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.9
 
   '@discoveryjs/json-ext@0.5.7': {}
+
+  '@electron-toolkit/preload@3.0.1(electron@31.2.1)':
+    dependencies:
+      electron: 31.2.1
+
+  '@electron-toolkit/utils@3.0.0(electron@31.2.1)':
+    dependencies:
+      electron: 31.2.1
 
   '@electron/get@2.0.3':
     dependencies:

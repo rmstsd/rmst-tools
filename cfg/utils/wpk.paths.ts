@@ -1,9 +1,10 @@
 import path from 'node:path'
 
-const rootPath = path.join(__dirname, '../')
+const rootPath = path.join(__dirname, '../../')
 
 const srcPath = path.join(rootPath, 'src')
 const srcMainPath = path.join(srcPath, 'main')
+const srcPreloadPath = path.join(srcPath, 'preload')
 const srcRendererPath = path.join(srcPath, 'renderer')
 
 const releasePath = path.join(rootPath, 'release')
@@ -14,9 +15,8 @@ const srcNodeModulesPath = path.join(srcPath, 'node_modules')
 
 const outputPath = path.join(rootPath, 'output')
 const outputMainPath = path.join(outputPath, 'main')
+const outputPreloadPath = path.join(outputPath, 'preload')
 const outputRendererPath = path.join(outputPath, 'renderer')
-
-console.log('outputMainPath', outputMainPath)
 
 const buildPath = path.join(releasePath, 'build')
 
@@ -24,6 +24,7 @@ const webpackPaths = {
   rootPath,
   srcPath,
   srcMainPath,
+  srcPreloadPath,
   srcRendererPath,
   releasePath,
   appPath,
@@ -32,6 +33,7 @@ const webpackPaths = {
   srcNodeModulesPath,
   outputPath,
   outputMainPath,
+  outputPreloadPath,
   outputRendererPath,
   buildPath
 }

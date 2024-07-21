@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import webpackPaths from './webpack.paths'
+import webpackPaths from './utils/wpk.paths'
 
 const config: webpack.Configuration = {
   mode: 'development',

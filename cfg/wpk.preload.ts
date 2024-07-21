@@ -4,18 +4,17 @@ import webpackPaths from './utils/wpk.paths'
 
 const config: webpack.Configuration = {
   watch: true,
-
   mode: 'development',
-  target: 'electron-main',
+  target: 'electron-preload',
   devtool: 'inline-source-map',
-  entry: path.join(webpackPaths.srcMainPath, 'index.ts'),
+  entry: path.join(webpackPaths.srcPreloadPath, 'index.ts'),
   output: {
-    path: webpackPaths.outputMainPath,
+    path: webpackPaths.outputPreloadPath,
     filename: 'index.js',
     clean: true
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.ts', '.js']
   },
   module: {
     rules: [
