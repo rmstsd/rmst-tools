@@ -1,5 +1,5 @@
-import * as path from 'path'
-import * as webpack from 'webpack'
+import path from 'path'
+import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpackPaths from './utils/wpk.paths'
 import { getWebpackResolveAlias } from './utils'
@@ -23,11 +23,36 @@ const config: webpack.Configuration = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: ['postcss-preset-env', 'tailwindcss', 'autoprefixer']
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.less$/i,
-        use: ['style-loader', 'css-loader', 'less-loader']
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: ['postcss-preset-env', 'tailwindcss', 'autoprefixer']
+              }
+            }
+          },
+          'less-loader'
+        ]
       }
     ]
   },
