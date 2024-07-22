@@ -1,10 +1,9 @@
 import webpack from 'webpack'
 import TerserPlugin from 'terser-webpack-plugin'
-
-import baseConfig from './wpk.renderer.dev'
-
 import { merge } from 'webpack-merge'
+
 import webpackPaths from './utils/wpk.paths'
+import getRendererWpkCfg from './wpk.renderer.dev'
 
 const config: webpack.Configuration = {
   mode: 'production',
@@ -21,6 +20,6 @@ const config: webpack.Configuration = {
   }
 }
 
-const wpkRendererProd = merge(baseConfig, config)
+const wpkRendererProd = merge(getRendererWpkCfg(process.env.NODE_ENV), config)
 
 export default wpkRendererProd

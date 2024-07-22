@@ -4,7 +4,8 @@
   "compilerOptions": {
     "target": "ESNext",
     "jsx": "react-jsx",
-    "module": "CommonJS",
+    "module": "ESNext",
+    "moduleResolution": "Node10",
 
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
@@ -13,7 +14,6 @@
     "strict": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
-
     "skipLibCheck": true,
 
     "baseUrl": ".",

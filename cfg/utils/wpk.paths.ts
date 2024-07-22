@@ -20,7 +20,7 @@ const outputRendererPath = path.join(outputPath, 'renderer')
 
 const buildPath = path.join(releasePath, 'build')
 
-const webpackPaths = {
+const wpkPaths = {
   rootPath,
   srcPath,
   srcMainPath,
@@ -38,4 +38,4 @@ const webpackPaths = {
   buildPath
 }
 
-export default webpackPaths
+export default wpkPaths

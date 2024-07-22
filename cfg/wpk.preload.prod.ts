@@ -1,14 +1,13 @@
 import webpack from 'webpack'
-
 import { merge } from 'webpack-merge'
 
-import baseConfig from './wpk.preload'
+import getPreloadWpkCfg from './wpk.preload'
 
 const config: webpack.Configuration = {
   mode: 'production',
   devtool: false
 }
 
-const wpkPreloadProdConfig = merge(baseConfig, config)
+const wpkPreloadProdConfig = merge(getPreloadWpkCfg(), config)
 
 export default wpkPreloadProdConfig

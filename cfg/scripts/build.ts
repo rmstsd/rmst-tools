@@ -5,11 +5,13 @@ import wpkRendererProd from '../wpk.renderer.prod'
 import wpkMainProdConfig from '../wpk.main.prod'
 import wpkPreloadProdConfig from '../wpk.preload.prod'
 
+process.env.NODE_ENV = 'production'
+
 buildApp()
 
 async function buildApp() {
-  // await buildRenderer()
-  // await buildPreload()
+  await buildRenderer()
+  await buildPreload()
   await buildMain()
 }
 
