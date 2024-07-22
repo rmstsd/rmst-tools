@@ -1,0 +1,20 @@
+{
+  "include": ["src/renderer"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "composite": true,
+    "lib": ["DOM", "ESNext"],
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "strict": false,
+
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": ["src/common/*"],
+      "@renderer/*": ["src/renderer/*"]
+    }
+  }
+}

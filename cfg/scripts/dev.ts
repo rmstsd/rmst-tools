@@ -2,6 +2,7 @@ import electronmon from 'electronmon'
 import WebpackDevServer from 'webpack-dev-server'
 import { webpack } from 'webpack'
 import picocolors from 'picocolors'
+import clearConsole from 'clear-console'
 
 import wpkPaths from '../utils/wpk.paths'
 

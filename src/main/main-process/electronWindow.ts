@@ -2,7 +2,6 @@ import { is } from '@electron-toolkit/utils'
 import { BrowserWindow, shell } from 'electron'
 import path from 'node:path'
 import { iconPath } from './iconPath'
-import { url } from 'node:inspector'
 
 type IElectronWindow = {
   Setting: BrowserWindow

@@ -90,6 +90,9 @@ importers:
       babel-preset-react-app:
         specifier: ^10.0.1
         version: 10.0.1
+      clear-console:
+        specifier: ^1.1.0
+        version: 1.1.0
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1604,6 +1607,9 @@ packages:
   clean-css@5.3.3:
     resolution: {integrity: sha512-D5J+kHaVb/wKSFcyyV75uCn8fiY4sV38XJoe4CUyGQ+mOU/fMVYUdH1hJC+CJQ5uY3EnW27SbJYS4X8BiLrAFg==}
     engines: {node: '>= 10.0'}
+
+  clear-console@1.1.0:
+    resolution: {integrity: sha512-bbSzBRZ4Pe7TZXmvWf2+CY2i+ssk+wulCex4Mqi1SZgiPp0ce5TiTJmiWoroJLKwaLhdFdLHkDrophk9KkA6eg==}
 
   cli-truncate@2.1.0:
     resolution: {integrity: sha512-n8fOixwDD6b/ObinzTrp1ZKFzbgvKZvuz/TvejnLn1aQfC6r52XEx85FmuC+3HI+JM7coBRXUvNqEU2PHVrHpg==}
@@ -5892,6 +5898,8 @@ snapshots:
   clean-css@5.3.3:
     dependencies:
       source-map: 0.6.1
+
+  clear-console@1.1.0: {}
 
   cli-truncate@2.1.0:
     dependencies:

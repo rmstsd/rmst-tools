@@ -1,28 +1,5 @@
 {
-  "include": ["src"],
-  "exclude": ["node_modules"],
-  "compilerOptions": {
-    "target": "ESNext",
-    "jsx": "react-jsx",
-    "module": "ESNext",
-    "moduleResolution": "Node10",
-
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-
-    /* Type Checking */
-    "strict": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "skipLibCheck": true,
-
-    "baseUrl": ".",
-    "paths": {
-      "@common/*": ["src/common/*"],
-      "@main/*": ["src/main/*"],
-      "@renderer/*": ["src/renderer/*"]
-    }
-  },
+  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.renderer.json" }],
   "ts-node": {
     "compilerOptions": {
       "target": "ES5",
