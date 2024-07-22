@@ -16,12 +16,14 @@ process.env.Renderer_Url = `http://localhost:${Default_Port}`
 
 dev()
 
+let app
+
 async function dev() {
   await runServer()
   await buildPreload()
   await buildMain()
 
-  await electronmon({
+  app = await electronmon({
     cwd: webpackPaths.rootPath,
     patterns: ['!**/**', 'out/main/**']
   })
@@ -59,6 +61,11 @@ function buildMain() {
 
         reject()
         return
+      }
+
+      if (app) {
+        console.log(picocolors.green('二次构建'))
+        app.restart()
       }
 
       resolve()

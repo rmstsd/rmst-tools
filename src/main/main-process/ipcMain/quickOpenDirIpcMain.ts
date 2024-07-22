@@ -1,5 +1,6 @@
 import { ipcMain } from 'electron'
-
+import fse from 'fs-extra'
+import { spawn } from 'cross-spawn'
 import { electronWindow } from '../electronWindow'
 import { getStoreSetting } from '../../store'
 import { OpenDirEvent } from '@common/ipcEvent'
@@ -13,9 +14,6 @@ export function addQuickOpenDirIpcMain() {
   ipcMain.handle(OpenDirEvent.Get_CmdPath, () => getStoreSetting().cmdPath)
   ipcMain.handle(OpenDirEvent.Hide_DirWindow, () => electronWindow.OpenDir.hide())
 }
-
-import fse from 'fs-extra'
-import { spawn } from 'cross-spawn'
 
 export const openSpawnDir = (_, dirPath) => {
   const editorPath = getStoreSetting().vscodePath
@@ -46,7 +44,8 @@ export const getProjectNamesTree = () => {
   const blackList = ['$RECYCLE.BIN', 'System Volume Information']
 
   const { projectPaths = [] } = getStoreSetting()
-  const namesTree = projectPaths.map(item => ({
+
+  const namesTree = projectPaths.filter(Boolean).map(item => ({
     name: item.replace(/\\/g, '/'),
     children: fse.readdirSync(item).filter(item => !blackList.includes(item))
   }))

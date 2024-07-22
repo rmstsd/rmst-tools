@@ -2,6 +2,7 @@ import { is } from '@electron-toolkit/utils'
 import { BrowserWindow, shell } from 'electron'
 import path from 'node:path'
 import { iconPath } from './iconPath'
+import { url } from 'node:inspector'
 
 type IElectronWindow = {
   Setting: BrowserWindow
@@ -14,14 +15,17 @@ export const electronWindow = {} as IElectronWindow
 
 const preloadPath = path.join(__dirname, '../preload/index.js')
 
-const loadWindow = (win: BrowserWindow, query: Record<string, string>) => {
-  const queryString = '?' + new URLSearchParams(query).toString()
+const loadWindow = (win: BrowserWindow, pathname: string) => {
+  const baseUrl = is.dev ? process.env.Renderer_Url : path.join(__dirname, '../renderer/index.html')
 
-  if (is.dev && process.env.Renderer_Url) {
-    win.loadURL(process.env.Renderer_Url + queryString)
+  const uu = new URL(baseUrl)
+  uu.hash = pathname
+  const rendererUrl = uu.toString()
+
+  if (is.dev) {
+    win.loadURL(rendererUrl)
   } else {
-    const url = path.join(__dirname, '../renderer/index.html') + queryString
-    win.loadURL(url)
+    win.loadFile(rendererUrl)
   }
 }
 
@@ -42,7 +46,7 @@ function createOpenDirWindow() {
       nodeIntegration: true
     }
   })
-  loadWindow(win, { ui: 'OpenDir' })
+  loadWindow(win, 'OpenDir')
 
   win.on('blur', () => {
     !is.dev && win.hide()
@@ -62,7 +66,7 @@ function createSettingWindow() {
     }
   })
 
-  loadWindow(win, { ui: 'Setting' })
+  loadWindow(win, 'Setting')
 
   return win
 }
@@ -83,7 +87,7 @@ function createQuickInputWindow() {
     }
   })
 
-  loadWindow(win, { ui: 'QuickInput' })
+  loadWindow(win, 'QuickInput')
 
   return win
 }
@@ -99,7 +103,7 @@ function createKillPortWindow() {
     }
   })
 
-  loadWindow(win, { ui: 'KillPort' })
+  loadWindow(win, 'KillPort')
 
   return win
 }
@@ -140,7 +144,7 @@ function createRmstBrowserWindow() {
     })
   })
 
-  loadWindow(win, { ui: 'rmstBrowser' })
+  loadWindow(win, 'rmstBrowser')
 
   return win
 }

@@ -23,20 +23,7 @@ const config: webpack.Configuration = {
       },
       {
         test: /\.css$/i,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader'
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: ['postcss-preset-env', 'tailwindcss', 'autoprefixer']
-              }
-            }
-          }
-        ]
+        use: ['style-loader', { loader: 'css-loader' }]
       },
       {
         test: /\.less$/i,
@@ -47,7 +34,7 @@ const config: webpack.Configuration = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: ['postcss-preset-env', 'tailwindcss', 'autoprefixer']
+                plugins: ['tailwindcss', 'autoprefixer']
               }
             }
           },

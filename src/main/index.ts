@@ -2,6 +2,7 @@ import { app, BrowserWindow } from 'electron'
 import { optimizer } from '@electron-toolkit/utils'
 
 import bootstrap, { launchAtStartup } from './bootstrap'
+import { modifyFont } from './devtools'
 
 console.log('主进程入口文件')
 
@@ -19,6 +20,10 @@ app.whenReady().then(() => {
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
+
+    window.webContents.on('devtools-opened', () => {
+      modifyFont(window)
+    })
 
     window.on('close', evt => {
       evt.preventDefault()
