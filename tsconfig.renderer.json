@@ -1,14 +1,14 @@
 {
   "include": ["src/renderer"],
-  "exclude": ["node_modules"],
   "compilerOptions": {
     "composite": true,
+
     "lib": ["DOM", "ESNext"],
     "target": "ESNext",
-    "jsx": "react-jsx",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
+    "jsx": "react-jsx",
     "strict": false,
 
     "baseUrl": ".",

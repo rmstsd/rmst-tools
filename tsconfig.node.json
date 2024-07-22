@@ -1,9 +1,9 @@
 {
   "include": ["src/main", "src/preload", "src/common", "cfg"],
-  "exclude": ["node_modules"],
   "compilerOptions": {
-    "lib": ["ESNext"],
     "composite": true,
+
+    "lib": ["ESNext"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
