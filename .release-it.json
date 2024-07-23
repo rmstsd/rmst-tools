@@ -6,5 +6,8 @@
     "tag": true,
     "tagName": "v${version}",
     "push": true
+  },
+  "npm": {
+    "publish": false
   }
 }
