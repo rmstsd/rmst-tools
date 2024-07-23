@@ -8,7 +8,7 @@ export default function getMainWpkCfg(): webpack.Configuration {
   return {
     mode: 'development',
     target: 'electron-main',
-    devtool: 'inline-source-map',
+    devtool: 'cheap-module-source-map',
     entry: path.join(wpkPaths.srcMainPath, 'index.ts'),
     output: {
       path: wpkPaths.outputMainPath,

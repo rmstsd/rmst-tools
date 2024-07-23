@@ -13,7 +13,7 @@ export default function getRendererWpkCfg(NODE_ENV): webpack.Configuration {
   return {
     mode: 'development',
     target: ['web', 'electron-renderer'],
-    devtool: 'eval-cheap-module-source-map', // cheap-module-source-map
+    devtool: 'cheap-module-source-map', // cheap-module-source-map
     entry: path.join(wpkPaths.srcRendererPath, 'index.ts'),
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],

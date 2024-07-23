@@ -6,7 +6,7 @@ export default function getPreloadWpkCfg(): webpack.Configuration {
   return {
     mode: 'development',
     target: 'electron-preload',
-    devtool: 'inline-source-map',
+    devtool: 'cheap-module-source-map',
     entry: path.join(wpkPaths.srcPreloadPath, 'index.ts'),
     output: {
       path: wpkPaths.outputPreloadPath,
