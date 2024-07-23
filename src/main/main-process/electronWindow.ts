@@ -15,7 +15,8 @@ export const electronWindow = {} as IElectronWindow
 const preloadPath = path.join(__dirname, '../preload/index.js')
 
 const loadWindow = (win: BrowserWindow, pathname: string) => {
-  const baseUrl = is.dev ? process.env.Renderer_Url : path.join(__dirname, '../renderer/index.html')
+  const baseUrl =
+    is.dev && process.env.Renderer_Url ? process.env.Renderer_Url : path.join(__dirname, '../renderer/index.html')
 
   const uu = new URL(baseUrl)
   uu.hash = pathname

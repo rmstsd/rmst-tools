@@ -11,6 +11,7 @@ import getMainWpkCfg from '../wpk.main'
 import getPreloadWpkCfg from '../wpk.preload'
 
 import { Default_Port } from '../utils/constants'
+import spawn from 'cross-spawn'
 
 process.env.NODE_ENV = 'development'
 process.env.Port = String(Default_Port)
@@ -25,10 +26,12 @@ async function dev() {
   await buildPreload()
   await buildMain()
 
-  app = await electronmon({
-    cwd: wpkPaths.rootPath,
-    patterns: ['!**/**', 'out/main/**']
-  })
+  spawn('electron', ['.'])
+
+  // app = await electronmon({
+  //   cwd: wpkPaths.rootPath,
+  //   patterns: ['!**/**', 'out/main/**']
+  // })
 
   console.log(picocolors.green('✔ electron 应用启动'))
   console.log('')

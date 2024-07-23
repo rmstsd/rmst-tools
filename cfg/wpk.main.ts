@@ -13,8 +13,11 @@ export default function getMainWpkCfg(): webpack.Configuration {
     output: {
       path: wpkPaths.outputMainPath,
       filename: 'index.js',
-      libraryTarget: 'commonjs2',
-      clean: true
+      // libraryTarget: 'commonjs2',
+      clean: true,
+      library: {
+        type: 'commonjs2'
+      }
     },
     resolve: {
       extensions: ['.ts', '.js', '.json'],

@@ -1,4 +1,4 @@
 provider: github
 owner: rmstsd
-repo: rmst-tools
-updaterCacheDirName: rmst-tools-updater
+repo: rmst-tools-wpk
+updaterCacheDirName: rmst-tools-wpk-updater

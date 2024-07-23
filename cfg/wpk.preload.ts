@@ -11,7 +11,10 @@ export default function getPreloadWpkCfg(): webpack.Configuration {
     output: {
       path: wpkPaths.outputPreloadPath,
       filename: 'index.js',
-      clean: true
+      clean: true,
+      library: {
+        type: 'commonjs2'
+      }
     },
     resolve: {
       extensions: ['.ts', '.js']
