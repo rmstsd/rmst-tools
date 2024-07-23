@@ -1,6 +1,5 @@
 import { app, BrowserWindow } from 'electron'
 import { optimizer } from '@electron-toolkit/utils'
-
 import bootstrap, { launchAtStartup } from './bootstrap'
 import { modifyFont } from './devtools'
 

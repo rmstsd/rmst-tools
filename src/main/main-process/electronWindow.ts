@@ -1,7 +1,9 @@
 import { is } from '@electron-toolkit/utils'
 import { BrowserWindow, shell } from 'electron'
+import elLog from 'electron-log'
 import path from 'node:path'
 import { iconPath } from './iconPath'
+import Logger from 'electron-log'
 
 type IElectronWindow = {
   Setting: BrowserWindow
@@ -18,15 +20,25 @@ const loadWindow = (win: BrowserWindow, pathname: string) => {
   const baseUrl =
     is.dev && process.env.Renderer_Url ? process.env.Renderer_Url : path.join(__dirname, '../renderer/index.html')
 
-  const uu = new URL(baseUrl)
-  uu.hash = pathname
-  const rendererUrl = uu.toString()
-
   if (is.dev) {
+    const uu = new URL(baseUrl)
+    uu.hash = pathname
+    const rendererUrl = uu.toString()
     win.loadURL(rendererUrl)
   } else {
-    win.loadFile(rendererUrl)
+    win.loadFile(baseUrl, { hash: pathname })
   }
+
+  win.webContents.on(
+    'did-fail-load',
+    (evt, errorCode, errorDescription, validatedURL, isMainFrame, frameProcessId, frameRoutingId) => {
+      const msg = { evt, errorCode, errorDescription, validatedURL, isMainFrame, frameProcessId, frameRoutingId }
+      if (!is.dev) {
+        Logger.error(msg)
+      }
+      console.error(msg)
+    }
+  )
 }
 
 function createOpenDirWindow() {

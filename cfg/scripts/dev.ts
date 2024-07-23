@@ -26,12 +26,12 @@ async function dev() {
   await buildPreload()
   await buildMain()
 
-  spawn('electron', ['.'])
+  // spawn('electron', ['.'])
 
-  // app = await electronmon({
-  //   cwd: wpkPaths.rootPath,
-  //   patterns: ['!**/**', 'out/main/**']
-  // })
+  app = await electronmon({
+    cwd: wpkPaths.rootPath,
+    patterns: ['!**/**', 'out/main/**']
+  })
 
   console.log(picocolors.green('✔ electron 应用启动'))
   console.log('')

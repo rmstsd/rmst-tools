@@ -23,7 +23,8 @@ export default function getMainWpkCfg(): webpack.Configuration {
       extensions: ['.ts', '.js', '.json'],
       alias: getWebpackResolveAlias()
     },
-    externals: [nodeExternals({ allowlist: 'electron-store' })],
+    externals: [nodeExternals()],
+    externalsPresets: { electron: true },
     module: {
       rules: [
         {

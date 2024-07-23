@@ -12,6 +12,7 @@ module.exports = {
     '!{.env,.env.*,.npmrc,pnpm-lock.yaml}',
     '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
   ],
+  asar: true,
   asarUnpack: ['resources/**'],
   win: {
     executableName: 'rmst-tools-wpk',

@@ -43,7 +43,7 @@ export const setDirWinSize = (_, value) => {
 export const getProjectNamesTree = () => {
   const blackList = ['$RECYCLE.BIN', 'System Volume Information']
 
-  const { projectPaths = [] } = getStoreSetting()
+  const projectPaths = getStoreSetting()?.projectPaths ?? []
 
   const namesTree = projectPaths.filter(Boolean).map(item => ({
     name: item.replace(/\\/g, '/'),
