@@ -11,10 +11,3 @@ export function createOnListener(channel: string) {
     return remove
   }
 }
-
-declare global {
-  interface Window {
-    electron: any
-    api: unknown
-  }
-}

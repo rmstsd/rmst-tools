@@ -2,7 +2,15 @@ import { Button, Form, Input, Message, Tag } from '@arco-design/web-react'
 import { IconDelete } from '@arco-design/web-react/icon'
 import { useEffect, useState } from 'react'
 
-import { checkUpdate, clearStore, getBaseInfo, getSetting, saveSetting } from '@renderer/ipc/common'
+import {
+  checkUpdate,
+  clearStore,
+  exportSetting,
+  getBaseInfo,
+  getSetting,
+  importSetting,
+  saveSetting
+} from '@renderer/ipc/common'
 import { SettingData } from '@common/type'
 
 export default function SettingPage() {
@@ -11,13 +19,18 @@ export default function SettingPage() {
   const [baseInfo, setBaseInfo] = useState({ appPath: '', version: '', name: '' })
 
   useEffect(() => {
-    getSetting().then(data => {
-      form.setFieldsValue(data)
-    })
+    getSettingData()
+
     getBaseInfo().then(data => {
       setBaseInfo(data)
     })
   }, [])
+
+  const getSettingData = () => {
+    getSetting().then(data => {
+      form.setFieldsValue(data)
+    })
+  }
 
   const onSubmit = (value: SettingData) => {
     saveSetting(value).then(() => {
@@ -28,6 +41,20 @@ export default function SettingPage() {
   const clearEleStore = () => {
     clearStore().then(() => {
       Message.info('已清除')
+      getSettingData()
+    })
+  }
+
+  const exportCfg = () => {
+    exportSetting().then(() => {
+      Message.success('导出成功')
+    })
+  }
+
+  const importCfg = () => {
+    importSetting().then(() => {
+      Message.success('导入成功')
+      getSettingData()
     })
   }
 
@@ -58,8 +85,16 @@ export default function SettingPage() {
           <div className="flex items-center gap-[20px]">
             <h2>设置</h2>
             <Button type="primary" htmlType="submit">
-              Submit
+              保存
             </Button>
+            <Button.Group>
+              <Button type="outline" onClick={exportCfg}>
+                导出
+              </Button>
+              <Button type="outline" onClick={importCfg}>
+                导入
+              </Button>
+            </Button.Group>
             <Button type="primary" status="danger" onClick={clearEleStore}>
               清空本地缓存
             </Button>

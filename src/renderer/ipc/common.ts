@@ -11,6 +11,14 @@ export function saveSetting(value: SettingData) {
   return ipcRenderer.invoke(SettingEvent.Save_Setting, value)
 }
 
+export function exportSetting() {
+  return ipcRenderer.invoke(SettingEvent.Export_Setting)
+}
+
+export function importSetting() {
+  return ipcRenderer.invoke(SettingEvent.Import_Setting)
+}
+
 export function clearStore() {
   return ipcRenderer.invoke(SettingEvent.Clear_Ele_Store)
 }

@@ -2,6 +2,8 @@ import electronmon from 'electronmon'
 import WebpackDevServer from 'webpack-dev-server'
 import { webpack } from 'webpack'
 import picocolors from 'picocolors'
+import { ChildProcess } from 'node:child_process'
+
 import clearConsole from 'clear-console'
 
 import wpkPaths from '../utils/wpk.paths'
@@ -21,6 +23,8 @@ dev()
 
 let app
 
+let ps: ChildProcess
+
 async function dev() {
   await runServer()
   await buildPreload()
@@ -28,13 +32,23 @@ async function dev() {
 
   // spawn('electron', ['.'])
 
-  app = await electronmon({
-    cwd: wpkPaths.rootPath,
-    patterns: ['!**/**', 'out/main/**']
-  })
+  ps = startElectron()
+
+  // app = await electronmon({
+  //   cwd: wpkPaths.rootPath,
+  //   patterns: ['!**/**', 'out/main/**']
+  // })
 
   console.log(picocolors.green('✔ electron 应用启动'))
   console.log('')
+}
+
+function startElectron() {
+  const ps = spawn('electron', ['.'], { stdio: 'inherit' })
+
+  ps.on('close', process.exit)
+
+  return ps
 }
 
 async function runServer() {
@@ -69,9 +83,14 @@ function buildMain() {
         return
       }
 
-      if (app) {
+      if (ps) {
         console.log(picocolors.green('二次构建'))
-        app.restart()
+
+        ps.removeAllListeners()
+        ps.kill()
+        setTimeout(() => {
+          ps = startElectron()
+        }, 1000)
       }
 
       resolve()

@@ -3,7 +3,9 @@ export enum SettingEvent {
   Check_Update = 'check-update',
   Save_Setting = 'save-setting',
   Get_Setting = 'get-setting',
-  Clear_Ele_Store = 'clear-ele-store'
+  Clear_Ele_Store = 'clear-ele-store',
+  Export_Setting = 'Export_Setting',
+  Import_Setting = 'Import_Setting'
 }
 
 export enum QuickInputEvent {

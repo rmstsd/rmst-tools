@@ -13,7 +13,7 @@ export function getStoreSetting() {
   return store.get('setting') as SettingStore
 }
 
-export function setStoreSetting(data) {
+export function setStoreSetting(data: SettingStore) {
   return store.set('setting', data)
 }
 
