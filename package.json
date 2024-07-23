@@ -5,8 +5,8 @@
   "main": "out/main/index.js",
   "scripts": {
     "dev": "ts-node cfg/scripts/dev.ts",
-    "build": "ts-node cfg/scripts/build.ts",
     "preview": "electron .",
+    "build": "ts-node cfg/scripts/build.ts",
     "build:win": "electron-builder --win --config electron-builder-config.js",
     "release-it": "release-it patch"
   },
