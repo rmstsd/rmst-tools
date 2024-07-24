@@ -9,15 +9,16 @@ export default function getMainWpkCfg(): webpack.Configuration {
     mode: 'development',
     target: 'electron-main',
     devtool: 'cheap-module-source-map',
-    entry: path.join(wpkPaths.srcMainPath, 'index.ts'),
+    // entry: path.join(wpkPaths.srcMainPath, 'index.ts'),
+    entry: {
+      main: path.join(wpkPaths.srcMainPath, 'index.ts'),
+      preload: path.join(wpkPaths.srcPreloadPath, 'index.ts')
+    },
     output: {
       path: wpkPaths.outputMainPath,
-      filename: 'index.js',
-      // libraryTarget: 'commonjs2',
+      filename: '[name].js',
       clean: true,
-      library: {
-        type: 'commonjs2'
-      }
+      library: { type: 'umd' }
     },
     resolve: {
       extensions: ['.ts', '.js', '.json'],

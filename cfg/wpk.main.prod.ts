@@ -2,10 +2,14 @@ import webpack from 'webpack'
 import { merge } from 'webpack-merge'
 
 import getMainWpkCfg from './wpk.main'
+import TerserPlugin from 'terser-webpack-plugin'
 
 const config: webpack.Configuration = {
   mode: 'production',
-  devtool: false
+  devtool: false,
+  optimization: {
+    minimizer: [new TerserPlugin({ extractComments: false })]
+  }
 }
 
 const wpkMainProdConfig = merge(getMainWpkCfg(), config)

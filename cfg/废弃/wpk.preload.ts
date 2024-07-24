@@ -1,6 +1,6 @@
 import path from 'path'
 import webpack from 'webpack'
-import wpkPaths from './utils/wpk.paths'
+import wpkPaths from '../utils/wpk.paths'
 
 export default function getPreloadWpkCfg(): webpack.Configuration {
   return {

@@ -13,7 +13,7 @@ type IElectronWindow = {
 }
 export const electronWindow = {} as IElectronWindow
 
-const preloadPath = path.join(__dirname, '../preload/index.js')
+const preloadPath = path.join(__dirname, './preload.js')
 
 const loadWindow = (win: BrowserWindow, pathname: string) => {
   const baseUrl =

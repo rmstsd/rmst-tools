@@ -6,11 +6,8 @@ import { createRequire } from 'node:module'
 
 import clearConsole from 'clear-console'
 
-import wpkPaths from '../utils/wpk.paths'
-
 import getRendererWpkCfg from '../wpk.renderer.dev'
 import getMainWpkCfg from '../wpk.main'
-import getPreloadWpkCfg from '../wpk.preload'
 
 import { Default_Port } from '../utils/constants'
 import { getElectronPath } from '../utils/getElectronPath'
@@ -25,7 +22,6 @@ let ps: ChildProcess
 
 async function dev() {
   await runServer()
-  await buildPreload()
   await buildMain()
 
   ps = startElectron()
@@ -86,24 +82,6 @@ function buildMain() {
         ps.removeAllListeners()
         ps.kill()
         ps = startElectron()
-      }
-
-      resolve()
-    })
-  })
-}
-
-export function buildPreload() {
-  console.log(picocolors.green('preload 开始 build'))
-
-  const compiler = webpack(getPreloadWpkCfg())
-  return new Promise<void>((resolve, reject) => {
-    compiler.watch({ ignored: ['**/node_modules'] }, (err, stats) => {
-      if (err || stats?.hasErrors()) {
-        console.log(picocolors.red('Error preload compiler.watch'))
-        console.log(stats?.toString({ colors: true }))
-        reject()
-        return
       }
 
       resolve()

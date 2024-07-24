@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "strict": false,
 
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@common/*": ["src/common/*"],
       "@main/*": ["src/main/*"]
