@@ -39,6 +39,8 @@ module.exports = {
   publish: {
     provider: 'github',
     owner: 'rmstsd',
-    repo: 'rmst-tools-wpk'
+    repo: 'rmst-tools-wpk',
+    vPrefixedTagName: true,
+    releaseType: 'release'
   }
 }

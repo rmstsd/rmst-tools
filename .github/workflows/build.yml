@@ -38,19 +38,19 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
-      - name: release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          draft: false
-          files: |
-            dist/*.exe
-            dist/*.zip
-            dist/*.dmg
-            dist/*.AppImage
-            dist/*.snap
-            dist/*.deb
-            dist/*.rpm
-            dist/*.tar.gz
-            dist/*.yml
-            dist/*.blockmap
+      # - name: release
+      #   uses: softprops/action-gh-release@v1
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     draft: false
+      #     files: |
+      #       dist/*.exe
+      #       dist/*.zip
+      #       dist/*.dmg
+      #       dist/*.AppImage
+      #       dist/*.snap
+      #       dist/*.deb
+      #       dist/*.rpm
+      #       dist/*.tar.gz
+      #       dist/*.yml
+      #       dist/*.blockmap
