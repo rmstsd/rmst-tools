@@ -1,9 +1,8 @@
-import { is } from '@electron-toolkit/utils'
 import { BrowserWindow, shell } from 'electron'
-import elLog from 'electron-log'
 import path from 'node:path'
 import { iconPath } from './iconPath'
 import Logger from 'electron-log'
+import { isDev, isProd } from '@main/constant'
 
 type IElectronWindow = {
   Setting: BrowserWindow
@@ -18,9 +17,9 @@ const preloadPath = path.join(__dirname, '../preload/index.js')
 
 const loadWindow = (win: BrowserWindow, pathname: string) => {
   const baseUrl =
-    is.dev && process.env.Renderer_Url ? process.env.Renderer_Url : path.join(__dirname, '../renderer/index.html')
+    isDev && process.env.Renderer_Url ? process.env.Renderer_Url : path.join(__dirname, '../renderer/index.html')
 
-  if (is.dev) {
+  if (isDev) {
     const uu = new URL(baseUrl)
     uu.hash = pathname
     const rendererUrl = uu.toString()
@@ -33,7 +32,7 @@ const loadWindow = (win: BrowserWindow, pathname: string) => {
     'did-fail-load',
     (evt, errorCode, errorDescription, validatedURL, isMainFrame, frameProcessId, frameRoutingId) => {
       const msg = { evt, errorCode, errorDescription, validatedURL, isMainFrame, frameProcessId, frameRoutingId }
-      if (!is.dev) {
+      if (!isDev) {
         Logger.error(msg)
       }
       console.error(msg)
@@ -61,7 +60,7 @@ function createOpenDirWindow() {
   loadWindow(win, 'OpenDir')
 
   win.on('blur', () => {
-    !is.dev && win.hide()
+    isProd && win.hide()
   })
 
   return win
@@ -88,7 +87,7 @@ function createQuickInputWindow() {
     frame: false,
     skipTaskbar: false,
     show: false,
-    focusable: is.dev,
+    focusable: isDev,
     resizable: false,
     width: 10,
     height: 10,
@@ -167,7 +166,7 @@ export default function createWindow() {
   electronWindow.QuickInput = createQuickInputWindow()
   electronWindow.KillPort = createKillPortWindow()
 
-  if (is.dev) {
-    // electronWindow.RmstBrowserWindow = createRmstBrowserWindow()
-  }
+  // if (isDev) {
+  //   electronWindow.RmstBrowserWindow = createRmstBrowserWindow()
+  // }
 }

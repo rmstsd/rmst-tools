@@ -1,5 +1,4 @@
 import { app, BrowserWindow } from 'electron'
-import { optimizer } from '@electron-toolkit/utils'
 import bootstrap, { launchAtStartup } from './bootstrap'
 import { modifyFont } from './devtools'
 
@@ -12,23 +11,34 @@ app.whenReady().then(() => {
     launchAtStartup()
   }
 
-  // Default open or close DevTools by F12 in development  and ignore CommandOrControl + R in production.
   app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
+    // optimizer.watchWindowShortcuts(window)
 
-    window.webContents.on('devtools-opened', () => {
-      modifyFont(window)
-    })
+    const { webContents } = window
 
     window.on('close', evt => {
       evt.preventDefault()
       window.hide()
     })
 
-    window.webContents.on('before-input-event', (event, input) => {
+    webContents.on('devtools-opened', () => {
+      modifyFont(window)
+    })
+
+    webContents.on('before-input-event', (event, input) => {
       if (input.type === 'keyDown') {
         if (input.code === 'F5') {
-          window.webContents.reloadIgnoringCache()
+          webContents.reloadIgnoringCache()
+          console.log('f5')
+        }
+
+        if (input.code === 'F12') {
+          if (webContents.isDevToolsOpened()) {
+            webContents.closeDevTools()
+          } else {
+            webContents.openDevTools({ mode: 'undocked' })
+            console.log('Open dev tool...')
+          }
         }
 
         if (input.code === 'Escape') {

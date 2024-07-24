@@ -2,13 +2,13 @@ import { autoUpdater } from 'electron-updater'
 import { dialog } from 'electron'
 import log from 'electron-log/main'
 import { electronWindow } from './main-process/electronWindow'
-import { is } from '@electron-toolkit/utils'
+import { isDev } from './constant'
 
 log.transports.file.level = 'info'
 autoUpdater.logger = log
 autoUpdater.autoDownload = false
 
-if (is.dev) {
+if (isDev) {
   autoUpdater.forceDevUpdateConfig = true
 }
 

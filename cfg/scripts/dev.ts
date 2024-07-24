@@ -1,8 +1,8 @@
-import electronmon from 'electronmon'
 import WebpackDevServer from 'webpack-dev-server'
 import { webpack } from 'webpack'
 import picocolors from 'picocolors'
-import { ChildProcess } from 'node:child_process'
+import { ChildProcess, spawn } from 'node:child_process'
+import { createRequire } from 'node:module'
 
 import clearConsole from 'clear-console'
 
@@ -13,15 +13,13 @@ import getMainWpkCfg from '../wpk.main'
 import getPreloadWpkCfg from '../wpk.preload'
 
 import { Default_Port } from '../utils/constants'
-import spawn from 'cross-spawn'
+import { getElectronPath } from '../utils/getElectronPath'
 
 process.env.NODE_ENV = 'development'
 process.env.Port = String(Default_Port)
 process.env.Renderer_Url = `http://localhost:${Default_Port}`
 
 dev()
-
-let app
 
 let ps: ChildProcess
 
@@ -30,23 +28,20 @@ async function dev() {
   await buildPreload()
   await buildMain()
 
-  // spawn('electron', ['.'])
-
   ps = startElectron()
-
-  // app = await electronmon({
-  //   cwd: wpkPaths.rootPath,
-  //   patterns: ['!**/**', 'out/main/**']
-  // })
 
   console.log(picocolors.green('✔ electron 应用启动'))
   console.log('')
 }
 
 function startElectron() {
-  const ps = spawn('electron', ['.'], { stdio: 'inherit' })
+  const electronPath = getElectronPath()
+  const ps = spawn(electronPath, ['.'], { stdio: 'inherit' })
 
-  ps.on('close', process.exit)
+  ps.on('close', () => {
+    console.log('ps close')
+    process.exit()
+  })
 
   return ps
 }
@@ -84,13 +79,13 @@ function buildMain() {
       }
 
       if (ps) {
-        console.log(picocolors.green('二次构建'))
+        clearConsole()
+
+        console.log(picocolors.green('\n二次构建'))
 
         ps.removeAllListeners()
         ps.kill()
-        setTimeout(() => {
-          ps = startElectron()
-        }, 1000)
+        ps = startElectron()
       }
 
       resolve()
