@@ -41,7 +41,7 @@ export default function SettingPage() {
   const clearEleStore = () => {
     clearStore().then(() => {
       Message.info('已清除')
-      getSettingData()
+      form.resetFields()
     })
   }
 

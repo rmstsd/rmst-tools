@@ -29,7 +29,6 @@ app.whenReady().then(() => {
       if (input.type === 'keyDown') {
         if (input.code === 'F5') {
           webContents.reloadIgnoringCache()
-          console.log('f5')
         }
 
         if (input.code === 'F12') {

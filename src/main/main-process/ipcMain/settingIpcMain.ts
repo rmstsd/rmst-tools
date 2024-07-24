@@ -5,7 +5,6 @@ import { app, dialog } from 'electron'
 import { checkForUpdate } from '@main/checkUpdate'
 import { electronWindow } from '../electronWindow'
 import { readJsonSync, writeJsonSync } from 'fs-extra'
-import path from 'path'
 
 const onSaveSetting = createHandleListener(SettingEvent.Save_Setting)
 const onGetSetting = createHandleListener(SettingEvent.Get_Setting)
@@ -19,7 +18,9 @@ export function addSettingIpcMain() {
   onSaveSetting((_, value) => setStoreSetting(value))
 
   onGetSetting(() => getStoreSetting())
-  onClearStore(() => clearAllStore())
+  onClearStore(() => {
+    clearAllStore()
+  })
   onCheckUpdate(() => checkForUpdate())
 
   onGetBaseInfo(() => {
@@ -31,17 +32,17 @@ export function addSettingIpcMain() {
   })
 
   onExportSetting(() => {
-    getStoreSetting()
-
-    const [savedPath] = dialog.showOpenDialogSync(electronWindow.Setting, {
-      title: '保存配置文件',
-      properties: ['openDirectory']
+    const savedPath = dialog.showSaveDialogSync(electronWindow.Setting, {
+      defaultPath: 'cfg.json',
+      filters: [{ name: 'json', extensions: ['json'] }]
     })
 
-    if (savedPath) {
-      const settingCfg = getStoreSetting()
-      writeJsonSync(path.join(savedPath, 'cfg.json'), settingCfg)
+    if (!savedPath) {
+      return Promise.reject('')
     }
+
+    const settingCfg = getStoreSetting()
+    writeJsonSync(savedPath, settingCfg, { spaces: 2 })
   })
   onImportSetting(() => {
     const [path] = dialog.showOpenDialogSync(electronWindow.Setting, {

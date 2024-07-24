@@ -1,6 +1,6 @@
 import Store from 'electron-store'
 
-const store: any = new Store()
+const store = new Store()
 
 interface SettingStore {
   vscodePath: string
@@ -14,9 +14,9 @@ export function getStoreSetting() {
 }
 
 export function setStoreSetting(data: SettingStore) {
-  return store.set('setting', data)
+  store.set('setting', data)
 }
 
 export function clearAllStore() {
-  return store.clear()
+  store.clear()
 }
