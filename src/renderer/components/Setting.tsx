@@ -11,12 +11,13 @@ import {
   importSetting,
   saveSetting
 } from '@renderer/ipc/common'
-import { SettingData } from '@common/type'
+import { AppBaseInfo, SettingData } from '@common/type'
+import { platform } from '@renderer/ipc/ipc'
 
 export default function SettingPage() {
   const [form] = Form.useForm()
 
-  const [baseInfo, setBaseInfo] = useState({ appPath: '', version: '', name: '' })
+  const [baseInfo, setBaseInfo] = useState({} as AppBaseInfo)
 
   useEffect(() => {
     getSettingData()
@@ -69,20 +70,17 @@ export default function SettingPage() {
 
   return (
     <div>
-      <div className="flex justify-center gap-[10px] mt-[5px] text-[20px]">
-        <div>
-          name: <Tag size="large">{baseInfo.name}</Tag>
-        </div>
-        <div>
-          appPath: <Tag size="large">{baseInfo.appPath}</Tag>
-        </div>
-        <div>
-          version: <Tag size="large">{baseInfo.version}</Tag>
-        </div>
+      <div className="flex justify-center flex-wrap gap-x-[20px] gap-y-2 mt-[5px] text-[16px]">
+        {Object.entries({ ...baseInfo, ...platform }).map(([key, value]) => (
+          <div key={key}>
+            {key}: <Tag size="large">{String(value)}</Tag>
+          </div>
+        ))}
+        {}
       </div>
       <Form className="pr-[10%]" initialValues={ini} form={form} autoComplete="off" onSubmit={onSubmit}>
         <Form.Item label=" " className="sticky top-0 z-10 mt-[20px] bg-white">
-          <div className="flex items-center gap-[20px]">
+          <div className="flex flex-wrap items-center gap-x-3">
             <h2>设置</h2>
             <Button type="primary" htmlType="submit">
               保存

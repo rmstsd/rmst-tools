@@ -1,5 +1,5 @@
 {
-  "include": ["src/renderer", "src/common", "src/preload/*.d.ts"],
+  "include": ["src/renderer", "src/common", "src/preload"],
   "compilerOptions": {
     "composite": true,
 

@@ -1,10 +1,11 @@
-import { SettingEvent } from '@common/ipcEvent'
+import { SettingEvent } from '@common/mainRenderer/ipcEvent'
 import { clearAllStore, getStoreSetting, setStoreSetting } from '@main/store'
 import { createHandleListener } from './utils'
 import { app, dialog } from 'electron'
 import { checkForUpdate } from '@main/checkUpdate'
 import { electronWindow } from '../electronWindow'
 import { readJsonSync, writeJsonSync } from 'fs-extra'
+import { AppBaseInfo } from '@common/type'
 
 const onSaveSetting = createHandleListener(SettingEvent.Save_Setting)
 const onGetSetting = createHandleListener(SettingEvent.Get_Setting)
@@ -24,11 +25,15 @@ export function addSettingIpcMain() {
   onCheckUpdate(() => checkForUpdate())
 
   onGetBaseInfo(() => {
-    return {
+    const appBaseInfo: AppBaseInfo = {
       appPath: app.getAppPath(),
-      version: app.getVersion(),
-      name: app.getName()
+      appVersion: app.getVersion(),
+      appName: app.getName(),
+      node: process.versions.node,
+      chrome: process.versions.chrome,
+      electron: process.versions.electron
     }
+    return appBaseInfo
   })
 
   onExportSetting(() => {

@@ -1,4 +1,4 @@
-import { QuickInputEvent } from '@common/ipcEvent'
+import { QuickInputEvent } from '@common/mainRenderer/ipcEvent'
 import { ipcRenderer } from './ipc'
 
 export function hideQuickInputWin() {
@@ -10,5 +10,5 @@ export function execQuickInput(content: string) {
 }
 
 export function setQuickInputWindowSize(size) {
-  return ipcRenderer.send(QuickInputEvent.Set_Quick_Input_Win_Size, { width: size.width, height: size.height })
+  return ipcRenderer.invoke(QuickInputEvent.Set_Quick_Input_Win_Size, { width: size.width, height: size.height })
 }

@@ -2,7 +2,7 @@ import { ipcMain, shell, clipboard } from 'electron'
 import killPort from 'kill-port'
 
 import { electronWindow } from '../../main-process/electronWindow'
-import { BrowserEvent, CommonEvent, KillPortEvent } from '@common/ipcEvent'
+import { BrowserEvent, CommonEvent, KillPortEvent } from '@common/mainRenderer/ipcEvent'
 import { addSettingIpcMain } from './settingIpcMain'
 import { addQuickInputIpcMain } from './quickInputIpcMain'
 import { addQuickOpenDirIpcMain } from './quickOpenDirIpcMain'

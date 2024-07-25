@@ -1,8 +1,8 @@
 import { IpcRenderer } from 'electron'
 
-const { ipcRenderer } = window.electron
+const { ipcRenderer, platform } = window.electron
 
-export { ipcRenderer }
+export { ipcRenderer, platform }
 
 export function createOnListener(channel: string) {
   return (listener: Parameters<IpcRenderer['on']>[1]) => {

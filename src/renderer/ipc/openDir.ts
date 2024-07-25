@@ -1,4 +1,4 @@
-import { OpenDirEvent } from '@common/ipcEvent'
+import { OpenDirEvent } from '@common/mainRenderer/ipcEvent'
 import { ipcRenderer } from './ipc'
 
 export function hideDirWindow() {

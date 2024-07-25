@@ -1,9 +1,10 @@
 import { app, BrowserWindow } from 'electron'
 import bootstrap, { launchAtStartup } from './bootstrap'
 import { modifyFont } from './devtools'
+import { platform } from '@common/mainPreload/platform'
 
 console.log('主进程入口文件')
-
+console.log(platform)
 app.whenReady().then(() => {
   console.log('app ready 启动')
 

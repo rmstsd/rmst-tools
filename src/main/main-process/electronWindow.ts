@@ -87,7 +87,7 @@ function createQuickInputWindow() {
     frame: false,
     skipTaskbar: false,
     show: false,
-    focusable: isDev,
+    focusable: false,
     resizable: false,
     width: 10,
     height: 10,

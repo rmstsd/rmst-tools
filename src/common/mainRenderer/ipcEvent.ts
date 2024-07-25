@@ -11,7 +11,6 @@ export enum SettingEvent {
 export enum QuickInputEvent {
   Hide_Quick_Input_Win = 'hide-num-win',
   Set_Quick_Input_Win_Size = 'set-num-win-size',
-  Press_Char = 'press-char',
   Copy_And_Paste = 'copy-and-paste'
 }
 

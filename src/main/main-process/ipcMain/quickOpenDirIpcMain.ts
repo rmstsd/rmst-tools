@@ -3,7 +3,7 @@ import fse from 'fs-extra'
 import { spawn } from 'cross-spawn'
 import { electronWindow } from '../electronWindow'
 import { getStoreSetting } from '../../store'
-import { OpenDirEvent } from '@common/ipcEvent'
+import { OpenDirEvent } from '@common/mainRenderer/ipcEvent'
 
 export function addQuickOpenDirIpcMain() {
   ipcMain.handle(OpenDirEvent.Spawn_Open_Dir, openSpawnDir)

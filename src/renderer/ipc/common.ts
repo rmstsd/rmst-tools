@@ -1,4 +1,4 @@
-import { CommonEvent, SettingEvent } from '@common/ipcEvent'
+import { CommonEvent, SettingEvent } from '@common/mainRenderer/ipcEvent'
 import { SettingData } from '@common/type'
 
 import { ipcRenderer } from './ipc'

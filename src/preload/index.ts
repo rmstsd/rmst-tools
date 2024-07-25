@@ -1,16 +1,43 @@
-import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
+import { contextBridge, type IpcRendererEvent, ipcRenderer as oriIpcRenderer } from 'electron'
+import { platform } from '@common/mainPreload/platform'
 
-// Use `contextBridge` APIs to expose Electron APIs to renderer only if context isolation is enabled, otherwise just add to the DOM global.
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-  } catch (error) {
-    console.error(error)
+type Listener = (event: IpcRendererEvent, ...args: any[]) => void
+
+const ipcRenderer = {
+  invoke(channel: string, ...args: any[]) {
+    return oriIpcRenderer.invoke(channel, ...args)
+  },
+  on(channel: string, listener: Listener) {
+    oriIpcRenderer.on(channel, listener)
+
+    return () => {
+      oriIpcRenderer.removeListener(channel, listener)
+    }
+  },
+  once(channel: string, listener: Listener) {
+    oriIpcRenderer.once(channel, listener)
+  },
+  removeListener(channel: string, listener: Listener) {
+    oriIpcRenderer.removeListener(channel, listener)
+  },
+  removeAllListeners(channel: string) {
+    oriIpcRenderer.removeAllListeners(channel)
   }
-} else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
 }
 
+const windowElectron = {
+  ipcRenderer,
+  platform
+}
+
+export type WindowElectron = typeof windowElectron
+
+contextBridge.exposeInMainWorld('electron', windowElectron)
+
 console.log('preload.js')
+
+declare global {
+  interface Window {
+    electron: typeof windowElectron
+  }
+}

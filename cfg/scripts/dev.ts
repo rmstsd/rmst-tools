@@ -11,6 +11,7 @@ import getMainWpkCfg from '../wpk.main'
 
 import { Default_Port } from '../utils/constants'
 import { getElectronPath } from '../utils/getElectronPath'
+import { nextTick } from 'node:process'
 
 process.env.NODE_ENV = 'development'
 process.env.Port = String(Default_Port)
@@ -77,7 +78,7 @@ function buildMain() {
       if (ps) {
         clearConsole()
 
-        console.log(picocolors.green('\n二次构建'))
+        console.log(picocolors.green('\n再次构建'))
 
         ps.removeAllListeners()
         ps.kill()

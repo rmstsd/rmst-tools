@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@arco-design/web-react": "^2.63.1",
-    "@electron-toolkit/preload": "^3.0.1",
+    "@nut-tree/nut-js": "^3.1.2",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "cross-spawn": "^7.0.3",

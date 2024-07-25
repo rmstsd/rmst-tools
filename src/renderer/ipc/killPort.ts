@@ -1,4 +1,4 @@
-import { KillPortEvent } from '@common/ipcEvent'
+import { KillPortEvent } from '@common/mainRenderer/ipcEvent'
 import { ipcRenderer } from './ipc'
 
 export function killPort(port: string) {
