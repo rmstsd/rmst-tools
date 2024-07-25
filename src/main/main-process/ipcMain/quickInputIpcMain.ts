@@ -2,16 +2,19 @@ import { ipcMain, clipboard } from 'electron'
 import { Key, keyboard } from '@nut-tree/nut-js'
 
 import { QuickInputEvent } from '@common/mainRenderer/ipcEvent'
-import { electronWindow } from '../electronWindow'
+import { cachedSize, electronWindow } from '../electronWindow'
 
 keyboard.config.autoDelayMs = 0
 
 export function addQuickInputIpcMain() {
   ipcMain.handle(QuickInputEvent.Hide_Quick_Input_Win, () => electronWindow.QuickInput.hide())
   ipcMain.handle(QuickInputEvent.Set_Quick_Input_Win_Size, (_, { width, height }) => {
-    electronWindow.QuickInput.setResizable(true)
-    electronWindow.QuickInput.setSize(parseInt(width), parseInt(height))
-    electronWindow.QuickInput.setResizable(false)
+    width = parseInt(width)
+    height = parseInt(height)
+    cachedSize.width = width
+    cachedSize.height = height
+
+    electronWindow.QuickInput.setBounds({ width, height })
   })
 
   ipcMain.handle(QuickInputEvent.Copy_And_Paste, async (_, value) => {

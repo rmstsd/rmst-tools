@@ -6,6 +6,8 @@ export default function KillPortView() {
   const ref = useRef(null)
 
   useEffect(() => {
+    ref.current?.focus()
+
     document.onvisibilitychange = () => {
       if (document.visibilityState === 'visible') {
         ref.current?.focus()

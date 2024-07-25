@@ -43,19 +43,14 @@ const loadWindow = (win: BrowserWindow, pathname: string) => {
 function createOpenDirWindow() {
   const win = new BrowserWindow({
     frame: false,
-    autoHideMenuBar: true,
     alwaysOnTop: true,
     skipTaskbar: true,
     show: false,
     center: true,
     resizable: false,
     // thickFrame: false, // 设置为 false 时将移除窗口的阴影和动画
-    // transparent: true,
     useContentSize: true,
-    webPreferences: {
-      preload: preloadPath,
-      nodeIntegration: true
-    }
+    webPreferences: { preload: preloadPath }
   })
   loadWindow(win, 'OpenDir')
 
@@ -69,12 +64,8 @@ function createOpenDirWindow() {
 function createSettingWindow() {
   const win = new BrowserWindow({
     icon: iconPath,
-    skipTaskbar: false,
     show: false,
-    webPreferences: {
-      preload: preloadPath,
-      nodeIntegration: true
-    }
+    webPreferences: { preload: preloadPath }
   })
 
   loadWindow(win, 'Setting')
@@ -82,20 +73,18 @@ function createSettingWindow() {
   return win
 }
 
+export const cachedSize = { width: 0, height: 0 }
 function createQuickInputWindow() {
   const win = new BrowserWindow({
     frame: false,
-    skipTaskbar: false,
+    skipTaskbar: true,
     show: false,
-    focusable: false,
+    focusable: isDev,
     resizable: false,
-    width: 10,
-    height: 10,
+    width: 100,
+    height: 100,
     alwaysOnTop: true,
-    webPreferences: {
-      preload: preloadPath,
-      nodeIntegration: true
-    }
+    webPreferences: { preload: preloadPath }
   })
 
   loadWindow(win, 'QuickInput')
@@ -106,12 +95,8 @@ function createQuickInputWindow() {
 function createKillPortWindow() {
   const win = new BrowserWindow({
     icon: iconPath,
-    skipTaskbar: false,
     show: false,
-    webPreferences: {
-      preload: preloadPath,
-      nodeIntegration: true
-    }
+    webPreferences: { preload: preloadPath }
   })
 
   loadWindow(win, 'KillPort')
@@ -126,11 +111,7 @@ function createRmstBrowserWindow() {
     height: 750,
     minWidth: 400,
     minHeight: 360,
-    webPreferences: {
-      preload: preloadPath,
-      nodeIntegration: true,
-      webviewTag: true
-    }
+    webPreferences: { preload: preloadPath, webviewTag: true }
   })
 
   win.on('maximize', () => {

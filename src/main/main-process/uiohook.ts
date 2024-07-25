@@ -1,6 +1,6 @@
 import { globalShortcut, screen } from 'electron'
 
-import { electronWindow } from './electronWindow'
+import { cachedSize, electronWindow } from './electronWindow'
 
 export const addShortcut = () => {
   globalShortcut.register('Alt+Space', () => {
@@ -13,17 +13,25 @@ export const addShortcut = () => {
   })
 
   globalShortcut.register('Alt+n', () => {
-    handleNumWindow()
+    handleQuickInputWindow()
   })
 }
 
-function handleNumWindow() {
+function handleQuickInputWindow() {
   if (electronWindow.QuickInput.isVisible()) {
     electronWindow.QuickInput.hide()
   } else {
     const cursorCoord = screen.getCursorScreenPoint()
 
-    electronWindow.QuickInput.setPosition(cursorCoord.x - 10, cursorCoord.y - 10)
+    const { width, height } = electronWindow.QuickInput.getBounds()
+    const display = screen.getDisplayNearestPoint(cursorCoord)
+
+    const { workArea } = display
+
+    const x = Math.min(cursorCoord.x - 10, workArea.x + workArea.width - width)
+    const y = Math.min(cursorCoord.y - 10, workArea.y + workArea.height - height)
+
+    electronWindow.QuickInput.setBounds({ x, y, ...cachedSize })
     electronWindow.QuickInput.show()
   }
 }

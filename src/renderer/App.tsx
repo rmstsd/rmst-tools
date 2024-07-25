@@ -1,12 +1,12 @@
 import { Button, Popover, Space } from '@arco-design/web-react'
 import { Navigate, RouteObject, useNavigate, useRoutes } from 'react-router-dom'
 
-import OpenDir from './components/OpenDir'
-import Setting from './components/Setting'
-import QuickInput from './components/QuickInput'
+import OpenDir from './pages/OpenDir'
+import Setting from './pages/Setting'
+import QuickInput from './pages/QuickInput'
 
 import rmstBrowser from './rmstBrowser'
-import KillPortView from './components/KillPort'
+import KillPortView from './pages/KillPort'
 
 const routes: RouteObject[] = [
   { path: '/OpenDir', element: <OpenDir /> },
