@@ -3,7 +3,7 @@ import { Menu, app } from 'electron'
 import { createTray } from './main-process/createTray'
 import createWindow from './main-process/electronWindow'
 import { addIpcMain } from './main-process/ipcMain'
-import { addShortcut } from './main-process/uiohook'
+import { addShortcut } from './main-process/shortcut'
 
 export default function bootstrap() {
   addIpcMain()

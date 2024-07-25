@@ -7,6 +7,7 @@ import {
   clearStore,
   exportSetting,
   getBaseInfo,
+  getIsPackaged,
   getSetting,
   importSetting,
   saveSetting
@@ -18,12 +19,17 @@ export default function SettingPage() {
   const [form] = Form.useForm()
 
   const [baseInfo, setBaseInfo] = useState({} as AppBaseInfo)
+  const [packaged, setPackaged] = useState({})
 
   useEffect(() => {
     getSettingData()
 
     getBaseInfo().then(data => {
       setBaseInfo(data)
+    })
+
+    getIsPackaged().then(bool => {
+      setPackaged({ isPackaged: bool })
     })
   }, [])
 
@@ -70,8 +76,8 @@ export default function SettingPage() {
 
   return (
     <div>
-      <div className="flex justify-center flex-wrap gap-x-[20px] gap-y-2 mt-[5px] text-[16px]">
-        {Object.entries({ ...baseInfo, ...platform }).map(([key, value]) => (
+      <div className="flex flex-wrap mx-2 gap-x-[20px] gap-y-2 mt-[5px] text-[16px]">
+        {Object.entries({ ...baseInfo, ...platform, ...packaged }).map(([key, value]) => (
           <div key={key}>
             {key}: <Tag size="large">{String(value)}</Tag>
           </div>

@@ -2,8 +2,6 @@ import path from 'node:path'
 import fs from 'node:fs'
 
 export function getElectronPath(): string {
-  console.log(`require.resolve('electron')`, require.resolve('electron'))
-
   let electronExecPath = process.env.ELECTRON_EXEC_PATH || ''
   if (!electronExecPath) {
     const electronModulePath = path.dirname(require.resolve('electron'))
@@ -17,5 +15,7 @@ export function getElectronPath(): string {
       process.env.ELECTRON_EXEC_PATH = electronExecPath
     }
   }
+
+  console.log('electronExecPath', electronExecPath)
   return electronExecPath
 }

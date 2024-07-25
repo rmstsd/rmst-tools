@@ -14,6 +14,7 @@ const onCheckUpdate = createHandleListener(SettingEvent.Check_Update)
 const onGetBaseInfo = createHandleListener(SettingEvent.Get_Base_Info)
 const onExportSetting = createHandleListener(SettingEvent.Export_Setting)
 const onImportSetting = createHandleListener(SettingEvent.Import_Setting)
+const onGetIsPackaged = createHandleListener(SettingEvent.Get_Is_Packaged)
 
 export function addSettingIpcMain() {
   onSaveSetting((_, value) => setStoreSetting(value))
@@ -60,4 +61,6 @@ export function addSettingIpcMain() {
       setStoreSetting(cfg)
     }
   })
+
+  onGetIsPackaged(() => app.isPackaged)
 }

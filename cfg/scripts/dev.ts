@@ -11,12 +11,12 @@ import getMainWpkCfg from '../wpk.main'
 
 import { Default_Port } from '../utils/constants'
 import { getElectronPath } from '../utils/getElectronPath'
-import { nextTick } from 'node:process'
 
 process.env.NODE_ENV = 'development'
 process.env.Port = String(Default_Port)
 process.env.Renderer_Url = `http://localhost:${Default_Port}`
 
+let rebuildCount = 0
 dev()
 
 let ps: ChildProcess
@@ -75,14 +75,15 @@ function buildMain() {
         return
       }
 
+      rebuildCount += 1
+
       if (ps) {
         clearConsole()
-
-        console.log(picocolors.green('\n再次构建'))
 
         ps.removeAllListeners()
         ps.kill()
         ps = startElectron()
+        console.log(picocolors.green(`\n ✔ 第 ${rebuildCount} 次构建`))
       }
 
       resolve()

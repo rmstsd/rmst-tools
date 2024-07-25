@@ -34,3 +34,7 @@ export function checkUpdate() {
 export function openExternal(url: string) {
   return ipcRenderer.invoke(CommonEvent.Open_External, url)
 }
+
+export function getIsPackaged() {
+  return ipcRenderer.invoke(SettingEvent.Get_Is_Packaged)
+}

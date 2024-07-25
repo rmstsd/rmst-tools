@@ -5,7 +5,6 @@ import OpenDir from './pages/OpenDir'
 import Setting from './pages/Setting'
 import QuickInput from './pages/QuickInput'
 
-import rmstBrowser from './rmstBrowser'
 import KillPortView from './pages/KillPort'
 
 const routes: RouteObject[] = [
