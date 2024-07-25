@@ -9,7 +9,8 @@
     "build": "ts-node cfg/scripts/build.ts",
     "build:win": "npm run rm-dist && npm run build && electron-builder --win --config electron-builder-config.js",
     "rm-dist": "ts-node cfg/utils/rmDist.ts",
-    "release-it": "release-it patch --ci"
+    "release-it": "release-it patch --ci",
+    "del-tag": "ts-node del-tag.ts"
   },
   "keywords": [],
   "author": "",
