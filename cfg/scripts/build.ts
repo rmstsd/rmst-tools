@@ -6,9 +6,7 @@ import wpkMainProdConfig from '../wpk.main.prod'
 
 process.env.NODE_ENV = 'production'
 
-buildApp()
-
-async function buildApp() {
+export async function build() {
   await buildRenderer()
   await buildMain()
 }

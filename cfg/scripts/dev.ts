@@ -17,11 +17,10 @@ process.env.Port = String(Default_Port)
 process.env.Renderer_Url = `http://localhost:${Default_Port}`
 
 let rebuildCount = 0
-dev()
 
 let ps: ChildProcess
 
-async function dev() {
+export async function dev() {
   await runServer()
   await buildMain()
 
