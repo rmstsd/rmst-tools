@@ -1,15 +1,19 @@
 import path from 'path'
 import webpack from 'webpack'
 import nodeExternals from 'webpack-node-externals'
+import TerserPlugin from 'terser-webpack-plugin'
+
 import wpkPaths from './utils/wpk.paths'
 import { getWebpackResolveAlias } from './utils'
 
-export default function getMainWpkCfg(): webpack.Configuration {
+export default function getMainWpkCfg(env = {}): webpack.Configuration {
+  const isDev = process.env.NODE_ENV === 'development'
+  const isProd = process.env.NODE_ENV === 'production'
+
   return {
-    mode: 'development',
+    mode: isDev ? 'development' : 'production',
     target: 'electron-main',
-    devtool: 'cheap-module-source-map',
-    // entry: path.join(wpkPaths.srcMainPath, 'index.ts'),
+    devtool: isDev ? 'cheap-module-source-map' : false,
     entry: {
       main: path.join(wpkPaths.srcMainPath, 'index.ts'),
       preload: path.join(wpkPaths.srcPreloadPath, 'index.ts')
@@ -39,6 +43,10 @@ export default function getMainWpkCfg(): webpack.Configuration {
           }
         }
       ]
-    }
+    },
+    optimization: {
+      minimizer: [isProd && new TerserPlugin({ extractComments: false })].filter(Boolean)
+    },
+    plugins: [new webpack.EnvironmentPlugin({ ...env })]
   }
 }

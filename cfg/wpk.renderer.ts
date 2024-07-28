@@ -1,20 +1,30 @@
 import path from 'path'
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
+
 import wpkPaths from './utils/wpk.paths'
 import { getWebpackResolveAlias } from './utils'
 
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
-
-export default function getRendererWpkCfg(NODE_ENV): webpack.Configuration {
-  const isDev = NODE_ENV === 'development'
-  const isProd = NODE_ENV === 'production'
+export default function getRendererWpkCfg(env = {}): webpack.Configuration {
+  const isDev = process.env.NODE_ENV === 'development'
+  const isProd = process.env.NODE_ENV === 'production'
 
   return {
-    mode: 'development',
+    mode: isDev ? 'development' : 'production',
     target: ['web', 'electron-renderer'],
-    devtool: 'cheap-module-source-map', // cheap-module-source-map
+    devtool: isDev ? 'cheap-module-source-map' : false, // cheap-module-source-map
     entry: path.join(wpkPaths.srcRendererPath, 'index.ts'),
+    output: isProd
+      ? {
+          filename: 'index.js',
+          path: wpkPaths.outputRendererPath,
+          publicPath: './',
+          clean: true
+        }
+      : undefined,
+
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
       alias: getWebpackResolveAlias()
@@ -60,7 +70,13 @@ export default function getRendererWpkCfg(NODE_ENV): webpack.Configuration {
         template: path.join(wpkPaths.srcRendererPath, 'index.ejs')
       }),
 
-      isDev && new ReactRefreshWebpackPlugin({ overlay: false })
-    ].filter(Boolean)
+      isDev && new ReactRefreshWebpackPlugin({ overlay: false }),
+
+      new webpack.EnvironmentPlugin({ NODE_ENV: process.env.NODE_ENV, ...env })
+    ].filter(Boolean),
+
+    optimization: {
+      minimizer: [isProd && new TerserPlugin({ extractComments: false })].filter(Boolean)
+    }
   }
 }

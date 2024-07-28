@@ -20,6 +20,8 @@ const outputRendererPath = path.join(outputPath, 'renderer')
 
 const buildPath = path.join(releasePath, 'build')
 
+const envPath = path.join(rootPath, 'env')
+
 const wpkPaths = {
   rootPath,
   srcPath,
@@ -35,7 +37,8 @@ const wpkPaths = {
   outputMainPath,
   outputPreloadPath,
   outputRendererPath,
-  buildPath
+  buildPath,
+  envPath
 }
 
 export default wpkPaths

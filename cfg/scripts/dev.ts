@@ -6,23 +6,27 @@ import { createRequire } from 'node:module'
 
 import clearConsole from 'clear-console'
 
-import getRendererWpkCfg from '../wpk.renderer.dev'
 import getMainWpkCfg from '../wpk.main'
+import getRendererWpkCfg from '../wpk.renderer'
 
 import { Default_Port } from '../utils/constants'
 import { getElectronPath } from '../utils/getElectronPath'
-
-process.env.NODE_ENV = 'development'
-process.env.Port = String(Default_Port)
-process.env.Renderer_Url = `http://localhost:${Default_Port}`
+import { loadEnv } from '../env'
+import wpkPaths from '../utils/wpk.paths'
 
 let rebuildCount = 0
-
 let ps: ChildProcess
 
-export async function dev() {
-  await runServer()
-  await buildMain()
+export async function dev(options) {
+  process.env.NODE_ENV = 'development'
+
+  process.env.Port = String(Default_Port)
+  process.env.Renderer_Url = `http://localhost:${Default_Port}`
+
+  const env = loadEnv(options.mode, wpkPaths.envPath)
+
+  await runServer(env)
+  await buildMain(env)
 
   ps = startElectron()
 
@@ -42,16 +46,9 @@ function startElectron() {
   return ps
 }
 
-async function runServer() {
-  const compiler = webpack(getRendererWpkCfg(process.env.NODE_ENV))
-  const server = new WebpackDevServer(
-    {
-      port: process.env.Port,
-      client: { overlay: false },
-      hot: true
-    },
-    compiler
-  )
+async function runServer(env) {
+  const compiler = webpack(getRendererWpkCfg(env))
+  const server = new WebpackDevServer({ port: process.env.Port, client: { overlay: false }, hot: true }, compiler)
 
   console.log(picocolors.green(`Starting server...`))
 
@@ -60,10 +57,11 @@ async function runServer() {
   console.log(picocolors.green(`渲染进程启动成功!`))
 }
 
-function buildMain() {
+function buildMain(env) {
   console.log(picocolors.green('主进程开始 build'))
 
-  const compiler = webpack(getMainWpkCfg())
+  const compiler = webpack(getMainWpkCfg(env))
+
   return new Promise<void>((resolve, reject) => {
     compiler.watch({ ignored: ['**/node_modules'] }, (err, stats) => {
       if (err || stats?.hasErrors()) {

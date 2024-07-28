@@ -5,6 +5,10 @@ import { platform } from '@common/mainPreload/platform'
 
 console.log('主进程入口文件')
 console.log(platform)
+console.log(process.env.NODE_ENV)
+console.log(process.env.Base_Url)
+console.log(process.env.Release_Env)
+
 app.whenReady().then(() => {
   console.log('app ready 启动')
 

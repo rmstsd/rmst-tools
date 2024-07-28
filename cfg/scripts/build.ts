@@ -1,19 +1,24 @@
 import picocolors from 'picocolors'
 import { webpack } from 'webpack'
 
-import wpkRendererProd from '../wpk.renderer.prod'
-import wpkMainProdConfig from '../wpk.main.prod'
+import getMainWpkCfg from '../wpk.main'
+import getRendererWpkCfg from '../wpk.renderer'
 
-process.env.NODE_ENV = 'production'
+import wpkPaths from '../utils/wpk.paths'
+import { loadEnv } from '../env'
 
-export async function build() {
-  await buildRenderer()
-  await buildMain()
+export async function build(options) {
+  process.env.NODE_ENV = 'production'
+
+  const env = loadEnv(options.mode, wpkPaths.envPath)
+
+  await buildRenderer(env)
+  await buildMain(env)
 }
 
-function buildRenderer() {
+function buildRenderer(env) {
   console.log(picocolors.yellow('building renderer'))
-  const compiler = webpack(wpkRendererProd)
+  const compiler = webpack(getRendererWpkCfg(env))
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err || stats?.hasErrors()) {
@@ -26,9 +31,9 @@ function buildRenderer() {
   })
 }
 
-function buildMain() {
+function buildMain(env) {
   console.log(picocolors.yellow('building main'))
-  const compiler = webpack(wpkMainProdConfig)
+  const compiler = webpack(getMainWpkCfg(env))
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err || stats?.hasErrors()) {
