@@ -10,6 +10,7 @@ autoUpdater.autoDownload = false
 
 if (isDev) {
   autoUpdater.forceDevUpdateConfig = true
+  autoUpdater.setFeedURL('https://rmst-tools-1301117996.cos.ap-nanjing.myqcloud.com/test/latest')
 }
 
 export function checkForUpdate() {

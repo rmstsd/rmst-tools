@@ -11,6 +11,7 @@
     "build:win": "npm run rm-dist && npm run build && electron-builder --win --config electron-builder-config.js",
     "rm-dist": "ts-node cfg/utils/rmDist.ts",
     "del-tag": "ts-node del-tag.ts",
+    "upload-oss": "ts-node upload-oss.ts",
     "release-it": "release-it patch --ci"
   },
   "keywords": [],
@@ -30,6 +31,7 @@
     "babel-preset-react-app": "^10.0.1",
     "cac": "^6.7.14",
     "clear-console": "^1.1.0",
+    "cos-nodejs-sdk-v5": "^2.14.4",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
     "dotenv": "^16.4.5",
