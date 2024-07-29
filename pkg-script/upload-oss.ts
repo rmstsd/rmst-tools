@@ -1,15 +1,13 @@
 import COS, { UploadFileItemParams } from 'cos-nodejs-sdk-v5'
 import fse, { createReadStream, fstatSync, readJsonSync } from 'fs-extra'
 
-import { SecretId, SecretKey } from './sk'
 import path from 'path'
 
-const cos = new COS({ SecretId, SecretKey })
+// import { SecretId, SecretKey } from './sk' // 本地测试使用 sk 文件被 git 忽略
 
-// cos.getService({ Region: 'ap-nanjing' }, function (err, data) {
-//   console.log(err || data)
-//   console.log(data.Buckets)
-// })
+const [SecretId, SecretKey] = process.argv.slice(2)
+
+const cos = new COS({ SecretId, SecretKey })
 
 const Bucket = 'rmst-tools-1301117996'
 const Region = 'ap-nanjing'
@@ -70,7 +68,7 @@ async function bootstrap() {
 }
 
 function deleteFiles(marker = undefined) {
-  return cos.getBucket({ Bucket, Region, Prefix: 'test/latest/' }).then(listResult => {
+  return cos.getBucket({ Bucket, Region, Prefix: `${envDir}/latest/` }).then(listResult => {
     var nextMarker = listResult.NextMarker
     var objects = listResult.Contents.map(item => ({ Key: item.Key })).filter(item => !item.Key.endsWith('/'))
 
