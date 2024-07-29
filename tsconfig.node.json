@@ -1,5 +1,5 @@
 {
-  "include": ["src/main", "src/preload", "src/common", "cfg"],
+  "include": ["src/main", "src/preload", "src/common", "cfg", "pkg-script"],
   "compilerOptions": {
     "composite": true,
 

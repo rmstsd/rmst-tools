@@ -1,10 +1,6 @@
 {
   "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.renderer.json" }],
 
-  "compilerOptions": {
-    "esModuleInterop": true
-  },
-
   "ts-node": {
     "compilerOptions": {
       "target": "ES5",
