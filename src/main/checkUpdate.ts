@@ -18,6 +18,7 @@ const ossBaseUrl = 'https://rmst-tools-1301117996.cos.ap-nanjing.myqcloud.com'
 autoUpdater.setFeedURL(`${ossBaseUrl}/prod/latest`)
 
 export function checkForUpdate() {
+  log.info('feedURL', autoUpdater.getFeedURL())
   return autoUpdater.checkForUpdates().catch(err => {
     log.info('checkForUpdates 失败', err)
 
