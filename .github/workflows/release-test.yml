@@ -1,14 +1,16 @@
 # https://github.com/imbatony/electorn-chinese-chess
 
+# 发布测试环境
+
 on:
   push:
     # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    branches:
+      - 'test'
 
   workflow_dispatch:
 
-name: 发布 Release
+name: 发布测试环境
 
 permissions:
   contents: write
@@ -34,12 +36,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - run: npm install
-      - run: npm run build:win
+      - run: npm run build:win-test
         env:
           GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
       - name: 上传到腾讯云 cos
-        run: npm run upload-oss -- ${{ secrets.COS_SECRETID }} ${{ secrets.COS_SECRETKEY }}
+        run: npm run upload-oss -- ${{ secrets.COS_SECRETID }} ${{ secrets.COS_SECRETKEY }} win test
 
       # - name: release
       #   uses: softprops/action-gh-release@v1
