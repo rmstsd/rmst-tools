@@ -29,18 +29,18 @@ module.exports = {
     allowToChangeInstallationDirectory: true,
     deleteAppDataOnUninstall: true
   },
-  npmRebuild: false,
+  npmRebuild: false
 
   // publish: {
   //   provider: 'generic',
   //   url: 'http://127.0.0.1:1666/public/latest'
   // }
 
-  publish: {
-    provider: 'github',
-    owner: 'rmstsd',
-    repo: 'rmst-tools-wpk',
-    vPrefixedTagName: true,
-    releaseType: 'release'
-  }
+  // publish: {
+  //   provider: 'github',
+  //   owner: 'rmstsd',
+  //   repo: 'rmst-tools-wpk',
+  //   vPrefixedTagName: true,
+  //   releaseType: 'release'
+  // }
 }

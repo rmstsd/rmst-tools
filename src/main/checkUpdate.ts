@@ -10,8 +10,12 @@ autoUpdater.autoDownload = false
 
 if (isDev) {
   autoUpdater.forceDevUpdateConfig = true
-  autoUpdater.setFeedURL('https://rmst-tools-1301117996.cos.ap-nanjing.myqcloud.com/test/latest')
 }
+
+// process.env.Release_Env
+const ossBaseUrl = 'https://rmst-tools-1301117996.cos.ap-nanjing.myqcloud.com'
+
+autoUpdater.setFeedURL(`${ossBaseUrl}/prod/latest`)
 
 export function checkForUpdate() {
   return autoUpdater.checkForUpdates().catch(err => {

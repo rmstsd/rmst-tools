@@ -11,14 +11,14 @@ const cos = new COS({ SecretId, SecretKey })
 //   console.log(data.Buckets)
 // })
 
-const envDir = 'test'
+const Bucket = 'rmst-tools-1301117996'
+const Region = 'ap-nanjing'
+
+const envDir = 'prod' // 'test'
 const version = readJsonSync('./package.json').version
 const latest = 'latest'
 
-const Bucket = 'rmst-tools-1301117996' /* 必须 */
-const Region = 'ap-nanjing' /* 必须 */
-
-const distPath = path.join(__dirname, 'dist')
+const distPath = path.join(__dirname, '../dist')
 
 bootstrap()
 
@@ -34,8 +34,8 @@ async function bootstrap() {
     if (item === 'latest.yml') {
       return true
     }
-    // const reg = /\.exe(\.blockmap)?$/
-    // return reg.test(item)
+    const reg = /\.exe(\.blockmap)?$/
+    return reg.test(item)
   })
 
   const files: UploadFileItemParams[] = []

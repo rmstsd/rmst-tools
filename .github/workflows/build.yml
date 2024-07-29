@@ -35,8 +35,11 @@ jobs:
 
       - run: npm install
       - run: npm run build:win
-        env:
-          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        # env:
+        #   GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+
+      - name: 上传到腾讯云 cos
+        run: npm run upload-oss
 
       # - name: release
       #   uses: softprops/action-gh-release@v1

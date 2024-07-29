@@ -3,6 +3,7 @@
 
   "ts-node": {
     "compilerOptions": {
+      "lib": ["ESNext"],
       "target": "ES5",
       "module": "CommonJS",
       "allowSyntheticDefaultImports": true,
