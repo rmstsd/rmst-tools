@@ -13,6 +13,7 @@
     "rm-dist": "ts-node ./cfg/utils/rmDist.ts",
     "del-tag": "ts-node ./pkg-script/del-tag.ts",
     "upload-oss": "ts-node ./pkg-script/upload-oss.ts",
+    "test-ele-build": "npm run rm-dist && ts-node ./pkg-script/electron-builder.ts",
     "release-it": "release-it patch --ci"
   },
   "keywords": [],
