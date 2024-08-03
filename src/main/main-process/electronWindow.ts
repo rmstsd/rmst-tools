@@ -1,8 +1,8 @@
 import { BrowserWindow, shell } from 'electron'
 import path from 'node:path'
 import { iconPath } from './iconPath'
-import Logger from 'electron-log'
 import { isDev, isProd } from '@main/constant'
+import logger from '@main/logger'
 
 type IElectronWindow = {
   Setting: BrowserWindow
@@ -33,7 +33,7 @@ const loadWindow = (win: BrowserWindow, pathname: string) => {
     (evt, errorCode, errorDescription, validatedURL, isMainFrame, frameProcessId, frameRoutingId) => {
       const msg = { evt, errorCode, errorDescription, validatedURL, isMainFrame, frameProcessId, frameRoutingId }
       if (!isDev) {
-        Logger.error(msg)
+        logger.error(msg)
       }
       console.error(msg)
     }
