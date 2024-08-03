@@ -13,9 +13,9 @@ if (isDev) {
 }
 
 // process.env.Release_Env
-const ossBaseUrl = 'https://rmst-tools-1301117996.cos.ap-nanjing.myqcloud.com'
+// const ossBaseUrl = 'https://rmst-tools-1301117996.cos.ap-nanjing.myqcloud.com'
 
-autoUpdater.setFeedURL(`${ossBaseUrl}/prod/latest`)
+// autoUpdater.setFeedURL(`${ossBaseUrl}/prod/latest`)
 
 export function checkForUpdate() {
   log.info('feedURL', autoUpdater.getFeedURL())
