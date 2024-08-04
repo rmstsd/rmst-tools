@@ -44,9 +44,12 @@ export default function getMainWpkCfg(env = {}): webpack.Configuration {
         }
       ]
     },
+    plugins: [new webpack.EnvironmentPlugin({ ...env })],
     optimization: {
       minimizer: [isProd && new TerserPlugin({ extractComments: false })].filter(Boolean)
     },
-    plugins: [new webpack.EnvironmentPlugin({ ...env })]
+    cache: {
+      type: 'filesystem'
+    }
   }
 }

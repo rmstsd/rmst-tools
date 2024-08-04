@@ -77,6 +77,9 @@ export default function getRendererWpkCfg(env = {}): webpack.Configuration {
 
     optimization: {
       minimizer: [isProd && new TerserPlugin({ extractComments: false })].filter(Boolean)
+    },
+    cache: {
+      type: 'filesystem'
     }
   }
 }
