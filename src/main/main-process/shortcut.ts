@@ -32,6 +32,7 @@ function handleQuickInputWindow() {
     const y = Math.min(cursorCoord.y - 10, workArea.y + workArea.height - height)
 
     electronWindow.QuickInput.setBounds({ x, y, ...cachedSize })
+    electronWindow.QuickInput.setAlwaysOnTop(true, 'screen-saver')
     electronWindow.QuickInput.show()
   }
 }
