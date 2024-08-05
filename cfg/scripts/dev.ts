@@ -1,7 +1,7 @@
 import WebpackDevServer from 'webpack-dev-server'
 import { webpack } from 'webpack'
 import picocolors from 'picocolors'
-import { ChildProcess, spawn } from 'node:child_process'
+import { ChildProcess, spawn, spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 
 import clearConsole from 'clear-console'
@@ -25,6 +25,7 @@ export async function dev(options) {
 
   const env = loadEnv(options.mode, wpkPaths.envPath)
 
+  spawnSync('chcp', ['65001'])
   await runServer(env)
   await buildMain(env)
 

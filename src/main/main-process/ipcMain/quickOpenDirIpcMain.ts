@@ -45,10 +45,12 @@ export const getProjectNamesTree = () => {
 
   const projectPaths = getStoreSetting()?.projectPaths ?? []
 
-  const namesTree = projectPaths.filter(Boolean).map(item => ({
-    name: item.replace(/\\/g, '/'),
-    children: fse.readdirSync(item).filter(item => !blackList.includes(item))
-  }))
+  const namesTree = projectPaths
+    .filter(item => fse.existsSync(item) && fse.statSync(item).isDirectory())
+    .map(item => ({
+      name: item.replace(/\\/g, '/'),
+      children: fse.readdirSync(item).filter(item => !blackList.includes(item))
+    }))
 
   return namesTree
 }
