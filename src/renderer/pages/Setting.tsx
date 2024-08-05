@@ -83,7 +83,7 @@ export default function SettingPage() {
   return (
     <div>
       <div className="flex flex-wrap mx-2 gap-x-[20px] gap-y-2 mt-[5px] text-[16px]">
-        {Object.entries({ ...platform, ...packaged, ...env }).map(([key, value]) => (
+        {Object.entries({ appVersion: baseInfo.appVersion, ...platform, ...packaged, ...env }).map(([key, value]) => (
           <div key={key}>
             {key}: <Tag size="large">{String(value)}</Tag>
           </div>
