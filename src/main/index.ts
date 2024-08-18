@@ -3,6 +3,8 @@ import bootstrap, { launchAtStartup } from './bootstrap'
 import { modifyFont } from './devtools'
 import { platform } from '@common/mainPreload/platform'
 
+import './htmlServer'
+
 console.log('主进程入口文件')
 console.log(platform)
 console.log(process.env.NODE_ENV)
