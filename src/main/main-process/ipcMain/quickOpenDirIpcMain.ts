@@ -4,6 +4,7 @@ import { spawn } from 'cross-spawn'
 import { electronWindow } from '../electronWindow'
 import { getStoreSetting } from '../../store'
 import { OpenDirEvent } from '@common/mainRenderer/ipcEvent'
+import path from 'node:path'
 
 export function addQuickOpenDirIpcMain() {
   ipcMain.handle(OpenDirEvent.Spawn_Open_Dir, openSpawnDir)
@@ -29,7 +30,7 @@ export const nodeCmdDir = (_, dirPath) => {
     return
   }
 
-  spawn(cmdPath, [`-d ${dirPath}`], { shell: true })
+  spawn(cmdPath, [`-d ${dirPath} --title ${path.basename(dirPath)}`], { shell: true })
 
   // import cmd from 'node-cmd'
   // cmd.runSync(`${cmdPath} -d ${dirPath}`)
