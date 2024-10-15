@@ -1,6 +1,6 @@
 {
   "name": "rmst-tools-wpk",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "description": "",
   "main": "out/main/main.js",
   "scripts": {
