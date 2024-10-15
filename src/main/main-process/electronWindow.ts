@@ -1,8 +1,9 @@
-import { BrowserWindow, shell } from 'electron'
+import { BrowserWindow, globalShortcut, shell } from 'electron'
 import path from 'node:path'
 import { iconPath } from './iconPath'
 import { isDev, isProd } from '@main/constant'
 import logger from '@main/logger'
+import { platform } from '@common/mainPreload/platform'
 
 type IElectronWindow = {
   Setting: BrowserWindow
@@ -38,6 +39,13 @@ const loadWindow = (win: BrowserWindow, pathname: string) => {
       console.error(msg)
     }
   )
+
+  if (platform.isWindows) {
+    win.hookWindowMessage(278, () => {
+      win.setEnabled(false)
+      win.setEnabled(true)
+    })
+  }
 }
 
 function createOpenDirWindow() {
@@ -84,7 +92,18 @@ function createQuickInputWindow() {
     width: 100,
     height: 100,
     alwaysOnTop: true,
+    maximizable: false,
+    minimizable: false,
     webPreferences: { preload: preloadPath }
+  })
+
+  win.on('show', () => {
+    globalShortcut.register('Esc', () => {
+      win.hide()
+    })
+  })
+  win.on('hide', () => {
+    globalShortcut.unregister('Esc')
   })
 
   loadWindow(win, 'QuickInput')

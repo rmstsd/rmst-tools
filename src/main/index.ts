@@ -1,9 +1,9 @@
 import { app, BrowserWindow } from 'electron'
-import bootstrap, { launchAtStartup } from './bootstrap'
-import { modifyFont } from './devtools'
+import bootstrap, { launchAtStartup } from './mainApp/bootstrap'
 import { platform } from '@common/mainPreload/platform'
 
-import './htmlServer'
+import './mainApp/htmlServer'
+import onBrowserWindowCreated from './mainApp/onBrowserWindowCreated'
 
 console.log('主进程入口文件')
 console.log(platform)
@@ -18,47 +18,11 @@ app.whenReady().then(() => {
     launchAtStartup()
   }
 
-  app.on('browser-window-created', (_, window) => {
-    // optimizer.watchWindowShortcuts(window)
-
-    const { webContents } = window
-
-    window.on('close', evt => {
-      evt.preventDefault()
-      window.hide()
-    })
-
-    webContents.on('devtools-opened', () => {
-      modifyFont(window)
-    })
-
-    webContents.on('before-input-event', (event, input) => {
-      if (input.type === 'keyDown') {
-        if (input.code === 'F5') {
-          webContents.reloadIgnoringCache()
-        }
-
-        if (input.code === 'F12') {
-          if (webContents.isDevToolsOpened()) {
-            webContents.closeDevTools()
-          } else {
-            webContents.openDevTools({ mode: 'undocked' })
-            console.log('Open dev tool...')
-          }
-        }
-
-        if (input.code === 'Escape') {
-          window.hide()
-        }
-      }
-    })
-  })
+  onBrowserWindowCreated(app)
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) {
-      // createWindow()
-
       bootstrap()
     }
   })
