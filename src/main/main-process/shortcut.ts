@@ -12,7 +12,7 @@ export const addShortcut = () => {
     }
   })
 
-  globalShortcut.register('Alt+n', () => {
+  globalShortcut.register('Alt+v', () => {
     handleQuickInputWindow()
   })
 }
