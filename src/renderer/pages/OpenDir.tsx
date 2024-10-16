@@ -147,7 +147,14 @@ const DirSearch = () => {
               setSelectIndex(0)
               setWd(value)
             }}
-            onPressEnter={() => onConfirm(flatDirNames[selectIndex])}
+            onPressEnter={evt => {
+              const projectPath = flatDirNames[selectIndex]
+              if (evt.ctrlKey) {
+                openWithCmd(projectPath)
+              } else {
+                onConfirm(projectPath)
+              }
+            }}
             className="h-[60px] border-none text-[18px]"
             onKeyDown={onKeyDown}
           />
