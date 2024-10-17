@@ -17,9 +17,18 @@ export function addQuickInputIpcMain() {
     electronWindow.QuickInput.setBounds({ width, height })
   })
 
-  ipcMain.handle(QuickInputEvent.Copy_And_Paste, async (_, value) => {
-    clipboard.writeText(value)
+  ipcMain.handle(QuickInputEvent.Copy_And_Paste, async (_, value: string) => {
+    if (value.startsWith('m4_')) {
+      const [_, str, enter] = value.split('_')
+      await keyboard.type(str)
 
+      if (enter === 'enter') {
+        keyboard.type(Key.Enter)
+      }
+      return
+    }
+
+    clipboard.writeText(value)
     await keyboard.pressKey(Key.LeftControl, Key.V)
     await keyboard.releaseKey(Key.LeftControl, Key.V)
   })
