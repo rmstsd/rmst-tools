@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Button, Input, Message } from '@arco-design/web-react'
+import React, { Fragment, useLayoutEffect, useRef, useState } from 'react'
+import { Input } from '@arco-design/web-react'
 import path from 'path-browserify'
 import clsx from 'clsx'
 
 import { defaultList } from '../utils'
 import ResizeObserver from 'rc-resize-observer'
-import { getSetting, openExternal } from '@renderer/ipc/common'
+import { openExternal } from '@renderer/ipc/common'
 import {
   getProjectNamesTree,
   hideDirWindow,
@@ -20,27 +20,23 @@ interface DirNamesTree {
 }
 
 const DirSearch = () => {
-  const [isCanOpenDir, setIsCanOpenDir] = useState(false)
   const [wd, setWd] = useState('')
   const [dirNamesTree, setDirNamesTree] = useState<DirNamesTree[]>([])
   const [selectIndex, setSelectIndex] = useState(0)
-  const [isCmd, setIsCmd] = useState(false)
-
   const inputRef = useRef(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getInitialData()
 
-    document.onvisibilitychange = () => {
+    const onvisibilitychange = () => {
       if (document.visibilityState == 'visible') {
-        setIsCmd(false)
-        setWd('')
         getInitialData()
       }
     }
 
+    document.addEventListener('visibilitychange', onvisibilitychange)
     return () => {
-      document.onvisibilitychange = null
+      document.removeEventListener('visibilitychange', onvisibilitychange)
     }
   }, [])
 
@@ -48,46 +44,6 @@ const DirSearch = () => {
     inputRef.current.dom.focus()
 
     getProjectNamesTree().then(setDirNamesTree)
-
-    getSetting().then(data => {
-      const isCan = Boolean(data.vscodePath) && Array.isArray(data.projectPaths) && data.projectPaths.length !== 0
-      setIsCanOpenDir(isCan)
-    })
-  }
-
-  const onConfirm = (projectPath: string) => {
-    if (searchUrl) {
-      openExternal(searchUrl)
-
-      hideDirWindow()
-
-      setWd('')
-      return
-    }
-
-    if (!isCanOpenDir) {
-      Message.info({ content: '请先点击托盘右键设置 编辑器路径,项目目录', style: { top: -35 }, id: 'o' })
-      return
-    }
-
-    if (isCmd) {
-      openWithCmd(projectPath)
-    } else {
-      if (!projectPath) {
-        return
-      }
-      openWithVscode(projectPath).then(hideDirWindow)
-    }
-
-    setWd('')
-    setSelectIndex(0)
-  }
-
-  const openWithCmd = (projectPath: string) => {
-    if (!projectPath) {
-      return
-    }
-    openWithTerminal(projectPath).then(hideDirWindow)
   }
 
   const onKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
@@ -102,17 +58,30 @@ const DirSearch = () => {
         const nv = selectIndex + 1
         setSelectIndex(nv > flatDirNames.length - 1 ? 0 : nv)
       }
-    }
-    if (evt.code === 'ArrowRight') {
-      const target = evt.target as HTMLInputElement
+    } else {
+      if (evt.key === 'Enter') {
+        if (searchUrl) {
+          openExternal(searchUrl)
+          setWd('')
+          hideDirWindow()
+          return
+        }
 
-      if (target.selectionEnd === target.selectionStart && target.selectionEnd === wd.length) {
-        setIsCmd(true)
+        const projectPath = flatDirNames[selectIndex]
+        onItemClick(evt.ctrlKey, projectPath)
       }
     }
-    if (evt.code === 'ArrowLeft') {
-      setIsCmd(false)
+  }
+
+  const onItemClick = async (ctrlKey: boolean, projectPath: string) => {
+    if (ctrlKey) {
+      await openWithTerminal(projectPath).then(hideDirWindow)
+    } else {
+      await openWithVscode(projectPath).then(hideDirWindow)
     }
+
+    setWd('')
+    setSelectIndex(0)
   }
 
   const flatDirNames = search(dirNamesTree, wd)
@@ -147,14 +116,6 @@ const DirSearch = () => {
               setSelectIndex(0)
               setWd(value)
             }}
-            onPressEnter={evt => {
-              const projectPath = flatDirNames[selectIndex]
-              if (evt.ctrlKey) {
-                openWithCmd(projectPath)
-              } else {
-                onConfirm(projectPath)
-              }
-            }}
             className="h-[60px] border-none text-[18px]"
             onKeyDown={onKeyDown}
           />
@@ -165,31 +126,24 @@ const DirSearch = () => {
           <section className="arco-select-popup border-none">
             {flatDirNames.map((item, index) => (
               <div
-                className={clsx('arco-select-option option-item !text-[16px] flex justify-between', {
+                className={clsx('arco-select-option !text-[16px] flex justify-between', {
                   'arco-select-option-hover': selectIndex === index
                 })}
-                key={index}
-                onClick={() => onConfirm(item)}
+                key={item}
+                onPointerEnter={() => setSelectIndex(index)}
+                onClick={evt => onItemClick(evt.ctrlKey, item)}
               >
                 <span>
-                  {findAllChunks(findPosIndexList(wd, item), item).map(chunkItem =>
-                    chunkItem.highLight ? (
-                      <b className="text-[#5454ff]">{item.slice(chunkItem.start, chunkItem.end)}</b>
-                    ) : (
-                      <span>{item.slice(chunkItem.start, chunkItem.end)}</span>
-                    )
-                  )}
+                  {findAllChunks(findPosIndexList(wd, item), item).map((chunkItem, index) => (
+                    <Fragment key={index}>
+                      {chunkItem.highLight ? (
+                        <b className="text-[#5454ff]">{item.slice(chunkItem.start, chunkItem.end)}</b>
+                      ) : (
+                        <span>{item.slice(chunkItem.start, chunkItem.end)}</span>
+                      )}
+                    </Fragment>
+                  ))}
                 </span>
-
-                <Button
-                  type={isCmd && selectIndex === index ? 'primary' : 'outline'}
-                  onClick={evt => {
-                    evt.stopPropagation()
-                    openWithCmd(item)
-                  }}
-                >
-                  cmd
-                </Button>
               </div>
             ))}
           </section>
