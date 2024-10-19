@@ -2,7 +2,7 @@ import { ipcMain, clipboard } from 'electron'
 import { Key, keyboard } from '@nut-tree/nut-js'
 
 import { QuickInputEvent } from '@common/mainRenderer/ipcEvent'
-import { cachedSize, electronWindow } from '../electronWindow'
+import { cachedSize, electronWindow } from '../window'
 
 keyboard.config.autoDelayMs = 0
 

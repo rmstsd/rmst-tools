@@ -1,6 +1,6 @@
 import { Menu, Tray } from 'electron'
 
-import { electronWindow } from './electronWindow'
+import { electronWindow } from './window'
 import { iconPath } from './iconPath'
 
 export const createTray = () => {

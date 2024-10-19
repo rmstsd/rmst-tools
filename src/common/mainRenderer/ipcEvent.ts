@@ -32,10 +32,3 @@ export enum CommonEvent {
 export enum KillPortEvent {
   Kill_Port = 'kill-port'
 }
-
-export enum BrowserEvent {
-  Browser_Minimize = 'browser_Minimize',
-  Browser_Maximize = 'browser_maximize',
-  Browser_Unmaximize = 'browser_unmaximize',
-  Browser_Close = 'browser_close'
-}

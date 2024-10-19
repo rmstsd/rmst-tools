@@ -1,6 +1,6 @@
 import { autoUpdater } from 'electron-updater'
 import { dialog } from 'electron'
-import { electronWindow } from './main-process/electronWindow'
+import { electronWindow } from './main-process/window'
 import { isDev } from './constant'
 import logger from './logger'
 

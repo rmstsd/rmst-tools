@@ -1,8 +1,7 @@
 import { ipcMain, shell, clipboard } from 'electron'
 import killPort from 'kill-port'
 
-import { electronWindow } from '../../main-process/electronWindow'
-import { BrowserEvent, CommonEvent, KillPortEvent } from '@common/mainRenderer/ipcEvent'
+import { CommonEvent, KillPortEvent } from '@common/mainRenderer/ipcEvent'
 import { addSettingIpcMain } from './settingIpcMain'
 import { addQuickInputIpcMain } from './quickInputIpcMain'
 import { addQuickOpenDirIpcMain } from './quickOpenDirIpcMain'
@@ -15,8 +14,6 @@ export const addIpcMain = () => {
   addQuickInputIpcMain()
   addSettingIpcMain()
   addKillPortIpcMain()
-
-  // addBrowserIpcMain()
 }
 
 const onCopy = createHandleListener(CommonEvent.Copy_Text)
@@ -29,11 +26,4 @@ function addCommonIpcMain() {
 
 function addKillPortIpcMain() {
   ipcMain.handle(KillPortEvent.Kill_Port, (_, value) => killPort(value))
-}
-
-function addBrowserIpcMain() {
-  ipcMain.handle(BrowserEvent.Browser_Minimize, () => electronWindow.RmstBrowserWindow.minimize())
-  ipcMain.handle(BrowserEvent.Browser_Maximize, () => electronWindow.RmstBrowserWindow.maximize())
-  ipcMain.handle(BrowserEvent.Browser_Unmaximize, () => electronWindow.RmstBrowserWindow.unmaximize())
-  ipcMain.handle(BrowserEvent.Browser_Close, () => electronWindow.RmstBrowserWindow.close())
 }

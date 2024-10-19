@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron'
 import fse from 'fs-extra'
 import { spawn } from 'cross-spawn'
-import { electronWindow } from '../electronWindow'
+import { electronWindow } from '../window'
 import { getStoreSetting } from '../../store'
 import { OpenDirEvent } from '@common/mainRenderer/ipcEvent'
 import path from 'node:path'

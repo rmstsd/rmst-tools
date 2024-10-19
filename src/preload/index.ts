@@ -1,7 +1,7 @@
 import { contextBridge, type IpcRendererEvent, ipcRenderer as oriIpcRenderer } from 'electron'
 import { platform } from '@common/mainPreload/platform'
 
-type Listener = (event: IpcRendererEvent, ...args: any[]) => void
+export type Listener = (event: IpcRendererEvent, ...args: any[]) => void
 
 const ipcRenderer = {
   invoke(channel: string, ...args: any[]) {

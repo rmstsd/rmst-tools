@@ -31,6 +31,8 @@ const DirSearch = () => {
     const onvisibilitychange = () => {
       if (document.visibilityState == 'visible') {
         getInitialData()
+      } else {
+        resetState()
       }
     }
 
@@ -39,6 +41,11 @@ const DirSearch = () => {
       document.removeEventListener('visibilitychange', onvisibilitychange)
     }
   }, [])
+
+  const resetState = () => {
+    setWd('')
+    setSelectIndex(0)
+  }
 
   const getInitialData = () => {
     inputRef.current.dom.focus()
@@ -62,7 +69,6 @@ const DirSearch = () => {
       if (evt.key === 'Enter') {
         if (searchUrl) {
           openExternal(searchUrl)
-          setWd('')
           hideDirWindow()
           return
         }
@@ -79,9 +85,6 @@ const DirSearch = () => {
     } else {
       await openWithVscode(projectPath).then(hideDirWindow)
     }
-
-    setWd('')
-    setSelectIndex(0)
   }
 
   const flatDirNames = search(dirNamesTree, wd)

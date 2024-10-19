@@ -1,7 +1,7 @@
 import { Menu, app } from 'electron'
 
 import { createTray } from '../main-process/createTray'
-import createWindow from '../main-process/electronWindow'
+import createWindow from '../main-process/window'
 import { addIpcMain } from '../main-process/ipcMain'
 import { addShortcut } from '../main-process/shortcut'
 

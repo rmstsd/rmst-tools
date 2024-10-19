@@ -1,5 +1,6 @@
 import { OpenDirEvent } from '@common/mainRenderer/ipcEvent'
 import { ipcRenderer } from './ipc'
+import { Listener } from 'src/preload'
 
 export function hideDirWindow() {
   return ipcRenderer.invoke(OpenDirEvent.Hide_DirWindow)

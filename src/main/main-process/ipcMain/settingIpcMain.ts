@@ -3,7 +3,7 @@ import { clearAllStore, getStoreSetting, setStoreSetting } from '@main/store'
 import { createHandleListener } from './utils'
 import { app, dialog } from 'electron'
 import { checkForUpdate } from '@main/checkUpdate'
-import { electronWindow } from '../electronWindow'
+import { electronWindow } from '../window'
 import { readJsonSync, writeJsonSync } from 'fs-extra'
 import { AppBaseInfo } from '@common/type'
 

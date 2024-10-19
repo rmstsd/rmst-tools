@@ -1,6 +1,6 @@
 import { globalShortcut, screen } from 'electron'
 
-import { cachedSize, electronWindow } from './electronWindow'
+import { cachedSize, electronWindow } from './window'
 
 export const addShortcut = () => {
   globalShortcut.register('Alt+Space', () => {
