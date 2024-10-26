@@ -176,15 +176,15 @@ function search(dirNames: DirNamesTree[], wd: string) {
 }
 
 function ssOw(originValue: string, wd: string) {
-  const ovs = originValue.toLowerCase().split('')
-  const wds = wd.toLowerCase().split('')
+  originValue = originValue.toLowerCase()
+  wd = wd.toLowerCase()
 
   return findPosIndexList(wd, originValue).length > 0
-
-  return originValue.toLowerCase().includes(wd.toLowerCase())
 }
 
 function findPosIndexList(wd, data): number[] {
+  wd = wd.toLowerCase()
+  data = data.toLowerCase()
   let pos = []
 
   const wdArray = wd.split('')
