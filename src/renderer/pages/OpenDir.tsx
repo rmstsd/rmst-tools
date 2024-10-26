@@ -80,6 +80,10 @@ const DirSearch = () => {
   }
 
   const onItemClick = async (ctrlKey: boolean, projectPath: string) => {
+    if (!projectPath) {
+      return
+    }
+
     if (ctrlKey) {
       await openWithTerminal(projectPath).then(hideDirWindow)
     } else {
@@ -109,7 +113,7 @@ const DirSearch = () => {
 
   return (
     <ResizeObserver onResize={size => setDirWindowSize(size)}>
-      <div>
+      <div className="open-dir">
         <section className="relative">
           <Input
             ref={inputRef}
@@ -133,7 +137,6 @@ const DirSearch = () => {
                   'arco-select-option-hover': selectIndex === index
                 })}
                 key={item}
-                onPointerEnter={() => setSelectIndex(index)}
                 onClick={evt => onItemClick(evt.ctrlKey, item)}
               >
                 <span>
