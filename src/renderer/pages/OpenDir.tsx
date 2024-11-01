@@ -1,5 +1,5 @@
 import React, { Fragment, useLayoutEffect, useRef, useState } from 'react'
-import { Input } from '@arco-design/web-react'
+import { Input, Message } from '@arco-design/web-react'
 import path from 'path-browserify'
 import clsx from 'clsx'
 
@@ -74,20 +74,30 @@ const DirSearch = () => {
         }
 
         const projectPath = flatDirNames[selectIndex]
-        onItemClick(evt.ctrlKey, projectPath)
+        onItemClick(evt.ctrlKey, evt.shiftKey, projectPath)
       }
     }
   }
 
-  const onItemClick = async (ctrlKey: boolean, projectPath: string) => {
+  const onItemClick = async (ctrlKey: boolean, shiftKey: boolean, projectPath: string) => {
     if (!projectPath) {
       return
     }
 
+    if (ctrlKey && shiftKey) {
+      Message.info({ id: 'not-support-ctrl-shift', content: '暂不支持同时按下Ctrl和Shift' })
+      return
+    }
+
+    hideDirWindow()
+
     if (ctrlKey) {
-      await openWithTerminal(projectPath).then(hideDirWindow)
+      openWithTerminal(projectPath)
+    } else if (shiftKey) {
+      openWithVscode(projectPath)
+      openWithTerminal(projectPath)
     } else {
-      await openWithVscode(projectPath).then(hideDirWindow)
+      openWithVscode(projectPath)
     }
   }
 
@@ -137,7 +147,7 @@ const DirSearch = () => {
                   'arco-select-option-hover': selectIndex === index
                 })}
                 key={item}
-                onClick={evt => onItemClick(evt.ctrlKey, item)}
+                onClick={evt => onItemClick(evt.ctrlKey, evt.shiftKey, item)}
               >
                 <span>
                   {findAllChunks(findPosIndexList(wd, item), item).map((chunkItem, index) => (
