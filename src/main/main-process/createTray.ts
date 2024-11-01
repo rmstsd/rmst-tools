@@ -17,7 +17,7 @@ export const createTray = () => {
       }
     },
     {
-      label: '杀端口号',
+      label: '工具',
       type: 'normal',
       click: () => {
         electronWindow.KillPort?.show()

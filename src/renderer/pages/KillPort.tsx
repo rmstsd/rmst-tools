@@ -1,8 +1,20 @@
-import { Button, Form, InputNumber, Message } from '@arco-design/web-react'
+import { Button, Divider, Form, Input, InputNumber, Message } from '@arco-design/web-react'
 import { useEffect, useRef, useState } from 'react'
-import { killPort } from '@renderer/ipc/killPort'
+import { killPort, Open_Url_Win } from '@renderer/ipc/killPort'
 
-export default function KillPortView() {
+export default function SmallTool() {
+  return (
+    <div className="p-[40px]">
+      <KillPortTool />
+
+      <Divider />
+
+      <OpenWindow />
+    </div>
+  )
+}
+
+function KillPortTool() {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -37,18 +49,38 @@ export default function KillPortView() {
   }
 
   return (
-    <div className="p-[40px]">
-      <Form form={form}>
-        <Form.Item label="端口号" field="port" rules={[{ required: true }]}>
-          <InputNumber ref={ref} placeholder="端口号" />
-        </Form.Item>
+    <Form form={form}>
+      <Form.Item label="端口号" field="port" rules={[{ required: true }]}>
+        <InputNumber ref={ref} placeholder="端口号" />
+      </Form.Item>
 
-        <Form.Item label=" " field="port">
-          <Button loading={loading} onClick={kill}>
-            kill
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
+      <Form.Item label=" ">
+        <Button loading={loading} onClick={kill}>
+          kill
+        </Button>
+      </Form.Item>
+    </Form>
+  )
+}
+
+function OpenWindow() {
+  const [form] = Form.useForm()
+
+  return (
+    <Form form={form}>
+      <Form.Item label="url" field="url" rules={[{ required: true, type: 'url' }]}>
+        <Input placeholder="http://www.example.com" />
+      </Form.Item>
+      <Form.Item label=" ">
+        <Button
+          onClick={async () => {
+            await form.validate()
+            Open_Url_Win(form.getFieldValue('url'))
+          }}
+        >
+          打开
+        </Button>
+      </Form.Item>
+    </Form>
   )
 }
