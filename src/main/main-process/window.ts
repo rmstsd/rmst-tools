@@ -1,4 +1,4 @@
-import { app, BrowserWindow, globalShortcut } from 'electron'
+import { app, BrowserWindow, globalShortcut, screen } from 'electron'
 import path from 'node:path'
 import { iconPath } from './iconPath'
 import { isDev, isProd } from '@main/constant'
@@ -11,6 +11,7 @@ type IElectronWindow = {
   QuickInput: BrowserWindow
   RmstBrowserWindow: BrowserWindow
   KillPort: BrowserWindow
+  Todo: BrowserWindow
 }
 
 export const electronWindow = {} as IElectronWindow
@@ -124,9 +125,30 @@ function createKillPortWindow() {
   return win
 }
 
+function createTodoWindow() {
+  const pd = screen.getPrimaryDisplay()
+  const win = new BrowserWindow({
+    frame: false,
+    skipTaskbar: true,
+    maximizable: false,
+    minimizable: false,
+    x: pd.workArea.width - 200,
+    y: 0,
+    width: 200,
+    height: 300,
+    transparent: true,
+    webPreferences: { preload: preloadPath }
+  })
+
+  // loadWindow(win, 'Todo')
+
+  return win
+}
+
 export default function createWindow() {
   electronWindow.Setting = createSettingWindow()
   electronWindow.OpenDir = createOpenDirWindow()
   electronWindow.QuickInput = createQuickInputWindow()
   electronWindow.KillPort = createKillPortWindow()
+  electronWindow.Todo = createTodoWindow()
 }
