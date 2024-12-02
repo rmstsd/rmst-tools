@@ -6,7 +6,9 @@ export { ipcRenderer, platform }
 
 export function createOnListener(channel: string) {
   return (listener: Parameters<IpcRenderer['on']>[1]) => {
-    const remove = ipcRenderer.on(channel, listener)
+    const remove = ipcRenderer.on(channel, (...r ) => {
+      console.log()
+    })
 
     return remove
   }

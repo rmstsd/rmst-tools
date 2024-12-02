@@ -1,8 +1,17 @@
-import { Button, Divider, Form, Input, InputNumber, Message } from '@arco-design/web-react'
+import { Button, Divider, Form, Input, InputNumber, Message, Modal } from '@arco-design/web-react'
 import { useEffect, useRef, useState } from 'react'
 import { killPort, Open_Url_Win } from '@renderer/ipc/killPort'
+import { createOnListener, ipcRenderer } from '@renderer/ipc/ipc'
 
 export default function SmallTool() {
+  const [list, setList] = useState([])
+
+  useEffect(() => {
+    ipcRenderer.on('log', (...r) => {
+      setList(a => a.concat(r[1]))
+    })
+  }, [])
+
   return (
     <div className="p-[40px]">
       <KillPortTool />
@@ -10,6 +19,13 @@ export default function SmallTool() {
       <Divider />
 
       <OpenWindow />
+
+      <button onClick={() => setList([])}>清空</button>
+      <div>
+        {list.map(item => (
+          <div>{item}</div>
+        ))}
+      </div>
     </div>
   )
 }
