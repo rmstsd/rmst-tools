@@ -9,7 +9,7 @@ on:
 
   workflow_dispatch:
 
-name: 发布 Release
+name: 发布 Release 到 腾讯云cos
 
 permissions:
   contents: write
