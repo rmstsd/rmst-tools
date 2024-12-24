@@ -5,8 +5,8 @@ const Platform = builder.Platform
 build()
 function build() {
   const options: builder.Configuration = {
-    appId: 'com.electron.rmst-tools-wpk',
-    productName: 'rmst-tools-wpk',
+    appId: 'com.electron.rmst-tools',
+    productName: 'rmst-tools',
     directories: {
       buildResources: 'build'
     },
@@ -47,7 +47,7 @@ function build() {
     // publish: {
     //   provider: 'github',
     //   owner: 'rmstsd',
-    //   repo: 'rmst-tools-wpk',
+    //   repo: 'rmst-tools',
     //   vPrefixedTagName: true,
     //   releaseType: 'release'
     // }

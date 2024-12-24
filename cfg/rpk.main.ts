@@ -1,13 +1,11 @@
 import path from 'path'
-import webpack from 'webpack'
+import { rspack, Rspack } from '@rsbuild/core'
 import nodeExternals from 'webpack-node-externals'
 
 import wpkPaths from './utils/wpk.paths'
 import { getWebpackResolveAlias } from './utils'
 
-import { Rspack } from '@rsbuild/core'
-
-export default function getMainWpkCfg(env = {}): Rspack.Configuration {
+export default function getMainRpkCfg(env = {}): Rspack.Configuration {
   const isDev = process.env.NODE_ENV === 'development'
   const isProd = process.env.NODE_ENV === 'production'
 
@@ -30,7 +28,6 @@ export default function getMainWpkCfg(env = {}): Rspack.Configuration {
       alias: getWebpackResolveAlias()
     },
     externals: [nodeExternals() as any],
-    // externalsPresets: { electron: true },
     module: {
       rules: [
         {
@@ -47,6 +44,7 @@ export default function getMainWpkCfg(env = {}): Rspack.Configuration {
           type: 'javascript/auto'
         }
       ]
-    }
+    },
+    plugins: [new rspack.DefinePlugin(env)]
   }
 }

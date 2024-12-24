@@ -3,7 +3,7 @@ import type Logger from 'electron-log'
 
 import { isDev } from '../constant'
 
-// c:/Users/rmst/AppData/Roaming/rmst-tools-wpk/logs/main.log
+// c:/Users/rmst/AppData/Roaming/rmst-tools/logs/main.log
 
 if (isDev) {
   eLogger.transports.file.resolvePathFn = () => 'logs/main.log'

@@ -1,31 +1,28 @@
-import picocolors from 'picocolors'
+import getMainRpkCfg from '../rpk.main'
+import getRenderRpkCfg from '../rpk.renderer'
 
-import getMainWpkCfg from '../wpk.main'
-import { getRenderRsCfg } from '../wpk.renderer'
-
-import wpkPaths from '../utils/wpk.paths'
 import { loadEnv } from '../env'
 import { createRsbuild, rspack } from '@rsbuild/core'
+import { cleanDistDir } from '../utils'
 
-export async function build(options) {
+export default async function build(options) {
   process.env.NODE_ENV = 'production'
 
-  const env = loadEnv(options.mode, wpkPaths.envPath)
+  const { parsedWithProcess } = loadEnv(options.mode)
 
-  await buildRenderer(env)
-  await buildMain(env)
+  cleanDistDir()
+
+  await buildRenderer(parsedWithProcess)
+  await buildMain(parsedWithProcess)
 }
 
 async function buildRenderer(env) {
-  console.log(picocolors.yellow('building renderer'))
-  const rsbuild = await createRsbuild({ rsbuildConfig: getRenderRsCfg(env) })
+  const rsbuild = await createRsbuild({ rsbuildConfig: getRenderRpkCfg(env) })
   await rsbuild.build()
 }
 
 function buildMain(env) {
-  console.log(picocolors.yellow('building main'))
-
-  const compiler = rspack(getMainWpkCfg(env))
+  const compiler = rspack(getMainRpkCfg(env))
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err || stats?.hasErrors()) {

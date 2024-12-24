@@ -1,6 +1,6 @@
 module.exports = {
-  appId: 'com.electron.rmst-tools-wpk',
-  productName: 'rmst-tools-wpk',
+  appId: 'com.electron.rmst-tools',
+  productName: 'rmst-tools',
   directories: {
     buildResources: 'build'
   },
@@ -15,7 +15,7 @@ module.exports = {
   asar: true,
   asarUnpack: ['resources/**'],
   win: {
-    executableName: 'rmst-tools-wpk',
+    executableName: 'rmst-tools',
     icon: 'resources/icons/win/icon.ico'
   },
   nsis: {
@@ -39,7 +39,7 @@ module.exports = {
   publish: {
     provider: 'github',
     owner: 'rmstsd',
-    repo: 'rmst-tools-wpk',
+    repo: 'rmst-tools',
     vPrefixedTagName: true,
     releaseType: 'release'
   }

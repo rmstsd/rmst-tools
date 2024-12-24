@@ -8,9 +8,9 @@ import { electronWindow } from './main-process/window'
 
 console.log('主进程入口文件')
 console.log(platform)
-console.log(process.env.NODE_ENV)
-console.log(process.env.Base_Url)
-console.log(process.env.Release_Env)
+console.log(process.env.NODE_ENV ?? 'process.env.NODE_ENV 没有值')
+console.log(process.env.Base_Url ?? 'process.env.Base_Url 没有值')
+console.log(process.env.Release_Env ?? 'process.env.Release_Env 没有值')
 
 app.whenReady().then(() => {
   console.log('app ready 启动')

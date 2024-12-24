@@ -32,5 +32,5 @@ export enum CommonEvent {
 export enum KillPortEvent {
   Kill_Port = 'kill-port',
 
-  Open_Url_Win = 'Open_Url_Win',
+  Open_Url_Win = 'Open_Url_Win'
 }

@@ -1,5 +1,9 @@
 {
-  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.renderer.json" }],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.renderer.json" },
+    { "path": "./tsconfig.cli.json" }
+  ],
 
   "ts-node": {
     "compilerOptions": {
