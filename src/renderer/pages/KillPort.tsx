@@ -20,12 +20,12 @@ export default function SmallTool() {
 
       <OpenWindow />
 
-      <button onClick={() => setList([])}>清空</button>
+      {/* <button onClick={() => setList([])}>清空</button>
       <div>
         {list.map(item => (
           <div>{item}</div>
         ))}
-      </div>
+      </div> */}
     </div>
   )
 }

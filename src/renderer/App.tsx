@@ -6,14 +6,12 @@ import Setting from './pages/Setting'
 import QuickInput from './pages/QuickInput'
 
 import SmallTool from './pages/KillPort'
-import Todo from './pages/Todo'
 
 const routes: RouteObject[] = [
   { path: '/OpenDir', element: <OpenDir /> },
   { path: '/Setting', element: <Setting /> },
   { path: '/QuickInput', element: <QuickInput /> },
   { path: '/KillPort', element: <SmallTool /> },
-  { path: '/Todo', element: <Todo /> },
   { path: '*', element: <Navigate to="/OpenDir" /> }
 ]
 
