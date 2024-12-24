@@ -1,11 +1,11 @@
 import picocolors from 'picocolors'
-import { webpack } from 'webpack'
 
 import getMainWpkCfg from '../wpk.main'
-import getRendererWpkCfg from '../wpk.renderer'
+import { getRenderRsCfg } from '../wpk.renderer'
 
 import wpkPaths from '../utils/wpk.paths'
 import { loadEnv } from '../env'
+import { createRsbuild, rspack } from '@rsbuild/core'
 
 export async function build(options) {
   process.env.NODE_ENV = 'production'
@@ -16,24 +16,16 @@ export async function build(options) {
   await buildMain(env)
 }
 
-function buildRenderer(env) {
+async function buildRenderer(env) {
   console.log(picocolors.yellow('building renderer'))
-  const compiler = webpack(getRendererWpkCfg(env))
-  return new Promise((resolve, reject) => {
-    compiler.run((err, stats) => {
-      if (err || stats?.hasErrors()) {
-        console.error(stats?.toJson({ all: false, warnings: true, errors: true }))
-        return
-      }
-
-      resolve(undefined)
-    })
-  })
+  const rsbuild = await createRsbuild({ rsbuildConfig: getRenderRsCfg(env) })
+  await rsbuild.build()
 }
 
 function buildMain(env) {
   console.log(picocolors.yellow('building main'))
-  const compiler = webpack(getMainWpkCfg(env))
+
+  const compiler = rspack(getMainWpkCfg(env))
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err || stats?.hasErrors()) {

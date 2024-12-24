@@ -1,12 +1,13 @@
 import path from 'path'
 import webpack from 'webpack'
 import nodeExternals from 'webpack-node-externals'
-import TerserPlugin from 'terser-webpack-plugin'
 
 import wpkPaths from './utils/wpk.paths'
 import { getWebpackResolveAlias } from './utils'
 
-export default function getMainWpkCfg(env = {}): webpack.Configuration {
+import { Rspack } from '@rsbuild/core'
+
+export default function getMainWpkCfg(env = {}): Rspack.Configuration {
   const isDev = process.env.NODE_ENV === 'development'
   const isProd = process.env.NODE_ENV === 'production'
 
@@ -28,28 +29,24 @@ export default function getMainWpkCfg(env = {}): webpack.Configuration {
       extensions: ['.ts', '.js', '.json'],
       alias: getWebpackResolveAlias()
     },
-    externals: [nodeExternals()],
-    externalsPresets: { electron: true },
+    externals: [nodeExternals() as any],
+    // externalsPresets: { electron: true },
     module: {
       rules: [
         {
-          test: /\.[jt]s$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: [['react-app', { flow: false, typescript: true }]]
+          test: /\.ts$/,
+          exclude: [/node_modules/],
+          loader: 'builtin:swc-loader',
+          options: {
+            jsc: {
+              parser: {
+                syntax: 'typescript'
+              }
             }
-          }
+          },
+          type: 'javascript/auto'
         }
       ]
-    },
-    plugins: [new webpack.EnvironmentPlugin({ ...env })],
-    optimization: {
-      minimizer: [isProd && new TerserPlugin({ extractComments: false })].filter(Boolean)
-    },
-    cache: {
-      type: 'filesystem'
     }
   }
 }
