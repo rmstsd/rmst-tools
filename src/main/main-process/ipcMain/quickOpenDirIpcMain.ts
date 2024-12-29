@@ -43,6 +43,7 @@ export const setDirWinSize = (_, value) => {
 
 export const getProjectNamesTree = () => {
   const blackList = ['$RECYCLE.BIN', 'System Volume Information']
+  const blackStartWithChar = ['_', '$', '.', '-']
 
   const projectPaths = getStoreSetting()?.projectPaths ?? []
 
@@ -50,7 +51,9 @@ export const getProjectNamesTree = () => {
     .filter(item => fse.existsSync(item) && fse.statSync(item).isDirectory())
     .map(item => ({
       name: item.replace(/\\/g, '/'),
-      children: fse.readdirSync(item).filter(item => !blackList.includes(item))
+      children: fse
+        .readdirSync(item)
+        .filter(item => !blackList.includes(item) && !blackStartWithChar.some(char => item.startsWith(char)))
     }))
 
   return namesTree
