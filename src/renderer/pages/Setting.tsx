@@ -1,4 +1,4 @@
-import { Button, Form, Input, Message, Tag } from '@arco-design/web-react'
+import { Button, Form, Input, Message, Switch, Tag } from '@arco-design/web-react'
 import { IconDelete } from '@arco-design/web-react/icon'
 import { useEffect, useState } from 'react'
 
@@ -120,8 +120,38 @@ export default function SettingPage() {
           </div>
         </Form.Item>
 
-        <Form.Item label="vsCode 路径" field="vscodePath">
-          <Input placeholder="例如: D:\Microsoft VS Code\Code.exe" />
+        <Form.Item label="编辑器路径列表">
+          <Form.List field="editorPaths">
+            {(fields, { add, remove }) => {
+              console.log(fields)
+              return (
+                <div>
+                  {fields.map((item, index) => {
+                    return (
+                      <div key={item.key} className="flex gap-[10px]">
+                        <Form.Item field={`${item.field}.path`} className="flex-grow">
+                          <Input placeholder="例如: D:\Microsoft VS Code\Code.exe" />
+                        </Form.Item>
+                        <Form.Item field={`${item.field}.enable`} className="w-auto">
+                          <Switch></Switch>
+                        </Form.Item>
+                        <Button
+                          className="shrink-0"
+                          onClick={() => remove(index)}
+                          shape="circle"
+                          status="danger"
+                          icon={<IconDelete />}
+                        ></Button>
+                      </div>
+                    )
+                  })}
+                  <div>
+                    <Button onClick={() => add()}>Add</Button>
+                  </div>
+                </div>
+              )
+            }}
+          </Form.List>
         </Form.Item>
 
         <Form.Item label="cmd Path" field="cmdPath">

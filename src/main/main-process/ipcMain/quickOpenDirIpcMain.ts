@@ -17,7 +17,7 @@ export function addQuickOpenDirIpcMain() {
 }
 
 export const openSpawnDir = (_, dirPath) => {
-  const editorPath = getStoreSetting().vscodePath
+  const editorPath = getStoreSetting().editorPaths.find(item => item.enable)?.path
   if (!editorPath) {
     return
   }

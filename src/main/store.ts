@@ -3,7 +3,7 @@ import Store from 'electron-store'
 const store = new Store()
 
 interface SettingStore {
-  vscodePath: string
+  editorPaths: {path: string, enable: boolean}[]
   cmdPath: string
   projectPaths: string[]
   notes: string[]
