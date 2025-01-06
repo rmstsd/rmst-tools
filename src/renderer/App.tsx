@@ -4,8 +4,7 @@ import { Navigate, RouteObject, useNavigate, useRoutes } from 'react-router-dom'
 import OpenDir from './pages/OpenDir'
 import Setting from './pages/Setting'
 import QuickInput from './pages/QuickInput'
-
-import SmallTool from './pages/KillPort'
+import SmallTool from './pages/SmallTool'
 
 const routes: RouteObject[] = [
   { path: '/OpenDir', element: <OpenDir /> },

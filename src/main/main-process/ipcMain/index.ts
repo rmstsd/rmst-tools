@@ -4,9 +4,13 @@ import killPort from 'kill-port'
 import { CommonEvent, KillPortEvent } from '@common/mainRenderer/ipcEvent'
 import { addSettingIpcMain } from './settingIpcMain'
 import { addQuickInputIpcMain } from './quickInputIpcMain'
-import { addQuickOpenDirIpcMain } from './quickOpenDirIpcMain'
+import { addQuickOpenDirIpcMain, getProjectNamesTree } from './quickOpenDirIpcMain'
 
 import { createHandleListener } from './utils'
+import { getStoreSetting } from '@main/store'
+import path from 'path'
+import { existsSync } from 'fs-extra'
+import { exec, execSync } from 'child_process'
 
 export const addIpcMain = () => {
   addCommonIpcMain()
@@ -27,6 +31,7 @@ function addCommonIpcMain() {
 function addKillPortIpcMain() {
   ipcMain.handle(KillPortEvent.Kill_Port, (_, value) => killPort(value))
   ipcMain.handle(KillPortEvent.Open_Url_Win, (_, value) => urlWin.open(value))
+  ipcMain.handle(KillPortEvent.Set_Git_Ignorecase, (_, value) => setGitIgnorecase(value))
 }
 
 class UrlWin {
@@ -51,3 +56,25 @@ class UrlWin {
 }
 
 const urlWin = new UrlWin()
+
+function setGitIgnorecase(value: boolean) {
+  const te = getProjectNamesTree().reduce(
+    (acc, item) => acc.concat(item.children.map(p => path.join(item.name, p))),
+    []
+  )
+
+  const gitRepos = te.filter(item => {
+    return existsSync(path.join(item, '.git'))
+  })
+
+  return Promise.all(
+    gitRepos.map(item => {
+      return new Promise(resolve => {
+        const pc = exec(`git config core.ignorecase ${value}`, { cwd: item })
+        pc.on('exit', () => {
+          resolve(undefined)
+        })
+      })
+    })
+  )
+}

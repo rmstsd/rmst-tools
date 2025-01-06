@@ -32,5 +32,7 @@ export enum CommonEvent {
 export enum KillPortEvent {
   Kill_Port = 'kill-port',
 
-  Open_Url_Win = 'Open_Url_Win'
+  Open_Url_Win = 'Open_Url_Win',
+
+  Set_Git_Ignorecase = 'Set_Git_Ignorecase'
 }
