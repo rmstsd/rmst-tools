@@ -9,6 +9,7 @@ svg {
 * {
   box-sizing: border-box;
 }
+
 html,
 body,
 #root {
@@ -19,6 +20,7 @@ body,
 .win-drag {
   -webkit-app-region: drag;
 }
+
 .win-not-drag {
   -webkit-app-region: no-drag;
 }
@@ -27,16 +29,19 @@ body,
   background-color: #fff;
   padding: 5px;
 }
+
 .tool-bar-popover {
   .arco-popover-content {
     padding: 0;
   }
 }
+
 .wrapper {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+
   .svg {
     transition: all 0.3s;
     transform: scale(0);
@@ -44,6 +49,7 @@ body,
 
     .path {
       transition: all 0.3s;
+
       &:hover {
         fill: #ddd;
       }
@@ -87,9 +93,14 @@ body,
   align-items: center;
 }
 
-
 .open-dir {
   .arco-select-option:not(.arco-select-option-hover):hover {
     background-color: rgb(249, 249, 249);
+  }
+}
+
+.setting-page-root {
+  .arco-tabs-header {
+    padding-top: 40px;
   }
 }

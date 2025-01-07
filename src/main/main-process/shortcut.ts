@@ -5,9 +5,14 @@ import { cachedSize, electronWindow } from './window'
 export const addShortcut = () => {
   globalShortcut.register('Alt+Space', () => {
     if (electronWindow.OpenDir.isVisible()) {
-      electronWindow.OpenDir.minimize()
       electronWindow.OpenDir.hide()
     } else {
+      const display = screen.getPrimaryDisplay()
+      const { workArea } = display
+      const bounds = electronWindow.OpenDir.getBounds()
+      const x = Math.round(workArea.x + workArea.width / 2 - bounds.width / 2)
+      electronWindow.OpenDir.setPosition(x, bounds.y)
+
       electronWindow.OpenDir.show()
     }
   })

@@ -7,10 +7,9 @@ import { addQuickInputIpcMain } from './quickInputIpcMain'
 import { addQuickOpenDirIpcMain, getProjectNamesTree } from './quickOpenDirIpcMain'
 
 import { createHandleListener } from './utils'
-import { getStoreSetting } from '@main/store'
 import path from 'path'
 import { existsSync } from 'fs-extra'
-import { exec, execSync } from 'child_process'
+import { exec } from 'child_process'
 
 export const addIpcMain = () => {
   addCommonIpcMain()

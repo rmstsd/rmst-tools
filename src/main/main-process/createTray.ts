@@ -16,13 +16,6 @@ export const createTray = () => {
         electronWindow.Setting?.show()
       }
     },
-    {
-      label: '工具',
-      type: 'normal',
-      click: () => {
-        electronWindow.KillPort?.show()
-      }
-    },
     { label: '退出', type: 'normal', click: () => process.exit(0) }
   ])
 

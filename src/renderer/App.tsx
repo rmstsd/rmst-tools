@@ -1,17 +1,14 @@
-import { Button, Popover, Space } from '@arco-design/web-react'
 import { Navigate, RouteObject, useNavigate, useRoutes } from 'react-router-dom'
 
 import OpenDir from './pages/OpenDir'
 import Setting from './pages/Setting'
 import QuickInput from './pages/QuickInput'
-import SmallTool from './pages/SmallTool'
 
 const routes: RouteObject[] = [
-  { path: '/OpenDir', element: <OpenDir /> },
   { path: '/Setting', element: <Setting /> },
+  { path: '/OpenDir', element: <OpenDir /> },
   { path: '/QuickInput', element: <QuickInput /> },
-  { path: '/KillPort', element: <SmallTool /> },
-  { path: '*', element: <Navigate to="/OpenDir" /> }
+  { path: '*', element: <Navigate to="/Setting" /> }
 ]
 
 function App() {
@@ -20,7 +17,7 @@ function App() {
 
   return (
     <>
-      <Popover
+      {/* <Popover
         style={{ padding: 0 }}
         position="bl"
         triggerProps={{ showArrow: false, popupAlign: { bottom: 0 } }}
@@ -36,7 +33,7 @@ function App() {
         }
       >
         <div style={{ height: 5, position: 'fixed', left: 0, right: 0, zIndex: 5 }}></div>
-      </Popover>
+      </Popover> */}
 
       {element}
     </>
