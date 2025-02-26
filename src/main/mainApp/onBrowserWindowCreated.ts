@@ -6,11 +6,6 @@ export default function onBrowserWindowCreated(app: Electron.App) {
 
     const { webContents } = window
 
-    window.on('close', evt => {
-      evt.preventDefault()
-      window.hide()
-    })
-
     webContents.on('devtools-opened', () => {
       modifyFont(window)
     })

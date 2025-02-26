@@ -40,6 +40,11 @@ const loadWindow = (win: BrowserWindow, pathname: string) => {
     }
   )
 
+  win.on('close', evt => {
+    evt.preventDefault()
+    win.hide()
+  })
+
   if (platform.isWindows) {
     win.hookWindowMessage(278, () => {
       win.setEnabled(false)

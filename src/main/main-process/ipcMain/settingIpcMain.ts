@@ -17,7 +17,10 @@ const onImportSetting = createHandleListener(SettingEvent.Import_Setting)
 const onGetIsPackaged = createHandleListener(SettingEvent.Get_Is_Packaged)
 
 export function addSettingIpcMain() {
-  onSaveSetting((_, value) => setStoreSetting(value))
+  onSaveSetting((_, value) => {
+    const settingCfg = getStoreSetting() ?? {}
+    setStoreSetting({ ...settingCfg, ...value })
+  })
 
   onGetSetting(() => getStoreSetting())
   onClearStore(() => {

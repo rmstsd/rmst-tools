@@ -1,4 +1,4 @@
-import { ipcMain, shell, clipboard, BrowserWindow } from 'electron'
+import { ipcMain, shell, clipboard, BrowserWindow, nativeImage } from 'electron'
 import killPort from 'kill-port'
 
 import { CommonEvent, KillPortEvent } from '@common/mainRenderer/ipcEvent'
@@ -6,10 +6,12 @@ import { addSettingIpcMain } from './settingIpcMain'
 import { addQuickInputIpcMain } from './quickInputIpcMain'
 import { addQuickOpenDirIpcMain, getProjectNamesTree } from './quickOpenDirIpcMain'
 
-import { createHandleListener } from './utils'
+import { createHandleListener, networkImageToBuffer } from './utils'
 import path from 'path'
 import { existsSync } from 'fs-extra'
 import { exec } from 'child_process'
+import { iconPath } from '../iconPath'
+import { getStoreSetting, setStoreSetting } from '@main/store'
 
 export const addIpcMain = () => {
   addCommonIpcMain()
@@ -36,21 +38,45 @@ function addKillPortIpcMain() {
 class UrlWin {
   map: Map<string, BrowserWindow> = new Map()
 
-  open(url: string) {
+  async open(url: string) {
     const win = this.map.get(url)
     if (win) {
       win.show()
       return
     }
+
     const newWin = new BrowserWindow({
-      width: 800,
-      height: 600,
+      icon: iconPath,
+      width: 1300,
+      height: 800,
       webPreferences: {
         nodeIntegration: true
       }
     })
     newWin.loadURL(url)
+    newWin.once('closed', () => this.map.delete(url))
+
+    newWin.webContents.on('page-favicon-updated', async (evt, favicons) => {
+      const [favicon] = favicons
+      if (favicon) {
+        const buffer = await networkImageToBuffer(favicon)
+        newWin.setIcon(nativeImage.createFromBuffer(buffer))
+      }
+    })
+
     this.map.set(url, newWin)
+
+    const store = getStoreSetting()
+    const historyOpenedUrls = store.historyOpenedUrls ?? []
+    if (historyOpenedUrls.includes(url)) {
+      return
+    }
+    if (historyOpenedUrls.length > 5) {
+      historyOpenedUrls.pop()
+    }
+    historyOpenedUrls.unshift(url)
+
+    setStoreSetting({ ...store, historyOpenedUrls })
   }
 }
 

@@ -1,19 +1,13 @@
 import Store from 'electron-store'
-
+import { SettingData } from '@common/type'
 const store = new Store()
 
-interface SettingStore {
-  editorPaths: {path: string, enable: boolean}[]
-  cmdPath: string
-  projectPaths: string[]
-  notes: string[]
-}
 
 export function getStoreSetting() {
-  return store.get('setting') as SettingStore
+  return store.get('setting') as SettingData
 }
 
-export function setStoreSetting(data: SettingStore) {
+export function setStoreSetting(data: SettingData) {
   store.set('setting', data)
 }
 

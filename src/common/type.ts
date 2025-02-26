@@ -3,6 +3,7 @@ export type SettingData = {
   cmdPath: string
   projectPaths: string[]
   notes: string[]
+  historyOpenedUrls: string[]
 }
 
 export type AppBaseInfo = {
