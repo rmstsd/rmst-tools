@@ -47,8 +47,6 @@ class UrlWin {
 
     const newWin = new BrowserWindow({
       icon: iconPath,
-      width: 1300,
-      height: 800,
       webPreferences: {
         nodeIntegration: true
       }

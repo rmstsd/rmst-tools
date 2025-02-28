@@ -78,8 +78,6 @@ function createSettingWindow() {
   const win = new BrowserWindow({
     icon: iconPath,
     show: false,
-    width: 1000,
-    height: 800,
     webPreferences: { preload: preloadPath }
   })
 

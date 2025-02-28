@@ -4,6 +4,9 @@ export default function onBrowserWindowCreated(app: Electron.App) {
   app.on('browser-window-created', (_, window) => {
     // optimizer.watchWindowShortcuts(window)
 
+    window.setSize(1300, 800)
+    window.center()
+
     const { webContents } = window
 
     webContents.on('devtools-opened', () => {
