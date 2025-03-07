@@ -1,13 +1,11 @@
-import { IpcRenderer } from 'electron'
-
 const { ipcRenderer, platform } = window.electron
 
 export { ipcRenderer, platform }
 
-export function createOnListener(channel: string) {
-  return (listener: Parameters<IpcRenderer['on']>[1]) => {
-    const remove = ipcRenderer.on(channel, (...r ) => {
-      console.log()
+export function createOnListener<T extends any>(channel: string) {
+  return (listener: (data: T) => void) => {
+    const remove = ipcRenderer.on(channel, (_, data) => {
+      listener(data)
     })
 
     return remove

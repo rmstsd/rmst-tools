@@ -6,7 +6,8 @@ export enum SettingEvent {
   Clear_Ele_Store = 'clear-ele-store',
   Export_Setting = 'Export_Setting',
   Import_Setting = 'Import_Setting',
-  Get_Is_Packaged = 'Get_Is_Packaged'
+  Get_Is_Packaged = 'Get_Is_Packaged',
+  Show_Qr_Code ='show_Qr_Code'
 }
 
 export enum QuickInputEvent {

@@ -1,6 +1,7 @@
-import { globalShortcut, screen } from 'electron'
+import { clipboard, globalShortcut, screen } from 'electron'
 
 import { cachedSize, electronWindow } from './window'
+import { SettingEvent } from '@common/mainRenderer/ipcEvent'
 
 export const addShortcut = () => {
   globalShortcut.register('Alt+Space', () => {
@@ -19,6 +20,10 @@ export const addShortcut = () => {
 
   globalShortcut.register('Alt+v', () => {
     handleQuickInputWindow()
+  })
+
+  globalShortcut.register('Alt+r', () => {
+    handleShowQrCode()
   })
 }
 
@@ -40,4 +45,9 @@ function handleQuickInputWindow() {
     electronWindow.QuickInput.setAlwaysOnTop(true, 'screen-saver')
     electronWindow.QuickInput.show()
   }
+}
+
+function handleShowQrCode() {
+  electronWindow.Setting.show()
+  electronWindow.Setting.webContents.send(SettingEvent.Show_Qr_Code, clipboard.readText())
 }

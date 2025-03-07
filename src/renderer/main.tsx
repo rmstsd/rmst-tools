@@ -7,7 +7,7 @@ import App from './App'
 import './main.less'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <HashRouter>
+  <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
     <ConfigProvider componentConfig={{ Button: { type: 'primary' } }}>
       <App />
     </ConfigProvider>

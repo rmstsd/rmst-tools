@@ -22,7 +22,7 @@ export default function getRenderRpkCfg(env = {}): RsbuildConfig {
     },
     dev: {
       assetPrefix: './',
-      hmr: false
+      // hmr: false
     },
     resolve: {
       alias: getWebpackResolveAlias()
