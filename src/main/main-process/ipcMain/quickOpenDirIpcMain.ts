@@ -16,8 +16,7 @@ export function addQuickOpenDirIpcMain() {
   ipcMain.handle(OpenDirEvent.Hide_DirWindow, () => electronWindow.OpenDir.hide())
 }
 
-export const openSpawnDir = (_, dirPath) => {
-  const editorPath = getStoreSetting().editorPaths.find(item => item.enable)?.path
+export const openSpawnDir = (_, dirPath: string, editorPath: string) => {
   if (!editorPath) {
     return
   }

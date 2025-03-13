@@ -1,11 +1,11 @@
 import React, { Fragment, useLayoutEffect, useRef, useState } from 'react'
-import { Input, Message } from '@arco-design/web-react'
+import { Divider, Input, Message, Radio } from '@arco-design/web-react'
 import path from 'path-browserify'
 import clsx from 'clsx'
 
 import { defaultList } from '../utils'
 import ResizeObserver from 'rc-resize-observer'
-import { openExternal } from '@renderer/ipc/common'
+import { getSetting, openExternal } from '@renderer/ipc/common'
 import {
   getProjectNamesTree,
   hideDirWindow,
@@ -13,6 +13,7 @@ import {
   openWithVscode,
   setDirWindowSize
 } from '@renderer/ipc/openDir'
+import { SettingData } from '@common/type'
 
 interface DirNamesTree {
   name: string
@@ -24,6 +25,9 @@ const DirSearch = () => {
   const [dirNamesTree, setDirNamesTree] = useState<DirNamesTree[]>([])
   const [selectIndex, setSelectIndex] = useState(0)
   const inputRef = useRef(null)
+
+  const [editorPaths, setEditorPaths] = useState<SettingData['editorPaths']>([])
+  const [activeEditorIndex, setActiveEditorIndex] = useState(0)
 
   useLayoutEffect(() => {
     getInitialData()
@@ -51,6 +55,11 @@ const DirSearch = () => {
     inputRef.current.dom.focus()
 
     getProjectNamesTree().then(setDirNamesTree)
+
+    getSetting().then(res => {
+      setEditorPaths(res.editorPaths ?? [])
+      setActiveEditorIndex(0)
+    })
   }
 
   const onKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
@@ -75,6 +84,20 @@ const DirSearch = () => {
 
         const projectPath = flatDirNames[selectIndex]
         onItemClick(evt.ctrlKey, evt.shiftKey, projectPath)
+      } else if (['ArrowLeft', 'ArrowRight'].includes(evt.code)) {
+        if (evt.altKey) {
+          evt.preventDefault()
+
+          if (evt.code === 'ArrowLeft') {
+            const nvActiveEditorIndex = activeEditorIndex - 1
+            setActiveEditorIndex(nvActiveEditorIndex < 0 ? editorPaths.length - 1 : nvActiveEditorIndex)
+          }
+
+          if (evt.code === 'ArrowRight') {
+            const nvActiveEditorIndex = activeEditorIndex + 1
+            setActiveEditorIndex(nvActiveEditorIndex > editorPaths.length - 1 ? 0 : nvActiveEditorIndex)
+          }
+        }
       }
     }
   }
@@ -94,10 +117,10 @@ const DirSearch = () => {
     if (ctrlKey) {
       openWithTerminal(projectPath)
     } else if (shiftKey) {
-      openWithVscode(projectPath)
+      openWithVscode(projectPath, editorPaths[activeEditorIndex].path)
       openWithTerminal(projectPath)
     } else {
-      openWithVscode(projectPath)
+      openWithVscode(projectPath, editorPaths[activeEditorIndex].path)
     }
   }
 
@@ -136,7 +159,21 @@ const DirSearch = () => {
             className="h-[60px] border-none text-[18px]"
             onKeyDown={onKeyDown}
           />
-          <div className="s-tipInfo win-drag">{tipInfo}</div>
+          <div className="s-tipInfo win-drag">
+            <div className="flex items-center gap-2">
+              <Radio.Group
+                value={activeEditorIndex}
+                type="button"
+                name="lang"
+                options={editorPaths.map((item, index) => ({
+                  label: item.path.split(/\/|\\/).at(-1).split('.')[0],
+                  value: index
+                }))}
+              />
+            </div>
+            <Divider type="vertical" style={{ margin: '0 4px' }} />
+            <span>{tipInfo}</span>
+          </div>
         </section>
 
         {flatDirNames.length !== 0 && (

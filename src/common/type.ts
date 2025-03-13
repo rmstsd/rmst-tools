@@ -1,5 +1,8 @@
 export type SettingData = {
-  vscodePath: string
+  editorPaths: {
+    // enable: boolean // 废弃
+    path: string
+  }[]
   cmdPath: string
   projectPaths: string[]
   notes: string[]

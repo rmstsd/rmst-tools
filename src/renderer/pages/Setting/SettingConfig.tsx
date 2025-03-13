@@ -132,9 +132,6 @@ export default function SettingConfig() {
                         <Form.Item field={`${item.field}.path`} className="flex-grow">
                           <Input placeholder="例如: D:\Microsoft VS Code\Code.exe" />
                         </Form.Item>
-                        <Form.Item field={`${item.field}.enable`} triggerPropName="checked" className="w-auto">
-                          <Switch></Switch>
-                        </Form.Item>
                         <Button
                           className="shrink-0"
                           onClick={() => remove(index)}

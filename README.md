@@ -1,6 +1,6 @@
 # windows 客户端
 
-# 使用前需要设置一些基本数据
+## 使用前需要设置一些基本数据
 
 入口在托盘图标 鼠标右击 -> 设置
 
@@ -19,3 +19,10 @@
 > 在设置中保存的笔记列表在这里使用
 
 ![demo](./z_demo/quickInput.png)
+
+---
+
+pnpm v10 导致 electron 无法正常启动的问题
+
+<https://blog.nyaasu.top/front-end/electron_pnpm10.html>
+<https://github.com/pnpm/pnpm/issues/9032>

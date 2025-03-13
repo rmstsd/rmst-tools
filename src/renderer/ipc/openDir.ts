@@ -10,8 +10,8 @@ export function setDirWindowSize(size) {
   return ipcRenderer.invoke(OpenDirEvent.Set_Dir_Win_Size, size.height)
 }
 
-export function openWithVscode(projectPath: string) {
-  return ipcRenderer.invoke(OpenDirEvent.Spawn_Open_Dir, projectPath)
+export function openWithVscode(projectPath: string, editorPath: string) {
+  return ipcRenderer.invoke(OpenDirEvent.Spawn_Open_Dir, projectPath, editorPath)
 }
 
 export function openWithTerminal(projectPath: string) {
