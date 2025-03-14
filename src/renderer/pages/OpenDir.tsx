@@ -159,10 +159,14 @@ const DirSearch = () => {
             className="h-[60px] border-none text-[18px]"
             onKeyDown={onKeyDown}
           />
-          <div className="s-tipInfo win-drag">
+          <div className="s-tipInfo ">
             <div className="flex items-center gap-2">
               <Radio.Group
                 value={activeEditorIndex}
+                onChange={value => {
+                  hideDirWindow()
+                  openWithVscode(flatDirNames[selectIndex], editorPaths[value].path)
+                }}
                 type="button"
                 name="lang"
                 options={editorPaths.map((item, index) => ({
@@ -171,8 +175,7 @@ const DirSearch = () => {
                 }))}
               />
             </div>
-            <Divider type="vertical" style={{ margin: '0 4px' }} />
-            <span>{tipInfo}</span>
+            <span className="win-drag h-full flex items-center">{tipInfo}</span>
           </div>
         </section>
 
