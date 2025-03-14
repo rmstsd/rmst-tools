@@ -1,6 +1,6 @@
 {
   "name": "rmst-tools",
-  "version": "1.0.59",
+  "version": "1.0.60",
   "description": "",
   "main": "out/main/main.js",
   "scripts": {
