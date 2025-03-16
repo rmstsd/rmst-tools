@@ -2,7 +2,6 @@ import { app, BrowserWindow } from 'electron'
 import bootstrap, { launchAtStartup } from './mainApp/bootstrap'
 import { platform } from '@common/mainPreload/platform'
 
-import './mainApp/htmlServer'
 import onBrowserWindowCreated from './mainApp/onBrowserWindowCreated'
 
 console.log('主进程入口文件')
