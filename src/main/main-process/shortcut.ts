@@ -49,5 +49,5 @@ function handleQuickInputWindow() {
 
 function handleShowQrCode() {
   electronWindow.Setting.show()
-  electronWindow.Setting.webContents.send(SettingEvent.Show_Qr_Code, clipboard.readText())
+  electronWindow.Setting.webContents.send(SettingEvent.Show_Qr_Code, clipboard.readText().trim())
 }
