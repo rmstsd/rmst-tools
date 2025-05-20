@@ -129,7 +129,7 @@ export default function SettingConfig() {
                   {fields.map((item, index) => {
                     return (
                       <div key={item.key} className="flex gap-[10px]">
-                        <Form.Item field={`${item.field}.path`} className="flex-grow">
+                        <Form.Item field={`${item.field}`} className="flex-grow">
                           <Input placeholder="例如: D:\Microsoft VS Code\Code.exe" />
                         </Form.Item>
                         <Button

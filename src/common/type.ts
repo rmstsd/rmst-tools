@@ -1,8 +1,5 @@
 export type SettingData = {
-  editorPaths: {
-    // enable: boolean // 废弃
-    path: string
-  }[]
+  editorPaths: string[]
   cmdPath: string
   projectPaths: string[]
   notes: string[]

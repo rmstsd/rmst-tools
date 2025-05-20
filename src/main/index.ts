@@ -14,7 +14,7 @@ app.whenReady().then(() => {
   console.log('app ready 启动')
 
   if (app.isPackaged) {
-    launchAtStartup()
+    // launchAtStartup()
   }
 
   onBrowserWindowCreated(app)

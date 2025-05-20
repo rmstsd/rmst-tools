@@ -11,7 +11,7 @@ export default function Setting() {
   const [qrCodeValue, setQrCodeValue] = useState('rmst')
 
   useEffect(() => {
-    onShowQrCodeEvent((text) => {
+    onShowQrCodeEvent(text => {
       setActiveKey('3')
       setQrCodeValue(text)
     })
