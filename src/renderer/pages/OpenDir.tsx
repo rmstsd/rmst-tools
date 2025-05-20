@@ -117,10 +117,10 @@ const DirSearch = () => {
     if (ctrlKey) {
       openWithTerminal(projectPath)
     } else if (shiftKey) {
-      openWithVscode(projectPath, editorPaths[activeEditorIndex].path)
+      openWithVscode(projectPath, editorPaths[activeEditorIndex])
       openWithTerminal(projectPath)
     } else {
-      openWithVscode(projectPath, editorPaths[activeEditorIndex].path)
+      openWithVscode(projectPath, editorPaths[activeEditorIndex])
     }
   }
 
@@ -165,12 +165,12 @@ const DirSearch = () => {
                 value={activeEditorIndex}
                 onChange={value => {
                   hideDirWindow()
-                  openWithVscode(flatDirNames[selectIndex], editorPaths[value].path)
+                  openWithVscode(flatDirNames[selectIndex], editorPaths[value])
                 }}
                 type="button"
                 name="lang"
                 options={editorPaths.map((item, index) => ({
-                  label: item.path.split(/\/|\\/).at(-1).split('.')[0],
+                  label: item.split(/\/|\\/).at(-1).split('.')[0],
                   value: index
                 }))}
               />
