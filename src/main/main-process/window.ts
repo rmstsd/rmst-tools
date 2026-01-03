@@ -17,8 +17,7 @@ export const electronWindow = {} as IElectronWindow
 const preloadPath = path.join(__dirname, './preload.js')
 
 const loadWindow = (win: BrowserWindow, pathname: string) => {
-  const baseUrl =
-    isDev && process.env.Renderer_Url ? process.env.Renderer_Url : path.join(__dirname, '../renderer/index.html')
+  const baseUrl = isDev && process.env.Renderer_Url ? process.env.Renderer_Url : path.join(__dirname, '../renderer/index.html')
 
   if (isDev) {
     const uu = new URL(baseUrl)
@@ -40,17 +39,17 @@ const loadWindow = (win: BrowserWindow, pathname: string) => {
     }
   )
 
-  win.on('close', evt => {
-    evt.preventDefault()
-    win.hide()
-  })
+  // win.on('close', evt => {
+  //   evt.preventDefault()
+  //   win.hide()
+  // })
 
-  if (platform.isWindows) {
-    win.hookWindowMessage(278, () => {
-      win.setEnabled(false)
-      win.setEnabled(true)
-    })
-  }
+  // if (platform.isWindows) {
+  //   win.hookWindowMessage(278, () => {
+  //     win.setEnabled(false)
+  //     win.setEnabled(true)
+  //   })
+  // }
 }
 
 function createOpenDirWindow() {
@@ -120,4 +119,12 @@ export default function createWindow() {
   electronWindow.Setting = createSettingWindow()
   electronWindow.OpenDir = createOpenDirWindow()
   electronWindow.QuickInput = createQuickInputWindow()
+}
+
+export const testCreateWindow = () => {
+  const win = new BrowserWindow({
+    icon: iconPath,
+    webPreferences: { preload: preloadPath }
+  })
+  loadWindow(win, 'Test')
 }
