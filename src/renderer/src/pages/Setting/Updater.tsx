@@ -33,12 +33,7 @@ export default function Updater(): React.JSX.Element {
   const checkUpdate = async (): Promise<void> => {
     setChecking(true)
     try {
-      const r = await invoke('checkUpdate')
-      console.log(r)
-      if (r.isUpdateAvailable) {
-      } else {
-        Toast.info({ id: 'xx', content: '当前已是最新版本' })
-      }
+      await invoke('checkUpdate')
     } catch (error) {
       Toast.error(notifyError(error))
     } finally {
