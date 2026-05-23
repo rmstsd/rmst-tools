@@ -1,6 +1,6 @@
 {
   "name": "rmst-tools",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "RMST tools rebuilt with Electron, React and Semi Design",
   "main": "./out/main/index.js",
   "author": "rmstsd",
