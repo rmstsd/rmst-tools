@@ -1,19 +1,9 @@
 {
-  "include": ["src/main", "src/preload", "src/common"],
+  "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
+  "include": ["electron.vite.config.*", "src/main/**/*", "src/preload/**/*"],
   "compilerOptions": {
-    "composite": true,
-
-    "lib": ["ESNext"],
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "esModuleInterop": true,
     "strict": false,
-
-    "baseUrl": "",
-    "paths": {
-      "@common/*": ["src/common/*"],
-      "@main/*": ["src/main/*"]
-    }
+    "composite": true,
+    "types": ["electron-vite/node"]
   }
 }

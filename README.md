@@ -1,28 +1,34 @@
-# windows 客户端
+# electron-temp
 
-## 使用前需要设置一些基本数据
+An Electron application with React and TypeScript
 
-入口在托盘图标 鼠标右击 -> 设置
+## Recommended IDE Setup
 
-![init](./z_demo/init.png)
+- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
-## 功能 1
+## Project Setup
 
-- alt + 空格 在屏幕中间出现搜索框，进⾏跨字符的模糊搜索，回⻋键使⽤ vscode 打开本地硬盘中的项⽬
+### Install
 
-  - 同时也⽀持在命令⾏内快速打开项⽬路径
+```bash
+$ npm install
+```
 
-  ![demo](./z_demo/demo.png)
+### Development
 
-- alt + v 快速输⼊任意⽂本内容，⽐如邮箱，⼿机号等，相当于⼀键完成 ctrl+c , ctrl+v 的两步操作
+```bash
+$ npm run dev
+```
 
-> 在设置中保存的笔记列表在这里使用
+### Build
 
-![demo](./z_demo/quickInput.png)
+```bash
+# For windows
+$ npm run build:win
 
----
+# For macOS
+$ npm run build:mac
 
-pnpm v10 导致 electron 无法正常启动的问题
-
-<https://blog.nyaasu.top/front-end/electron_pnpm10.html>
-<https://github.com/pnpm/pnpm/issues/9032>
+# For Linux
+$ npm run build:linux
+```

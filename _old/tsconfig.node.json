@@ -1,0 +1,19 @@
+{
+  "include": ["src/main", "src/preload", "src/common"],
+  "compilerOptions": {
+    "composite": true,
+
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "strict": false,
+
+    "baseUrl": "",
+    "paths": {
+      "@common/*": ["src/common/*"],
+      "@main/*": ["src/main/*"]
+    }
+  }
+}

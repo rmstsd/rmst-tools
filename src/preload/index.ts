@@ -1,43 +1,40 @@
-import { contextBridge, type IpcRendererEvent, ipcRenderer as oriIpcRenderer } from 'electron'
-import { platform } from '@common/mainPreload/platform'
+import { contextBridge, ipcRenderer } from 'electron'
+import type { IpcRendererEvent } from 'electron'
+import { electronAPI } from '@electron-toolkit/preload'
 
-export type Listener = (event: IpcRendererEvent, ...args: any[]) => void
+type EventUnsubscribe = () => void
 
-const ipcRenderer = {
-  invoke(channel: string, ...args: any[]) {
-    return oriIpcRenderer.invoke(channel, ...args)
+const api = {
+  invoke<T = unknown>(channel: string, args?: unknown): Promise<T> {
+    return ipcRenderer.invoke(channel, args) as Promise<T>
   },
-  on(channel: string, listener: Listener) {
-    oriIpcRenderer.on(channel, listener)
-
-    return () => {
-      oriIpcRenderer.removeListener(channel, listener)
-    }
+  onWindowFocusChanged(callback: (focused: boolean) => void): EventUnsubscribe {
+    const listener = (_event: IpcRendererEvent, focused: boolean): void => callback(focused)
+    ipcRenderer.on('window-focus-changed', listener)
+    return () => ipcRenderer.removeListener('window-focus-changed', listener)
   },
-  once(channel: string, listener: Listener) {
-    oriIpcRenderer.once(channel, listener)
+  onShowQrCode(callback: (value: string) => void): EventUnsubscribe {
+    const listener = (_event: IpcRendererEvent, value: string): void => callback(value)
+    ipcRenderer.on('show-qrcode', listener)
+    return () => ipcRenderer.removeListener('show-qrcode', listener)
   },
-  removeListener(channel: string, listener: Listener) {
-    oriIpcRenderer.removeListener(channel, listener)
-  },
-  removeAllListeners(channel: string) {
-    oriIpcRenderer.removeAllListeners(channel)
+  onUpdateDownload(callback: (event: unknown) => void): EventUnsubscribe {
+    const listener = (_event: IpcRendererEvent, payload: unknown): void => callback(payload)
+    ipcRenderer.on('update-download-event', listener)
+    return () => ipcRenderer.removeListener('update-download-event', listener)
   }
 }
 
-const windowElectron = {
-  ipcRenderer,
-  platform
-}
-
-export type WindowElectron = typeof windowElectron
-
-contextBridge.exposeInMainWorld('electron', windowElectron)
-
-console.log('preload.js')
-
-declare global {
-  interface Window {
-    electron: typeof windowElectron
+if (process.contextIsolated) {
+  try {
+    contextBridge.exposeInMainWorld('electron', electronAPI)
+    contextBridge.exposeInMainWorld('api', api)
+  } catch (error) {
+    console.error(error)
   }
+} else {
+  // @ts-ignore (define in dts)
+  window.electron = electronAPI
+  // @ts-ignore (define in dts)
+  window.api = api
 }
