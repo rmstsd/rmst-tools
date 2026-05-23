@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { LocaleProvider } from '@douyinfe/semi-ui'
+import { ConfigProvider, LocaleProvider } from '@douyinfe/semi-ui'
 import zhCN from '@douyinfe/semi-ui/lib/es/locale/source/zh_CN'
 import OpenFolder from './pages/OpenFolder'
 import QuickInput from './pages/QuickInput'
@@ -29,11 +29,11 @@ function App(): React.JSX.Element {
   }, [])
 
   return (
-    <LocaleProvider locale={zhCN}>
+    <ConfigProvider locale={zhCN}>
       {route === 'openFolder' && <OpenFolder />}
       {route === 'quickInput' && <QuickInput />}
       {route === 'setting' && <SettingPage />}
-    </LocaleProvider>
+    </ConfigProvider>
   )
 }
 

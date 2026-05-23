@@ -24,10 +24,7 @@ export default function OpenFolder(): React.JSX.Element {
   }, [])
 
   const loadInitialData = useCallback(async () => {
-    const [tree, setting] = await Promise.all([
-      invoke<DirNamesTree[]>('getProjectNamesTree'),
-      invoke<SettingData>('getSetting')
-    ])
+    const [tree, setting] = await Promise.all([invoke<DirNamesTree[]>('getProjectNamesTree'), invoke<SettingData>('getSetting')])
 
     setDirNamesTree(tree)
     setEditorPaths(setting.editorPaths ?? [])
@@ -45,7 +42,7 @@ export default function OpenFolder(): React.JSX.Element {
 
   useWindowFocus(
     useCallback(
-      (focused) => {
+      focused => {
         if (focused) {
           setKeyword('')
           setSelectIndex(0)
@@ -60,18 +57,13 @@ export default function OpenFolder(): React.JSX.Element {
 
   useElementResize(
     rootRef,
-    useCallback((size) => {
+    useCallback(size => {
       void invoke('setWindowSize', { height: size.height })
     }, [])
   )
 
   const openProject = useCallback(
-    async (
-      projectPath: string,
-      ctrlKey = false,
-      shiftKey = false,
-      editorIndex = activeEditorIndex
-    ) => {
+    async (projectPath: string, ctrlKey = false, shiftKey = false, editorIndex = activeEditorIndex) => {
       if (!projectPath) {
         return
       }
@@ -108,7 +100,7 @@ export default function OpenFolder(): React.JSX.Element {
         return
       }
 
-      setSelectIndex((current) => {
+      setSelectIndex(current => {
         if (event.key === 'ArrowUp') {
           return current - 1 < 0 ? flatDirNames.length - 1 : current - 1
         }
@@ -129,7 +121,7 @@ export default function OpenFolder(): React.JSX.Element {
         return
       }
 
-      setActiveEditorIndex((current) => {
+      setActiveEditorIndex(current => {
         if (event.key === 'ArrowLeft') {
           return current - 1 < 0 ? editorPaths.length - 1 : current - 1
         }
@@ -151,7 +143,7 @@ export default function OpenFolder(): React.JSX.Element {
           value={keyword}
           size="large"
           className="open-folder-input"
-          onChange={(value) => {
+          onChange={value => {
             setSelectIndex(0)
             setKeyword(value)
           }}
@@ -199,7 +191,7 @@ export default function OpenFolder(): React.JSX.Element {
               className={index === selectIndex ? 'project-option is-active' : 'project-option'}
               key={item}
               onMouseEnter={() => setSelectIndex(index)}
-              onClick={(event) => void openProject(item, event.ctrlKey, event.shiftKey)}
+              onClick={event => void openProject(item, event.ctrlKey, event.shiftKey)}
             >
               <span>
                 {findAllChunks(findPosIndexList(keyword, item), item).map((chunk, chunkIndex) => (
