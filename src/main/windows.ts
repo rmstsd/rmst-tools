@@ -17,7 +17,14 @@ export function createManagedWindows(): void {
     width: 1200,
     height: 800,
     show: false,
-    autoHideMenuBar: true
+    autoHideMenuBar: true,
+    // titleBarStyle: 'hidden',
+    // expose window controls in Windows/Linux
+    ...(process.platform !== 'darwin'
+      ? {
+          titleBarOverlay: { height: 32, color: '#ddd' }
+        }
+      : {})
   })
 
   createManagedWindow('openFolder', {

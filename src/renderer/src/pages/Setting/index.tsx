@@ -18,25 +18,29 @@ export default function SettingPage(): React.JSX.Element {
   )
 
   return (
-    <Tabs
-      tabPosition="left"
-      keepDOM={false}
-      activeKey={activeKey}
-      onChange={key => {
-        localStorage.setItem('activeKey', key)
-        setActiveKey(key)
-      }}
-      className="setting-page"
-    >
-      <TabPane tab="设置" itemKey="setting">
-        <SettingConfig />
-      </TabPane>
-      <TabPane tab="工具" itemKey="tools">
-        <SmallTool />
-      </TabPane>
-      <TabPane tab="二维码" itemKey="qrcode">
-        <QrCode value={qrCodeValue} setValue={setQrCodeValue} />
-      </TabPane>
-    </Tabs>
+    <>
+      {/* <div className="window-title-bar"></div> */}
+
+      <Tabs
+        tabPosition="left"
+        keepDOM={false}
+        activeKey={activeKey}
+        onChange={key => {
+          localStorage.setItem('activeKey', key)
+          setActiveKey(key)
+        }}
+        className="setting-page"
+      >
+        <TabPane tab="设置" itemKey="setting">
+          <SettingConfig />
+        </TabPane>
+        <TabPane tab="工具" itemKey="tools">
+          <SmallTool />
+        </TabPane>
+        <TabPane tab="二维码" itemKey="qrcode">
+          <QrCode value={qrCodeValue} setValue={setQrCodeValue} />
+        </TabPane>
+      </Tabs>
+    </>
   )
 }
