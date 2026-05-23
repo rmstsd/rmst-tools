@@ -184,15 +184,17 @@ textarea {
 .open-folder-search {
   position: relative;
   height: 100%;
+  display: flex;
 }
 
 .open-folder-input.semi-input-wrapper {
-  width: 100%;
+  width: 0;
+  flex-grow: 1;
+  flex-shrink: 0;
   height: 60px;
   border: none;
   border-radius: 0;
   background: #fafbfc;
-  padding-right: 320px;
 }
 
 .open-folder-input .semi-input {
@@ -201,10 +203,6 @@ textarea {
 }
 
 .open-folder-actions {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
   display: flex;
   align-items: center;
   gap: 4px;
