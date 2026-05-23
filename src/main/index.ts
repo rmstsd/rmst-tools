@@ -11,6 +11,7 @@ import {
   quitApp
 } from './windows'
 import { cleanupSelectionHook, openExplorerFromSelection, showQrCodeFromSelection } from './system'
+import onBrowserWindowCreated from './onBrowserWindowCreated'
 
 const gotSingleInstanceLock = app.requestSingleInstanceLock()
 
@@ -24,16 +25,14 @@ if (!gotSingleInstanceLock) {
   app.whenReady().then(() => {
     electronApp.setAppUserModelId('com.rmst-toolkit.app')
 
-    app.on('browser-window-created', (_, window) => {
-      optimizer.watchWindowShortcuts(window)
-    })
-
     if (!is.dev && process.platform === 'win32') {
       app.setLoginItemSettings({
         openAtLogin: true,
         args: ['--flag1', '--flag2']
       })
     }
+
+    onBrowserWindowCreated(app)
 
     initStore()
     registerIpcHandlers()
