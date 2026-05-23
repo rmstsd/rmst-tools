@@ -30,11 +30,7 @@ export function installDevApiFallback(): void {
           node: 'preview'
         },
         getHistoryOpenedUrls: ['https://semi.design', 'https://electron-vite.org'],
-        checkUpdate: {
-          needUpdate: false,
-          current_version: '0.1.55',
-          version: '0.1.55'
-        }
+        checkUpdate: undefined
       }
 
       return data[channel] as T

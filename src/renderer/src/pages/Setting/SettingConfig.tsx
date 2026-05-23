@@ -83,7 +83,7 @@ export default function SettingConfig(): React.JSX.Element {
     <div>
       <div className="app-info">
         {Object.entries(appInfo).map(([key, value]) => (
-          <Tag key={key} size="large" color="blue">
+          <Tag key={key} size="large" color="blue" style={{ userSelect: 'auto' }}>
             {key}: {value}
           </Tag>
         ))}

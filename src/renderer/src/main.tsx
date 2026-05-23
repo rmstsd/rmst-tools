@@ -1,3 +1,4 @@
+import '@douyinfe/semi-ui/react19-adapter'
 import './assets/main.less'
 
 import { createRoot } from 'react-dom/client'

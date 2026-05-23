@@ -1,4 +1,4 @@
-export function invoke<T = unknown>(channel: string, args?: unknown): Promise<T> {
+export function invoke<T = any>(channel: string, args?: unknown): Promise<T> {
   return window.api.invoke<T>(channel, args)
 }
 

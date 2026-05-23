@@ -25,15 +25,22 @@ export interface DirNamesTree {
 }
 
 export interface UpdateInfo {
-  needUpdate: boolean
-  current_version: string
   version: string
-  notes?: string
-  pub_date?: string
-  downloadUrl?: string
+  releaseDate?: string
+  releaseName?: string
+  releaseNotes?: string
+}
+
+export interface UpdateProgress {
+  percent: number
+  bytesPerSecond: number
+  transferred: number
+  total: number
 }
 
 export type DownloadEvent =
-  | { event: 'Started'; data: { content_length: number } }
-  | { event: 'Progress'; data: { chunk_length: number } }
-  | { event: 'Finished'; data: { filePath: string } }
+  | { event: 'available'; data: UpdateInfo }
+  | { event: 'not-available'; data: UpdateInfo }
+  | { event: 'progress'; data: UpdateProgress }
+  | { event: 'downloaded'; data: UpdateInfo }
+  | { event: 'error'; message: string }

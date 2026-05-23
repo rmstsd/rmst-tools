@@ -6,8 +6,8 @@
   "author": "rmstsd",
   "homepage": "https://electron-vite.org",
   "scripts": {
-    "dev": "electron-vite dev --watch",
-    "start": "electron-vite preview",
+    "dev": "chcp 65001 > nul && electron-vite dev --watch",
+    "start": "chcp 65001 > nul && electron-vite preview",
     "build": "electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
