@@ -12,6 +12,7 @@ import {
 } from './windows'
 import { cleanupSelectionHook, openExplorerFromSelection, showQrCodeFromSelection } from './system'
 import onBrowserWindowCreated from './onBrowserWindowCreated'
+import { cleanupCaretHelper } from './koff'
 
 const gotSingleInstanceLock = app.requestSingleInstanceLock()
 
@@ -47,6 +48,7 @@ if (!gotSingleInstanceLock) {
 }
 
 app.on('will-quit', () => {
+  cleanupCaretHelper()
   cleanupSelectionHook()
   globalShortcut.unregisterAll()
 })

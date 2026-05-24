@@ -332,7 +332,3 @@ async function sendKeys(key: Key): Promise<void> {
     await keyboard.releaseKey(modifierKey, key)
   }
 }
-
-function wait(ms: number): Promise<void> {
-  return new Promise(resolvePromise => setTimeout(resolvePromise, ms))
-}

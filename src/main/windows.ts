@@ -5,11 +5,13 @@ import { join } from 'node:path'
 import icon from '../../resources/icon.png?asset'
 import { STORE_KEYS, getStoreValue, setStoreValue } from './store'
 import type { ManagedWindowKey } from './types'
+import { getGlobalCaretRect, warmUpCaretHelper } from './koff'
 
 const managedWindows = new Map<ManagedWindowKey, BrowserWindow>()
 let tray: Tray | null = null
 let trayContextMenu: Menu | null = null
 let allowClose = false
+let quickInputAnchorRect: Electron.Rectangle | null = null
 
 export function createManagedWindows(): void {
   createManagedWindow('setting', {
@@ -51,6 +53,8 @@ export function createManagedWindows(): void {
     alwaysOnTop: true,
     autoHideMenuBar: true
   })
+
+  warmUpCaretHelper()
 }
 
 export function getManagedWindow(key: ManagedWindowKey): BrowserWindow | undefined {
@@ -86,6 +90,10 @@ export function setWindowSizeForWebContents(webContents: WebContents, width?: nu
 
   const [currentWidth, currentHeight] = window.getContentSize()
   window.setContentSize(Math.ceil(width ?? currentWidth), Math.ceil(height ?? currentHeight))
+
+  if (getManagedWindowKey(window) === 'quickInput' && quickInputAnchorRect) {
+    positionWindowNearAnchor(window, quickInputAnchorRect)
+  }
 }
 
 export function toggleOpenFolderWindow(): void {
@@ -101,15 +109,16 @@ export function toggleOpenFolderWindow(): void {
   window.focus()
 }
 
-export function toggleQuickInputWindow(): void {
+export async function toggleQuickInputWindow(): Promise<void> {
   const window = mustGetWindow('quickInput')
 
   if (window.isVisible()) {
     window.hide()
+    quickInputAnchorRect = null
     return
   }
 
-  positionQuickInputWindow(window)
+  await positionQuickInputWindow(window)
   window.show()
 }
 
@@ -249,22 +258,75 @@ function positionOpenFolderWindow(window: BrowserWindow): void {
   window.setPosition(x, y)
 }
 
-function positionQuickInputWindow(window: BrowserWindow): void {
+async function positionQuickInputWindow(window: BrowserWindow): Promise<void> {
+  const caretRect = await getGlobalCaretRect()
+
+  if (caretRect) {
+    quickInputAnchorRect = screenPhysicalRectToDip(caretRect)
+    positionWindowNearAnchor(window, quickInputAnchorRect)
+    return
+  }
+
   const cursor = screen.getCursorScreenPoint()
-  const display = screen.getDisplayNearestPoint(cursor)
+  quickInputAnchorRect = { ...cursor, width: 1, height: 1 }
+  positionWindowNearAnchor(window, quickInputAnchorRect)
+}
+
+function positionWindowNearAnchor(window: BrowserWindow, anchorRect: Electron.Rectangle): void {
   const [width, height] = window.getSize()
-  let x = cursor.x
-  let y = cursor.y
+  const position = getPopupPositionNearRect(anchorRect, width, height)
 
-  if (x + width > display.workArea.x + display.workArea.width) {
-    x -= width
+  window.setPosition(position.x, position.y)
+}
+
+function screenPhysicalRectToDip(rect: Electron.Rectangle): Electron.Rectangle {
+  if (process.platform !== 'win32' && process.platform !== 'linux') {
+    return rect
   }
 
-  if (y + height > display.workArea.y + display.workArea.height) {
-    y -= height
+  return screen.screenToDipRect(null, rect)
+}
+
+function getPopupPositionNearRect(
+  anchorRect: Electron.Rectangle,
+  popupWidth: number,
+  popupHeight: number
+): Electron.Point {
+  const gap = 6
+  const display = screen.getDisplayMatching(anchorRect)
+  const workArea = display.workArea
+  const maxX = workArea.x + workArea.width - popupWidth
+  const maxY = workArea.y + workArea.height - popupHeight
+
+  let x = anchorRect.x
+  let y = anchorRect.y + anchorRect.height + gap
+
+  if (y > maxY) {
+    y = anchorRect.y - popupHeight - gap
   }
 
-  window.setPosition(Math.round(x), Math.round(y))
+  return {
+    x: Math.round(clamp(x, workArea.x, maxX)),
+    y: Math.round(clamp(y, workArea.y, maxY))
+  }
+}
+
+function clamp(value: number, min: number, max: number): number {
+  if (max < min) {
+    return min
+  }
+
+  return Math.min(Math.max(value, min), max)
+}
+
+function getManagedWindowKey(window: BrowserWindow): ManagedWindowKey | null {
+  for (const [key, managedWindow] of managedWindows) {
+    if (managedWindow === window) {
+      return key
+    }
+  }
+
+  return null
 }
 
 function appendHistoryUrl(url: string): void {
