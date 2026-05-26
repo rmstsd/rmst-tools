@@ -2,41 +2,30 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '@douyinfe/semi-ui'
 import { IconClose } from '@douyinfe/semi-icons'
 import { invoke } from '../api'
-import { useElementResize, useWindowFocus } from '../hooks'
+import { useElementResize } from '../hooks'
 import type { SettingData } from '../types'
 
 export default function QuickInput(): React.JSX.Element {
   const rootRef = useRef<HTMLDivElement>(null)
   const [notes, setNotes] = useState<string[]>([])
 
-  const updateData = useCallback(async () => {
-    const data = await invoke<SettingData>('getSetting')
+  const updateData = async () => {
+    const data = await invoke<SettingData>('Get_Setting')
     setNotes(data.notes ?? [])
-  }, [])
+  }
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      void updateData()
-    }, 0)
-
-    return () => window.clearTimeout(timer)
-  }, [updateData])
-
-  useWindowFocus(
-    useCallback(
-      focused => {
-        if (focused) {
-          void updateData()
-        }
-      },
-      [updateData]
-    )
-  )
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        updateData()
+      }
+    })
+  }, [])
 
   useElementResize(
     rootRef,
     useCallback(size => {
-      void invoke('setWindowSize', { width: size.width, height: size.height })
+      void invoke('Set_Window_Size', { width: size.width, height: size.height })
     }, [])
   )
 
@@ -48,7 +37,7 @@ export default function QuickInput(): React.JSX.Element {
           size="small"
           type="tertiary"
           icon={<IconClose />}
-          onClick={() => void invoke('hideWindow')}
+          onClick={() => void invoke('Hide_Window')}
           style={{ color: 'white' }}
         />
       </div>
@@ -60,7 +49,8 @@ export default function QuickInput(): React.JSX.Element {
             className="quick-note"
             theme="outline"
             type="tertiary"
-            onClick={() => void invoke('CopyAndPaste', { content: item })}
+            size="small"
+            onClick={() => void invoke('Copy_And_Paste', { content: item })}
           >
             {item}
           </Button>

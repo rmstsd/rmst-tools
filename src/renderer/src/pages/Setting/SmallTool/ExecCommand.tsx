@@ -18,7 +18,7 @@ export default function ExecCommand(): React.JSX.Element {
   const [loadingIndex, setLoadingIndex] = useState<number | null>(null)
 
   const loadCommands = useCallback(async () => {
-    setCommands(await invoke<CommandItem[]>('getCommands'))
+    setCommands(await invoke<CommandItem[]>('Get_Commands'))
   }, [])
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function ExecCommand(): React.JSX.Element {
 
   const saveHandler = async (): Promise<void> => {
     try {
-      await invoke('saveCommands', { commands })
+      await invoke('Save_Commands', { commands })
       Toast.success('保存成功')
       await loadCommands()
     } catch (error) {
@@ -47,7 +47,7 @@ export default function ExecCommand(): React.JSX.Element {
 
     setLoadingIndex(index)
     try {
-      await invoke('execCommand', { label: command.label })
+      await invoke('Exec_Command', { label: command.label })
       Toast.success('执行成功')
     } catch (error) {
       Toast.error(`执行失败: ${notifyError(error)}`)

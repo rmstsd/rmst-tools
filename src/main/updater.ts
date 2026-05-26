@@ -83,7 +83,7 @@ function sendUpdateEvent(payload: DownloadEvent): void {
   const settingWindow = getManagedWindow('setting')
 
   if (settingWindow) {
-    settingWindow.webContents.send('update-download-event', payload)
+    settingWindow.webContents.send('Update_Download_Event', payload)
   }
 }
 

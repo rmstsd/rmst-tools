@@ -1,8 +1,5 @@
 import { ipcMain } from 'electron'
-import {
-  checkUpdate as checkUpdateImpl,
-  downloadAndInstall as downloadAndInstallImpl
-} from './updater'
+import { checkUpdate as checkUpdateImpl, downloadAndInstall as downloadAndInstallImpl } from './updater'
 import {
   clearSettingStore,
   copyAndPaste,
@@ -31,50 +28,48 @@ import {
 } from './windows'
 
 export function registerIpcHandlers(): void {
-  ipcMain.handle('hideWindow', (event) => {
+  ipcMain.handle('Hide_Window', event => {
     hideWindowForWebContents(event.sender)
   })
 
-  ipcMain.handle('setWindowSize', (event, args: { width?: number; height?: number } = {}) => {
+  ipcMain.handle('Set_Window_Size', (event, args: { width?: number; height?: number } = {}) => {
     setWindowSizeForWebContents(event.sender, args.width, args.height)
   })
 
-  ipcMain.handle('get_package_info', () => getPackageInfo())
+  ipcMain.handle('Get_Package_Info', () => getPackageInfo())
 
-  ipcMain.handle('importSetting', () => importSetting())
-  ipcMain.handle('exportSetting', () => exportSetting())
-  ipcMain.handle('saveSetting', (_event, args: { settingData: SettingData }) => {
+  ipcMain.handle('Import_Setting', () => importSetting())
+  ipcMain.handle('Export_Setting', () => exportSetting())
+  ipcMain.handle('Save_Setting', (_event, args: { settingData: SettingData }) => {
     saveSetting(args.settingData)
   })
-  ipcMain.handle('getSetting', () => getSetting())
-  ipcMain.handle('clearStore', () => clearSettingStore())
+  ipcMain.handle('Get_Setting', () => getSetting())
+  ipcMain.handle('Clear_Store', () => clearSettingStore())
 
-  ipcMain.handle('saveCommands', (_event, args: { commands?: CommandItem[] }) => {
+  ipcMain.handle('Save_Commands', (_event, args: { commands?: CommandItem[] }) => {
     saveCommands(args.commands ?? [])
   })
-  ipcMain.handle('getCommands', () => getCommands())
-  ipcMain.handle('execCommand', (_event, args: { label: string }) => execCommandByLabel(args.label))
-  ipcMain.handle('removeFolder', (_event, args: { nodeModulesFolders?: NodeModulesFolder[] }) =>
+  ipcMain.handle('Get_Commands', () => getCommands())
+  ipcMain.handle('Exec_Command', (_event, args: { label: string }) => execCommandByLabel(args.label))
+  ipcMain.handle('Remove_Folder', (_event, args: { nodeModulesFolders?: NodeModulesFolder[] }) =>
     removeFolders(args.nodeModulesFolders ?? [])
   )
 
-  ipcMain.handle('getProjectNamesTree', () => getProjectNamesTree())
-  ipcMain.handle('openFolderEditor', (_event, args: { projectPath: string; editorPath: string }) =>
+  ipcMain.handle('Get_Project_Names_Tree', () => getProjectNamesTree())
+  ipcMain.handle('Open_Folder_Editor', (_event, args: { projectPath: string; editorPath: string }) =>
     openFolderEditor(args.projectPath, args.editorPath)
   )
-  ipcMain.handle('open_with_terminal', (_event, args: { projectPath: string }) =>
-    openWithTerminal(args.projectPath)
-  )
-  ipcMain.handle('open_in_explorer', (_event, args: { path: string }) => openInExplorer(args.path))
-  ipcMain.handle('killPort', (_event, args: { port: number }) => killPort(Number(args.port)))
-  ipcMain.handle('CopyAndPaste', (_event, args: { content: string }) => copyAndPaste(args.content))
+  ipcMain.handle('Open_With_Terminal', (_event, args: { projectPath: string }) => openWithTerminal(args.projectPath))
+  ipcMain.handle('Open_In_Explorer', (_event, args: { path: string }) => openInExplorer(args.path))
+  ipcMain.handle('Kill_Port', (_event, args: { port: number }) => killPort(Number(args.port)))
+  ipcMain.handle('Copy_And_Paste', (_event, args: { content: string }) => copyAndPaste(args.content))
 
-  ipcMain.handle('openWin', (_event, args: { url: string }) => {
+  ipcMain.handle('Open_Win', (_event, args: { url: string }) => {
     openExternalWindow(args.url)
   })
-  ipcMain.handle('getHistoryOpenedUrls', () => getHistoryOpenedUrls())
-  ipcMain.handle('clearHistoryOpenedUrls', () => clearHistoryOpenedUrls())
+  ipcMain.handle('Get_History_Opened_Urls', () => getHistoryOpenedUrls())
+  ipcMain.handle('Clear_History_Opened_Urls', () => clearHistoryOpenedUrls())
 
-  ipcMain.handle('checkUpdate', () => checkUpdateImpl())
-  ipcMain.handle('download_and_install', () => downloadAndInstallImpl())
+  ipcMain.handle('Check_Update', () => checkUpdateImpl())
+  ipcMain.handle('Download_And_Install', () => downloadAndInstallImpl())
 }

@@ -33,7 +33,7 @@ export default function Updater(): React.JSX.Element {
   const checkUpdate = async (): Promise<void> => {
     setChecking(true)
     try {
-      await invoke('checkUpdate')
+      await invoke('Check_Update')
     } catch (error) {
       Toast.error(notifyError(error))
     } finally {
@@ -47,7 +47,7 @@ export default function Updater(): React.JSX.Element {
     setProgress(EMPTY_PROGRESS)
 
     try {
-      await invoke('download_and_install')
+      await invoke('Download_And_Install')
     } catch (error) {
       setDownloading(false)
       setStep('available')

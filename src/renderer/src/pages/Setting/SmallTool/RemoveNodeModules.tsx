@@ -11,7 +11,7 @@ export default function RemoveNodeModules(): React.JSX.Element {
   const [loading, setLoading] = useState(false)
 
   const loadFolders = useCallback(async () => {
-    const data = await invoke<SettingData>('getSetting')
+    const data = await invoke<SettingData>('Get_Setting')
     setFolders(data.nodeModulesFolders ?? [])
   }, [])
 
@@ -26,9 +26,9 @@ export default function RemoveNodeModules(): React.JSX.Element {
   const remove = async (): Promise<void> => {
     setLoading(true)
     try {
-      const values = await invoke<SettingData>('getSetting')
-      await invoke('saveSetting', { settingData: { ...values, nodeModulesFolders: folders } })
-      await invoke('removeFolder', { nodeModulesFolders: folders })
+      const values = await invoke<SettingData>('Get_Setting')
+      await invoke('Save_Setting', { settingData: { ...values, nodeModulesFolders: folders } })
+      await invoke('Remove_Folder', { nodeModulesFolders: folders })
       Toast.success('成功')
     } catch (error) {
       Toast.error(notifyError(error))

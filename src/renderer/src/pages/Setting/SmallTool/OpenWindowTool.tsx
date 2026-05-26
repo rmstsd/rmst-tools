@@ -10,7 +10,7 @@ export default function OpenWindowTool(): React.JSX.Element {
   const [history, setHistory] = useState<string[]>([])
 
   const loadHistory = useCallback(async () => {
-    setHistory(await invoke<string[]>('getHistoryOpenedUrls'))
+    setHistory(await invoke<string[]>('Get_History_Opened_Urls'))
   }, [])
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function OpenWindowTool(): React.JSX.Element {
     }
 
     try {
-      await invoke('openWin', { url: targetUrl })
+      await invoke('Open_Win', { url: targetUrl })
       setUrl('')
       await loadHistory()
     } catch (error) {
@@ -54,7 +54,7 @@ export default function OpenWindowTool(): React.JSX.Element {
           theme="borderless"
           icon={<IconDelete />}
           onClick={async () => {
-            await invoke('clearHistoryOpenedUrls')
+            await invoke('Clear_History_Opened_Urls')
             await loadHistory()
           }}
         >

@@ -22,8 +22,8 @@ export default function SettingConfig(): React.JSX.Element {
 
   const loadSetting = useCallback(async () => {
     const [data, info] = await Promise.all([
-      invoke<SettingData>('getSetting'),
-      invoke<Record<string, string>>('get_package_info')
+      invoke<SettingData>('Get_Setting'),
+      invoke<Record<string, string>>('Get_Package_Info')
     ])
 
     setSetting({ ...DEFAULT_SETTING, ...data })
@@ -41,7 +41,7 @@ export default function SettingConfig(): React.JSX.Element {
   const saveHandler = async (): Promise<void> => {
     setSaving(true)
     try {
-      await invoke('saveSetting', { settingData: setting })
+      await invoke('Save_Setting', { settingData: setting })
       Toast.success('操作成功')
     } catch (error) {
       Toast.error(notifyError(error))
@@ -52,7 +52,7 @@ export default function SettingConfig(): React.JSX.Element {
 
   const importSetting = async (): Promise<void> => {
     try {
-      await invoke('importSetting')
+      await invoke('Import_Setting')
       Toast.success('操作成功')
       await loadSetting()
     } catch (error) {
@@ -62,7 +62,7 @@ export default function SettingConfig(): React.JSX.Element {
 
   const exportSetting = async (): Promise<void> => {
     try {
-      await invoke('exportSetting')
+      await invoke('Export_Setting')
       Toast.success('操作成功')
     } catch (error) {
       Toast.error(notifyError(error))
@@ -71,7 +71,7 @@ export default function SettingConfig(): React.JSX.Element {
 
   const clearStore = async (): Promise<void> => {
     try {
-      await invoke('clearStore')
+      await invoke('Clear_Store')
       Toast.success('操作成功')
       await loadSetting()
     } catch (error) {

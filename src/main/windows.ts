@@ -227,11 +227,11 @@ function createManagedWindow(key: ManagedWindowKey, options: BrowserWindowConstr
   })
 
   window.on('focus', () => {
-    window.webContents.send('window-focus-changed', true)
+    window.webContents.send('Window_Focus_Changed', true)
   })
 
   window.on('blur', () => {
-    window.webContents.send('window-focus-changed', false)
+    window.webContents.send('Window_Focus_Changed', false)
   })
 
   window.webContents.setWindowOpenHandler(details => {

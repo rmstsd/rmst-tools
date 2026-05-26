@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ConfigProvider, LocaleProvider } from '@douyinfe/semi-ui'
+import { ConfigProvider } from '@douyinfe/semi-ui'
 import zhCN from '@douyinfe/semi-ui/lib/es/locale/source/zh_CN'
 import OpenFolder from './pages/OpenFolder'
 import QuickInput from './pages/QuickInput'
@@ -11,7 +11,7 @@ function App(): React.JSX.Element {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') {
-        void window.api.invoke('hideWindow')
+        void window.api.invoke('Hide_Window')
       }
     }
 

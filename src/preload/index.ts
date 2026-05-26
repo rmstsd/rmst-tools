@@ -20,18 +20,18 @@ const api = {
   },
   onWindowFocusChanged(callback: (focused: boolean) => void): EventUnsubscribe {
     const listener = (_event: IpcRendererEvent, focused: boolean): void => callback(focused)
-    ipcRenderer.on('window-focus-changed', listener)
-    return () => ipcRenderer.removeListener('window-focus-changed', listener)
+    ipcRenderer.on('Window_Focus_Changed', listener)
+    return () => ipcRenderer.removeListener('Window_Focus_Changed', listener)
   },
   onShowQrCode(callback: (value: string) => void): EventUnsubscribe {
     const listener = (_event: IpcRendererEvent, value: string): void => callback(value)
-    ipcRenderer.on('show-qrcode', listener)
-    return () => ipcRenderer.removeListener('show-qrcode', listener)
+    ipcRenderer.on('Show_Qrcode', listener)
+    return () => ipcRenderer.removeListener('Show_Qrcode', listener)
   },
   onUpdateDownload(callback: (event: DownloadEvent) => void): EventUnsubscribe {
     const listener = (_event: IpcRendererEvent, payload: DownloadEvent): void => callback(payload)
-    ipcRenderer.on('update-download-event', listener)
-    return () => ipcRenderer.removeListener('update-download-event', listener)
+    ipcRenderer.on('Update_Download_Event', listener)
+    return () => ipcRenderer.removeListener('Update_Download_Event', listener)
   }
 }
 

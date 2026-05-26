@@ -10,6 +10,8 @@ import { STORE_KEYS, deleteStoreValue, getStoreValue, setStoreValue } from './st
 import type { CommandItem, NamesTree, NodeModulesFolder, SettingData } from './types'
 import { getManagedWindow, hideWindowByKey, openManagedWindow } from './windows'
 
+keyboard.config.autoDelayMs = 0
+
 const execFileAsync = promisify(execFile)
 let selectionHook: SelectionHookInstance | null = null
 
@@ -273,7 +275,7 @@ export async function showQrCodeFromSelection(): Promise<void> {
   }
 
   const settingWindow = openManagedWindow('setting')
-  settingWindow.webContents.send('show-qrcode', text)
+  settingWindow.webContents.send('Show_Qrcode', text)
 }
 
 export async function openExplorerFromSelection(): Promise<void> {

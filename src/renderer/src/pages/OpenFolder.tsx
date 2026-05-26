@@ -24,7 +24,7 @@ export default function OpenFolder(): React.JSX.Element {
   }, [])
 
   const loadInitialData = useCallback(async () => {
-    const [tree, setting] = await Promise.all([invoke<DirNamesTree[]>('getProjectNamesTree'), invoke<SettingData>('getSetting')])
+    const [tree, setting] = await Promise.all([invoke<DirNamesTree[]>('Get_Project_Names_Tree'), invoke<SettingData>('Get_Setting')])
 
     setDirNamesTree(tree)
     setEditorPaths(setting.editorPaths ?? [])
@@ -48,7 +48,7 @@ export default function OpenFolder(): React.JSX.Element {
           setSelectIndex(0)
           void loadInitialData()
         } else if (import.meta.env.PROD) {
-          void invoke('hideWindow')
+          void invoke('Hide_Window')
         }
       },
       [loadInitialData]
@@ -58,7 +58,7 @@ export default function OpenFolder(): React.JSX.Element {
   useElementResize(
     rootRef,
     useCallback(size => {
-      void invoke('setWindowSize', { height: size.height })
+      void invoke('Set_Window_Size', { height: size.height })
     }, [])
   )
 
@@ -73,10 +73,10 @@ export default function OpenFolder(): React.JSX.Element {
         return
       }
 
-      await invoke('hideWindow')
+      await invoke('Hide_Window')
 
       if (ctrlKey) {
-        await invoke('open_with_terminal', { projectPath })
+        await invoke('Open_With_Terminal', { projectPath })
         return
       }
 
@@ -85,7 +85,7 @@ export default function OpenFolder(): React.JSX.Element {
         return
       }
 
-      await invoke('openFolderEditor', {
+      await invoke('Open_Folder_Editor', {
         projectPath,
         editorPath: editorPaths[editorIndex]
       })
@@ -174,8 +174,8 @@ export default function OpenFolder(): React.JSX.Element {
             icon={<IconFolderOpen />}
             disabled={!selectedProject}
             onClick={() => {
-              void invoke('hideWindow')
-              void invoke('open_in_explorer', { path: selectedProject })
+              void invoke('Hide_Window')
+              void invoke('Open_In_Explorer', { path: selectedProject })
             }}
           >
             explorer

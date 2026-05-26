@@ -21,7 +21,7 @@ export default function KillPortTool(): React.JSX.Element {
 
     setLoading(true)
     try {
-      await invoke('killPort', { port })
+      await invoke('Kill_Port', { port })
       Toast.success('成功')
     } catch (error) {
       Toast.error(notifyError(error))
