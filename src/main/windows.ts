@@ -119,6 +119,7 @@ export async function toggleQuickInputWindow(): Promise<void> {
   }
 
   await positionQuickInputWindow(window)
+  window.setAlwaysOnTop(true)
   window.show()
 }
 
@@ -287,11 +288,7 @@ function screenPhysicalRectToDip(rect: Electron.Rectangle): Electron.Rectangle {
   return screen.screenToDipRect(null, rect)
 }
 
-function getPopupPositionNearRect(
-  anchorRect: Electron.Rectangle,
-  popupWidth: number,
-  popupHeight: number
-): Electron.Point {
+function getPopupPositionNearRect(anchorRect: Electron.Rectangle, popupWidth: number, popupHeight: number): Electron.Point {
   const gap = 6
   const display = screen.getDisplayMatching(anchorRect)
   const workArea = display.workArea
