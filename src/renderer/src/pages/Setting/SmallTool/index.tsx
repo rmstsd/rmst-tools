@@ -12,8 +12,8 @@ export default function SmallTool(): React.JSX.Element {
       <OpenWindowTool />
       <Divider margin={12} />
       <ExecCommand />
-      <Divider margin={12} />
-      <RemoveNodeModules />
+      {/* <Divider margin={12} />
+      <RemoveNodeModules /> */}
     </div>
   )
 }

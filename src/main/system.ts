@@ -91,7 +91,8 @@ async function runCommand(command: CommandItem): Promise<void> {
     const child = spawn(command.cmd, splitArgs(command.arg), {
       cwd: command.currentDir || undefined,
       shell: true,
-      windowsHide: true
+      windowsHide: true,
+      stdio: 'ignore'
     })
 
     let stderr = ''
