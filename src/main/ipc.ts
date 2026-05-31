@@ -14,18 +14,11 @@ import {
   openFolderEditor,
   openInExplorer,
   openWithTerminal,
-  removeFolders,
   saveCommands,
   saveSetting
 } from './system'
 import type { CommandItem, NodeModulesFolder, SettingData } from './types'
-import {
-  clearHistoryOpenedUrls,
-  getHistoryOpenedUrls,
-  hideWindowForWebContents,
-  openExternalWindow,
-  setWindowSizeForWebContents
-} from './windows'
+import { clearHistoryOpenedUrls, getHistoryOpenedUrls, hideWindowForWebContents, setWindowSizeForWebContents } from './windows'
 
 export function registerIpcHandlers(): void {
   ipcMain.handle('Hide_Window', event => {
@@ -51,9 +44,6 @@ export function registerIpcHandlers(): void {
   })
   ipcMain.handle('Get_Commands', () => getCommands())
   ipcMain.handle('Exec_Command', (_event, args: { label: string }) => execCommandByLabel(args.label))
-  ipcMain.handle('Remove_Folder', (_event, args: { nodeModulesFolders?: NodeModulesFolder[] }) =>
-    removeFolders(args.nodeModulesFolders ?? [])
-  )
 
   ipcMain.handle('Get_Project_Names_Tree', () => getProjectNamesTree())
   ipcMain.handle('Open_Folder_Editor', (_event, args: { projectPath: string; editorPath: string }) =>
@@ -64,9 +54,6 @@ export function registerIpcHandlers(): void {
   ipcMain.handle('Kill_Port', (_event, args: { port: number }) => killPort(Number(args.port)))
   ipcMain.handle('Copy_And_Paste', (_event, args: { content: string }) => copyAndPaste(args.content))
 
-  ipcMain.handle('Open_Win', (_event, args: { url: string }) => {
-    openExternalWindow(args.url)
-  })
   ipcMain.handle('Get_History_Opened_Urls', () => getHistoryOpenedUrls())
   ipcMain.handle('Clear_History_Opened_Urls', () => clearHistoryOpenedUrls())
 

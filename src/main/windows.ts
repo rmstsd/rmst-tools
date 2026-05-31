@@ -159,33 +159,6 @@ export function createTray(): void {
   })
 }
 
-export function openExternalWindow(url: string): void {
-  const normalizedUrl = normalizeUrl(url)
-  const window = new BrowserWindow({
-    width: 1200,
-    height: 800,
-    title: 'rmst-tools',
-    icon,
-    autoHideMenuBar: true,
-    webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
-  })
-
-  window.webContents.setWindowOpenHandler(details => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
-  window.webContents.on('page-title-updated', (event, title) => {
-    event.preventDefault()
-    window.setTitle(title)
-  })
-
-  void window.loadURL(normalizedUrl)
-  appendHistoryUrl(normalizedUrl)
-}
-
 export function getHistoryOpenedUrls(): string[] {
   return getStoreValue<string[]>(STORE_KEYS.historyOpenedUrls, [])
 }

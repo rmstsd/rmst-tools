@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Input, Toast, Typography } from '@douyinfe/semi-ui'
 import { IconDelete, IconPlay, IconPlus, IconSave } from '@douyinfe/semi-icons'
 import { invoke, notifyError } from '../../../api'
@@ -17,9 +17,9 @@ export default function ExecCommand(): React.JSX.Element {
   const [commands, setCommands] = useState<CommandItem[]>([])
   const [loadingIndex, setLoadingIndex] = useState<number | null>(null)
 
-  const loadCommands = useCallback(async () => {
+  const loadCommands = async () => {
     setCommands(await invoke<CommandItem[]>('Get_Commands'))
-  }, [])
+  }
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -27,7 +27,7 @@ export default function ExecCommand(): React.JSX.Element {
     }, 0)
 
     return () => window.clearTimeout(timer)
-  }, [loadCommands])
+  }, [])
 
   const saveHandler = async (): Promise<void> => {
     try {

@@ -233,25 +233,6 @@ export async function killPort(port: number): Promise<boolean> {
   return true
 }
 
-export async function removeFolders(nodeModulesFolders: NodeModulesFolder[] = []): Promise<void> {
-  for (const item of nodeModulesFolders) {
-    if (!item.selected || !item.path) {
-      continue
-    }
-
-    const basePath = resolve(item.path)
-    const targetPath = resolve(basePath, 'node_modules')
-
-    if (dirname(targetPath) !== basePath || basename(targetPath) !== 'node_modules') {
-      throw new Error(`删除目标无效：${item.path}`)
-    }
-
-    if (existsSync(targetPath)) {
-      await rm(targetPath, { recursive: true, force: true })
-    }
-  }
-}
-
 export async function copyAndPaste(content: string): Promise<void> {
   clipboard.writeText(content)
   hideWindowByKey('quickInput')
