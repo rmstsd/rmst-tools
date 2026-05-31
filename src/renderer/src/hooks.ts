@@ -1,8 +1,19 @@
 import type { RefObject } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-export function useWindowFocus(callback: (focused: boolean) => void): void {
-  useEffect(() => window.api.onWindowFocusChanged(callback), [callback])
+export function useWindowFocus(callback?: (focused: boolean) => void) {
+  const [focused, setFocused] = useState(false)
+
+  useEffect(
+    () =>
+      window.api.onWindowFocusChanged(focused => {
+        callback?.(focused)
+        setFocused(focused)
+      }),
+    [callback]
+  )
+
+  return focused
 }
 
 export function useElementResize<T extends HTMLElement>(

@@ -37,10 +37,18 @@ textarea {
 }
 
 .window-title-bar {
-  height: 32px;
   background-color: #ffffff;
   user-select: none;
   -webkit-app-region: drag;
+  height: calc(env(titlebar-area-height) + 2px);
+  --padding: calc(100vw - env(titlebar-area-width, 100vw));
+  padding-left: var(--padding);
+  padding-right: var(--padding);
+  border-bottom: 1px solid #eee;
+
+  &.focused {
+    background-color: #fafafa;
+  }
 }
 
 .drag-region {
@@ -64,6 +72,7 @@ textarea {
   .semi-tabs-content {
     height: 100vh;
     overflow: auto;
+    padding: 0;
   }
 
   .semi-tabs-pane {
@@ -81,9 +90,10 @@ textarea {
 .app-info {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 12px;
+  padding-top: 12px;
 }
 
 .setting-toolbar {

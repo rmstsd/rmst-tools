@@ -3,6 +3,8 @@ import { TabPane, Tabs } from '@douyinfe/semi-ui'
 import SettingConfig from './SettingConfig'
 import SmallTool from './SmallTool'
 import QrCode from './QrCode'
+import { useWindowFocus } from '@renderer/hooks'
+import clsx from 'clsx'
 
 export default function SettingPage(): React.JSX.Element {
   const [activeKey, setActiveKey] = useState(localStorage.getItem('activeKey') || 'setting')
@@ -17,9 +19,11 @@ export default function SettingPage(): React.JSX.Element {
     []
   )
 
+  const focused = useWindowFocus()
+
   return (
     <>
-      {/* <div className="window-title-bar"></div> */}
+      <div className={clsx('window-title-bar', { focused })}></div>
 
       <Tabs
         tabPosition="left"

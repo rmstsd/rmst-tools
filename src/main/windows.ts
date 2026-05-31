@@ -20,11 +20,11 @@ export function createManagedWindows(): void {
     height: 800,
     show: false,
     autoHideMenuBar: true,
-    // titleBarStyle: 'hidden',
+    titleBarStyle: 'hidden',
     // expose window controls in Windows/Linux
     ...(process.platform !== 'darwin'
       ? {
-          titleBarOverlay: { height: 32, color: '#ddd' }
+          titleBarOverlay: { height: 32, color: '#00000000' }
         }
       : {})
   })
