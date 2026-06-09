@@ -2,12 +2,12 @@ import { app, BrowserWindow, clipboard, dialog, shell } from 'electron'
 import { Key, keyboard } from '@nut-tree-fork/nut-js'
 import { execFile, spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
-import { readdir, readFile, rm, writeFile } from 'node:fs/promises'
-import { basename, dirname, resolve } from 'node:path'
+import { readdir, readFile, writeFile } from 'node:fs/promises'
+import { basename } from 'node:path'
 import { promisify } from 'node:util'
 import SelectionHook, { type SelectionHookInstance } from 'selection-hook'
 import { STORE_KEYS, deleteStoreValue, getStoreValue, setStoreValue } from './store'
-import type { CommandItem, NamesTree, NodeModulesFolder, SettingData } from './types'
+import type { CommandItem, NamesTree, SettingData } from './types'
 import { getManagedWindow, hideWindowByKey, openManagedWindow } from './windows'
 
 keyboard.config.autoDelayMs = 0
@@ -19,8 +19,7 @@ const DEFAULT_SETTING: Required<Omit<SettingData, 'historyOpenedUrls'>> = {
   cmdPath: '',
   editorPaths: [],
   projectPaths: [],
-  notes: [],
-  nodeModulesFolders: []
+  notes: []
 }
 
 export function getSetting(): SettingData {

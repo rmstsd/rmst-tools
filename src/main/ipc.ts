@@ -17,7 +17,7 @@ import {
   saveCommands,
   saveSetting
 } from './system'
-import type { CommandItem, NodeModulesFolder, SettingData } from './types'
+import type { CommandItem, SettingData } from './types'
 import { clearHistoryOpenedUrls, getHistoryOpenedUrls, hideWindowForWebContents, setWindowSizeForWebContents } from './windows'
 
 export function registerIpcHandlers(): void {

@@ -1,17 +1,11 @@
 export type ManagedWindowKey = 'setting' | 'openFolder' | 'quickInput'
 
-export interface NodeModulesFolder {
-  path?: string
-  selected?: boolean
-}
-
 export interface SettingData {
   cmdPath?: string
   editorPaths?: string[]
   projectPaths?: string[]
   notes?: string[]
   historyOpenedUrls?: string[]
-  nodeModulesFolders?: NodeModulesFolder[]
 }
 
 export interface CommandItem {

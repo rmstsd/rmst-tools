@@ -15,6 +15,8 @@ export default function QuickInput(): React.JSX.Element {
   }
 
   useEffect(() => {
+    updateData()
+
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         updateData()
