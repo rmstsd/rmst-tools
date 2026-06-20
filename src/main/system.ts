@@ -3,7 +3,7 @@ import { Key, keyboard } from '@nut-tree-fork/nut-js'
 import { execFile, spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
-import { basename } from 'node:path'
+import path, { basename } from 'node:path'
 import { promisify } from 'node:util'
 import SelectionHook, { type SelectionHookInstance } from 'selection-hook'
 import { STORE_KEYS, deleteStoreValue, getStoreValue, setStoreValue } from './store'
@@ -193,11 +193,8 @@ export async function openWithTerminal(projectPath: string): Promise<void> {
 
 export async function openInExplorer(inputPath: string): Promise<void> {
   const normalizedPath = inputPath.replace(/\//g, '\\')
-  const error = await shell.openPath(normalizedPath)
 
-  if (error) {
-    throw new Error(error)
-  }
+  shell.showItemInFolder(normalizedPath)
 }
 
 export async function killPort(port: number): Promise<boolean> {
