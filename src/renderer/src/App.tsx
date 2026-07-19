@@ -4,6 +4,7 @@ import zhCN from '@douyinfe/semi-ui/lib/es/locale/source/zh_CN'
 import OpenFolder from './pages/OpenFolder'
 import QuickInput from './pages/QuickInput'
 import SettingPage from './pages/Setting'
+import { LoudnessView } from './pages/LoudnessView/LoudnessView'
 
 function App(): React.JSX.Element {
   const [route, setRoute] = useState(() => window.location.hash.slice(1) || 'setting')
@@ -33,6 +34,7 @@ function App(): React.JSX.Element {
       {route === 'openFolder' && <OpenFolder />}
       {route === 'quickInput' && <QuickInput />}
       {route === 'setting' && <SettingPage />}
+      {route === 'loudness' && <LoudnessView />}
     </ConfigProvider>
   )
 }

@@ -18,7 +18,13 @@ import {
   saveSetting
 } from './system'
 import type { CommandItem, SettingData } from './types'
-import { clearHistoryOpenedUrls, getHistoryOpenedUrls, hideWindowForWebContents, setWindowSizeForWebContents } from './windows'
+import {
+  clearHistoryOpenedUrls,
+  getHistoryOpenedUrls,
+  getManagedWindow,
+  hideWindowForWebContents,
+  setWindowSizeForWebContents
+} from './windows'
 
 export function registerIpcHandlers(): void {
   ipcMain.handle('Hide_Window', event => {
@@ -59,4 +65,9 @@ export function registerIpcHandlers(): void {
 
   ipcMain.handle('Check_Update', () => checkUpdateImpl())
   ipcMain.handle('Download_And_Install', () => downloadAndInstallImpl())
+
+  ipcMain.handle('Hide_Loudness_Window', () => {
+    const loudnessWindow = getManagedWindow('loudness')
+    loudnessWindow?.setOpacity(0)
+  })
 }

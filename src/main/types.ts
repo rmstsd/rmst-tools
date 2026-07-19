@@ -1,4 +1,4 @@
-export type ManagedWindowKey = 'setting' | 'openFolder' | 'quickInput'
+export type ManagedWindowKey = 'setting' | 'openFolder' | 'quickInput' | 'loudness'
 
 export interface SettingData {
   cmdPath?: string

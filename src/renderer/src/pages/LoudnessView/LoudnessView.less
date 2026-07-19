@@ -1,0 +1,52 @@
+html,
+body {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.loudness-view {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  color: #202a3a;
+  user-select: none;
+
+  .loudness-value {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    color: #ffffff;
+    line-height: 1;
+    font-size: 14px;
+
+    small {
+      margin-left: 2px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  }
+
+  .loudness-meter {
+    position: relative;
+    flex-grow: 1;
+    width: 10px;
+    overflow: hidden;
+    background: #a1a1a1;
+  }
+
+  .loudness-meter-fill {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #2677d9;
+  }
+
+  .loudness-icon {
+    color: #fbfbfc;
+  }
+}

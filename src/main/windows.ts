@@ -54,6 +54,22 @@ export function createManagedWindows(): void {
     autoHideMenuBar: true
   })
 
+  const loudnessWindow = createManagedWindow('loudness', {
+    width: 40,
+    height: 120,
+    focusable: false,
+    resizable: false,
+    maximizable: false,
+    minimizable: false,
+    frame: false,
+    skipTaskbar: true,
+    alwaysOnTop: true,
+    autoHideMenuBar: true,
+    transparent: true,
+    opacity: 0
+  })
+  loudnessWindow.setPosition(20, 20)
+
   warmUpCaretHelper()
 }
 
@@ -178,7 +194,7 @@ export function relaunchApp(): void {
   app.exit(0)
 }
 
-function createManagedWindow(key: ManagedWindowKey, options: BrowserWindowConstructorOptions): void {
+function createManagedWindow(key: ManagedWindowKey, options: BrowserWindowConstructorOptions): BrowserWindow {
   const window = new BrowserWindow({
     icon,
     ...options,
@@ -212,6 +228,8 @@ function createManagedWindow(key: ManagedWindowKey, options: BrowserWindowConstr
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
+
+  return window
 }
 
 function loadManagedRoute(window: BrowserWindow, key: ManagedWindowKey): void {
