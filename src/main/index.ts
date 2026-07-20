@@ -1,5 +1,5 @@
 import { app, globalShortcut } from 'electron'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { electronApp, is } from '@electron-toolkit/utils'
 import { registerIpcHandlers } from './ipc'
 import { initStore } from './store'
 import {
@@ -13,9 +13,8 @@ import {
 import { cleanupSelectionHook, openExplorerFromSelection, showQrCodeFromSelection } from './system'
 import onBrowserWindowCreated from './onBrowserWindowCreated'
 import { cleanupCaretHelper } from './koff'
-// import { hideDefaultVolumeOsd, restoreDefaultVolumeOsd } from './volumeOsd'
-
-import './loudness'
+import { startWindowsVolumeListener, stopWindowsVolumeListener } from './loudness-listener'
+import { hideDefaultVolumeOsd, restoreDefaultVolumeOsd } from './volumeOsd'
 
 const gotSingleInstanceLock = app.requestSingleInstanceLock()
 
@@ -41,7 +40,8 @@ if (!gotSingleInstanceLock) {
     initStore()
     registerIpcHandlers()
     createManagedWindows()
-    // hideDefaultVolumeOsd()
+    startWindowsVolumeListener()
+    hideDefaultVolumeOsd()
     createTray()
     registerGlobalShortcuts()
 
@@ -52,8 +52,9 @@ if (!gotSingleInstanceLock) {
 }
 
 app.on('will-quit', () => {
-  // restoreDefaultVolumeOsd()
+  restoreDefaultVolumeOsd()
   cleanupCaretHelper()
+  stopWindowsVolumeListener()
   cleanupSelectionHook()
   globalShortcut.unregisterAll()
 })
@@ -87,5 +88,5 @@ process.on('SIGTERM', () => {
 })
 
 process.once('exit', () => {
-  // restoreDefaultVolumeOsd()
+  restoreDefaultVolumeOsd()
 })
