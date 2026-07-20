@@ -13,7 +13,7 @@ import {
 import { cleanupSelectionHook, openExplorerFromSelection, showQrCodeFromSelection } from './system'
 import onBrowserWindowCreated from './onBrowserWindowCreated'
 import { cleanupCaretHelper } from './koff'
-import { hideDefaultVolumeOsd, restoreDefaultVolumeOsd } from './volumeOsd'
+// import { hideDefaultVolumeOsd, restoreDefaultVolumeOsd } from './volumeOsd'
 
 import './loudness'
 
@@ -41,7 +41,7 @@ if (!gotSingleInstanceLock) {
     initStore()
     registerIpcHandlers()
     createManagedWindows()
-    hideDefaultVolumeOsd()
+    // hideDefaultVolumeOsd()
     createTray()
     registerGlobalShortcuts()
 
@@ -52,7 +52,7 @@ if (!gotSingleInstanceLock) {
 }
 
 app.on('will-quit', () => {
-  restoreDefaultVolumeOsd()
+  // restoreDefaultVolumeOsd()
   cleanupCaretHelper()
   cleanupSelectionHook()
   globalShortcut.unregisterAll()
@@ -87,5 +87,5 @@ process.on('SIGTERM', () => {
 })
 
 process.once('exit', () => {
-  restoreDefaultVolumeOsd()
+  // restoreDefaultVolumeOsd()
 })

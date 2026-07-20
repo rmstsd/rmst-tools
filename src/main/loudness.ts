@@ -34,6 +34,6 @@ async function initLoudness(): Promise<void> {
   }, 1000)
 }
 
-setInterval(() => {
-  initLoudness()
-}, 50)
+// setInterval(() => {
+//   initLoudness()
+// }, 50)
