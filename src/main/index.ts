@@ -14,7 +14,7 @@ import { cleanupSelectionHook, openExplorerFromSelection, showQrCodeFromSelectio
 import onBrowserWindowCreated from './onBrowserWindowCreated'
 import { cleanupCaretHelper } from './koff'
 import { startWindowsVolumeListener, stopWindowsVolumeListener } from './loudness-listener'
-import { hideDefaultVolumeOsd, restoreDefaultVolumeOsd } from './volumeOsd'
+import { hideDefaultVolumeOsd, restoreDefaultVolumeOsdSync } from './volumeOsd'
 
 const gotSingleInstanceLock = app.requestSingleInstanceLock()
 
@@ -52,7 +52,7 @@ if (!gotSingleInstanceLock) {
 }
 
 app.on('will-quit', () => {
-  restoreDefaultVolumeOsd()
+  restoreDefaultVolumeOsdSync()
   cleanupCaretHelper()
   stopWindowsVolumeListener()
   cleanupSelectionHook()
@@ -88,5 +88,5 @@ process.on('SIGTERM', () => {
 })
 
 process.once('exit', () => {
-  restoreDefaultVolumeOsd()
+  restoreDefaultVolumeOsdSync()
 })
