@@ -192,7 +192,7 @@ export async function openWithTerminal(projectPath: string): Promise<void> {
 }
 
 export async function openInExplorer(inputPath: string): Promise<void> {
-  const normalizedPath = inputPath.replace(/\//g, '\\')
+  const normalizedPath = path.normalize(inputPath)
 
   shell.showItemInFolder(normalizedPath)
 }
