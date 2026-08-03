@@ -25,6 +25,7 @@ import {
   hideWindowForWebContents,
   setWindowSizeForWebContents
 } from './windows'
+import { translate } from './ai/ai'
 
 export function registerIpcHandlers(): void {
   ipcMain.handle('Hide_Window', event => {
@@ -69,5 +70,9 @@ export function registerIpcHandlers(): void {
   ipcMain.handle('Hide_Loudness_Window', () => {
     const loudnessWindow = getManagedWindow('loudness')
     loudnessWindow?.setOpacity(0)
+  })
+
+  ipcMain.handle('Translate_Text', (_, args: { text: string }) => {
+    return translate(args.text)
   })
 }

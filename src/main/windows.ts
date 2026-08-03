@@ -70,6 +70,21 @@ export function createManagedWindows(): void {
   })
   loudnessWindow.setPosition(20, 20)
 
+  createManagedWindow('translation', {
+    width: 800,
+    height: 600,
+    resizable: false,
+    maximizable: false,
+    autoHideMenuBar: true,
+    titleBarStyle: 'hidden',
+    // expose window controls in Windows/Linux
+    ...(process.platform !== 'darwin'
+      ? {
+          titleBarOverlay: { height: 32, color: '#00000000' }
+        }
+      : {})
+  })
+
   warmUpCaretHelper()
 }
 
@@ -315,24 +330,6 @@ function getManagedWindowKey(window: BrowserWindow): ManagedWindowKey | null {
   }
 
   return null
-}
-
-function appendHistoryUrl(url: string): void {
-  const history = getHistoryOpenedUrls()
-
-  if (!history.includes(url)) {
-    history.unshift(url)
-  }
-
-  setStoreValue(STORE_KEYS.historyOpenedUrls, history.slice(0, 5))
-}
-
-function normalizeUrl(url: string): string {
-  if (/^(https?:|file:)/i.test(url)) {
-    return url
-  }
-
-  return `https://${url}`
 }
 
 function mustGetWindow(key: ManagedWindowKey): BrowserWindow {
