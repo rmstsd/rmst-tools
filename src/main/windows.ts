@@ -76,6 +76,7 @@ export function createManagedWindows(): void {
     resizable: false,
     maximizable: false,
     autoHideMenuBar: true,
+    show: false,
     titleBarStyle: 'hidden',
     // expose window controls in Windows/Linux
     ...(process.platform !== 'darwin'
@@ -83,6 +84,15 @@ export function createManagedWindows(): void {
           titleBarOverlay: { height: 32, color: '#00000000' }
         }
       : {})
+  })
+
+  createManagedWindow('rerun', {
+    width: 800,
+    height: 600,
+    autoHideMenuBar: true,
+    webPreferences: {
+      webSecurity: false // 调试阶段可临时关闭，或在 CSP 中允许 http://localhost:9080
+    }
   })
 
   warmUpCaretHelper()
@@ -182,7 +192,7 @@ export function createTray(): void {
   ])
 
   tray = new Tray(trayIcon)
-  tray.setToolTip('rmst-toolkit')
+  tray.setToolTip(app.getName())
   tray.setContextMenu(trayContextMenu)
 
   tray.on('click', () => {

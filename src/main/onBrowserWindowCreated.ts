@@ -20,7 +20,7 @@ export default function onBrowserWindowCreated(app: Electron.App) {
           if (webContents.isDevToolsOpened()) {
             webContents.closeDevTools()
           } else {
-            webContents.openDevTools({ mode: 'undocked' })
+            webContents.openDevTools({ mode: 'right' })
             console.log('Open dev tool...')
           }
         }

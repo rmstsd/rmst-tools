@@ -5,7 +5,7 @@ import OpenFolder from './pages/OpenFolder'
 import QuickInput from './pages/QuickInput'
 import SettingPage from './pages/Setting'
 import { LoudnessView } from './pages/LoudnessView/LoudnessView'
-import { TranslationView } from './pages/TranslationView/TranslationView'
+import { RerunView } from './pages/RerunView/RerunView'
 
 function App(): React.JSX.Element {
   const [route, setRoute] = useState(() => window.location.hash.slice(1) || 'setting')
@@ -36,7 +36,7 @@ function App(): React.JSX.Element {
       {route === 'quickInput' && <QuickInput />}
       {route === 'setting' && <SettingPage />}
       {route === 'loudness' && <LoudnessView />}
-      {route === 'translation' && <TranslationView />}
+      {route === 'rerun' && <RerunView />}
     </ConfigProvider>
   )
 }

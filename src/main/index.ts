@@ -26,7 +26,7 @@ if (!gotSingleInstanceLock) {
   })
 
   app.whenReady().then(() => {
-    electronApp.setAppUserModelId('com.rmst-toolkit.app')
+    electronApp.setAppUserModelId('com.rmst-tools.app')
 
     if (!is.dev && process.platform === 'win32') {
       app.setLoginItemSettings({
