@@ -3,11 +3,13 @@ import type { BrowserWindowConstructorOptions, WebContents } from 'electron'
 import { is } from '@electron-toolkit/utils'
 import { join } from 'node:path'
 import icon from '../../resources/icon.png?asset'
+import devIcon from '../../resources/icon-dev.png?asset'
 import { STORE_KEYS, getStoreValue, setStoreValue } from './store'
 import type { ManagedWindowKey } from './types'
 import { getGlobalCaretRect, warmUpCaretHelper } from './koff'
 
 const managedWindows = new Map<ManagedWindowKey, BrowserWindow>()
+const appIcon = is.dev ? devIcon : icon
 let tray: Tray | null = null
 let trayContextMenu: Menu | null = null
 let allowClose = false
@@ -87,8 +89,8 @@ export function createManagedWindows(): void {
   })
 
   createManagedWindow('rerun', {
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
     autoHideMenuBar: true,
     webPreferences: {
       webSecurity: false // 调试阶段可临时关闭，或在 CSP 中允许 http://localhost:9080
@@ -165,7 +167,7 @@ export async function toggleQuickInputWindow(): Promise<void> {
 }
 
 export function createTray(): void {
-  const trayIcon = nativeImage.createFromPath(icon)
+  const trayIcon = nativeImage.createFromPath(appIcon)
   trayContextMenu = Menu.buildFromTemplate([
     {
       id: 'setting',
@@ -221,7 +223,7 @@ export function relaunchApp(): void {
 
 function createManagedWindow(key: ManagedWindowKey, options: BrowserWindowConstructorOptions): BrowserWindow {
   const window = new BrowserWindow({
-    icon,
+    icon: appIcon,
     ...options,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
