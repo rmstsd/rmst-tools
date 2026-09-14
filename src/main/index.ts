@@ -14,7 +14,7 @@ import { cleanupSelectionHook, openExplorerFromSelection, showQrCodeFromSelectio
 import onBrowserWindowCreated from './onBrowserWindowCreated'
 import { cleanupCaretHelper } from './koff'
 import { startWindowsVolumeListener, stopWindowsVolumeListener } from './loudness-listener'
-import { hideDefaultVolumeOsd, restoreDefaultVolumeOsdSync } from './volumeOsd'
+import { hideDefaultVolumeOsd, screenOnChange } from './volumeOsd'
 
 const gotSingleInstanceLock = app.requestSingleInstanceLock()
 
@@ -45,6 +45,8 @@ if (!gotSingleInstanceLock) {
     createTray()
     registerGlobalShortcuts()
 
+    screenOnChange()
+
     app.on('activate', () => {
       openManagedWindow('setting')
     })
@@ -52,7 +54,6 @@ if (!gotSingleInstanceLock) {
 }
 
 app.on('will-quit', () => {
-  restoreDefaultVolumeOsdSync()
   cleanupCaretHelper()
   stopWindowsVolumeListener()
   cleanupSelectionHook()
@@ -85,8 +86,4 @@ function registerGlobalShortcuts(): void {
 
 process.on('SIGTERM', () => {
   quitApp()
-})
-
-process.once('exit', () => {
-  restoreDefaultVolumeOsdSync()
 })

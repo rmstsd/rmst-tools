@@ -8,7 +8,7 @@ import { STORE_KEYS, getStoreValue, setStoreValue } from './store'
 import type { ManagedWindowKey } from './types'
 import { getGlobalCaretRect, warmUpCaretHelper } from './koff'
 
-const managedWindows = new Map<ManagedWindowKey, BrowserWindow>()
+export const managedWindows = new Map<ManagedWindowKey, BrowserWindow>()
 const appIcon = is.dev ? devIcon : icon
 let tray: Tray | null = null
 let trayContextMenu: Menu | null = null
@@ -88,14 +88,14 @@ export function createManagedWindows(): void {
       : {})
   })
 
-  createManagedWindow('rerun', {
-    width: 1200,
-    height: 800,
-    autoHideMenuBar: true,
-    webPreferences: {
-      webSecurity: false // 调试阶段可临时关闭，或在 CSP 中允许 http://localhost:9080
-    }
-  })
+  // createManagedWindow('rerun', {
+  //   width: 1200,
+  //   height: 800,
+  //   autoHideMenuBar: true,
+  //   webPreferences: {
+  //     webSecurity: false // 调试阶段可临时关闭，或在 CSP 中允许 http://localhost:9080
+  //   }
+  // })
 
   warmUpCaretHelper()
 }
