@@ -36,7 +36,7 @@ function App(): React.JSX.Element {
       {route === 'quickInput' && <QuickInput />}
       {route === 'setting' && <SettingPage />}
       {route === 'loudness' && <LoudnessView />}
-      {route === 'rerun' && <RerunView />}
+      {/* {route === 'rerun' && <RerunView />} */}
     </ConfigProvider>
   )
 }
