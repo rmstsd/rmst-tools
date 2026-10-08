@@ -38,6 +38,9 @@ export function installDevApiFallback(): void {
     onWindowFocusChanged() {
       return () => undefined
     },
+    onQuickInputKey() {
+      return () => undefined
+    },
     onShowQrCode() {
       return () => undefined
     },

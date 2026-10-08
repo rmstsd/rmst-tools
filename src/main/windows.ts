@@ -7,6 +7,8 @@ import devIcon from '../../resources/icon-dev.png?asset'
 import { STORE_KEYS, getStoreValue, setStoreValue } from './store'
 import type { ManagedWindowKey } from './types'
 import { getGlobalCaretRect, warmUpCaretHelper } from './koff'
+import { GlobalKeyboardListener } from 'node-global-key-listener'
+import type { IGlobalKeyEvent } from 'node-global-key-listener'
 
 export const managedWindows = new Map<ManagedWindowKey, BrowserWindow>()
 const appIcon = is.dev ? devIcon : icon
@@ -14,6 +16,29 @@ let tray: Tray | null = null
 let trayContextMenu: Menu | null = null
 let allowClose = false
 let quickInputAnchorRect: Electron.Rectangle | null = null
+const quickInputKeyboard = new GlobalKeyboardListener()
+const quickInputKeyboardListener = (event: IGlobalKeyEvent): boolean => {
+  if (event.state !== 'DOWN') {
+    return false
+  }
+
+  if (event.name !== 'UP ARROW' && event.name !== 'DOWN ARROW' && event.name !== 'ESCAPE' && event.name !== 'RETURN') {
+    return false
+  }
+
+  const window = managedWindows.get('quickInput')
+  if (!window?.isVisible()) {
+    return false
+  }
+
+  if (event.name === 'ESCAPE') {
+    hideWindowByKey('quickInput')
+  } else {
+    window.webContents.send('Quick_Input_Key', event.name)
+  }
+
+  return true
+}
 
 export function createManagedWindows(): void {
   createManagedWindow('setting', {
@@ -46,7 +71,7 @@ export function createManagedWindows(): void {
     width: 400,
     height: 200,
     show: false,
-    focusable: false,
+    // focusable: false,
     resizable: false,
     maximizable: false,
     minimizable: false,
@@ -118,11 +143,19 @@ export function openManagedWindow(key: ManagedWindowKey): BrowserWindow {
 
 export function hideWindowByKey(key: ManagedWindowKey): void {
   managedWindows.get(key)?.hide()
+  if (key === 'quickInput') {
+    stopQuickInputKeyboard()
+    quickInputAnchorRect = null
+  }
 }
 
 export function hideWindowForWebContents(webContents: WebContents): void {
   const window = BrowserWindow.fromWebContents(webContents)
   window?.hide()
+  if (window && getManagedWindowKey(window) === 'quickInput') {
+    stopQuickInputKeyboard()
+    quickInputAnchorRect = null
+  }
 }
 
 export function setWindowSizeForWebContents(webContents: WebContents, width?: number, height?: number): void {
@@ -156,14 +189,28 @@ export async function toggleQuickInputWindow(): Promise<void> {
   const window = mustGetWindow('quickInput')
 
   if (window.isVisible()) {
-    window.hide()
-    quickInputAnchorRect = null
+    hideWindowByKey('quickInput')
     return
   }
 
   await positionQuickInputWindow(window)
   window.setAlwaysOnTop(true)
   window.show()
+  startQuickInputKeyboard()
+}
+
+function startQuickInputKeyboard(): void {
+  quickInputKeyboard.addListener(quickInputKeyboardListener).catch(error => {
+    console.error('[quick-input-keyboard]', error)
+  })
+}
+
+function stopQuickInputKeyboard(): void {
+  quickInputKeyboard.removeListener(quickInputKeyboardListener)
+}
+
+export function cleanupQuickInputKeyboard(): void {
+  quickInputKeyboard.kill()
 }
 
 export function createTray(): void {

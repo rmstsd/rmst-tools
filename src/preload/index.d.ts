@@ -26,6 +26,7 @@ type DownloadEvent =
 interface RmstApi {
   invoke<T = unknown>(channel: string, args?: unknown): Promise<T>
   onWindowFocusChanged(callback: (focused: boolean) => void): EventUnsubscribe
+  onQuickInputKey(callback: (key: string) => void): EventUnsubscribe
   onShowQrCode(callback: (value: string) => void): EventUnsubscribe
   onUpdateDownload(callback: (event: DownloadEvent) => void): EventUnsubscribe
 }

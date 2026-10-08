@@ -23,6 +23,11 @@ const api = {
     ipcRenderer.on('Window_Focus_Changed', listener)
     return () => ipcRenderer.removeListener('Window_Focus_Changed', listener)
   },
+  onQuickInputKey(callback: (key: string) => void): EventUnsubscribe {
+    const listener = (_event: IpcRendererEvent, key: string): void => callback(key)
+    ipcRenderer.on('Quick_Input_Key', listener)
+    return () => ipcRenderer.removeListener('Quick_Input_Key', listener)
+  },
   onShowQrCode(callback: (value: string) => void): EventUnsubscribe {
     const listener = (_event: IpcRendererEvent, value: string): void => callback(value)
     ipcRenderer.on('Show_Qrcode', listener)

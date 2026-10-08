@@ -1,0 +1,57 @@
+.quick-input {
+  width: 270px;
+  overflow: hidden;
+  background: #f7f9fc;
+  box-shadow: 0 12px 30px rgba(38, 55, 82, 0.2);
+
+  .quick-input-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 30px;
+    background: #ffffff;
+    border-bottom: 1px solid #e8edf4;
+
+    .semi-button {
+      width: 24px;
+      height: 24px;
+      color: #8290a5;
+      border-radius: 0;
+      outline: none;
+    }
+  }
+
+  .quick-input-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .quick-note.semi-button {
+    min-height: 38px;
+    justify-content: flex-start;
+    padding: 8px 11px;
+    overflow: hidden;
+    color: #344054;
+    border: 1px solid #e2e8f0;
+    border-radius: 0;
+    background: #ffffff;
+    text-align: left;
+    white-space: normal;
+    transition: all 0.05s ease-in-out;
+
+    &:hover {
+      border-color: #9dbcf3;
+      background: #f5f9ff;
+      box-shadow: 0 3px 8px rgba(57, 99, 170, 0.1);
+    }
+
+    &.semi-button-primary {
+      color: #1554b8;
+      border-color: #78a5ed;
+      background: #eaf2ff;
+      box-shadow: 0 3px 9px rgba(44, 103, 198, 0.14);
+    }
+  }
+}

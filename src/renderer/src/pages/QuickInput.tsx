@@ -4,10 +4,12 @@ import { IconClose } from '@douyinfe/semi-icons'
 import { invoke } from '../api'
 import { useElementResize } from '../hooks'
 import type { SettingData } from '../types'
+import './QuickInput.less'
 
 export default function QuickInput(): React.JSX.Element {
   const rootRef = useRef<HTMLDivElement>(null)
   const [notes, setNotes] = useState<string[]>([])
+  const [selectedIndex, setSelectedIndex] = useState(0)
 
   const updateData = async () => {
     const data = await invoke<SettingData>('Get_Setting')
@@ -17,12 +19,34 @@ export default function QuickInput(): React.JSX.Element {
   useEffect(() => {
     updateData()
 
-    document.addEventListener('visibilitychange', () => {
+    const onVisibilityChange = (): void => {
       if (document.visibilityState === 'visible') {
         updateData()
+
+        setSelectedIndex(0)
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', onVisibilityChange)
+  }, [])
+
+  useEffect(() => {
+    setSelectedIndex(index => Math.min(index, Math.max(notes.length - 1, 0)))
+  }, [notes.length])
+
+  useEffect(() => {
+    return window.api.onQuickInputKey(key => {
+      if (key === 'UP ARROW') {
+        setSelectedIndex(index => (notes.length ? (index - 1 + notes.length) % notes.length : 0))
+      }
+      if (key === 'DOWN ARROW') {
+        setSelectedIndex(index => (notes.length ? (index + 1) % notes.length : 0))
+      }
+      if (key === 'RETURN' && notes[selectedIndex]) {
+        invoke('Copy_And_Paste', { content: notes[selectedIndex] })
       }
     })
-  }, [])
+  }, [notes, selectedIndex])
 
   useElementResize(
     rootRef,
@@ -40,7 +64,7 @@ export default function QuickInput(): React.JSX.Element {
           type="tertiary"
           icon={<IconClose />}
           onClick={() => void invoke('Hide_Window')}
-          style={{ color: 'white' }}
+          aria-label="关闭"
         />
       </div>
 
@@ -49,8 +73,8 @@ export default function QuickInput(): React.JSX.Element {
           <Button
             key={`${item}-${index}`}
             className="quick-note"
+            type={index === selectedIndex ? 'primary' : 'tertiary'}
             theme="outline"
-            type="tertiary"
             size="small"
             onClick={() => void invoke('Copy_And_Paste', { content: item })}
           >

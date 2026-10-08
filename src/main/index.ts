@@ -8,7 +8,8 @@ import {
   openManagedWindow,
   toggleOpenFolderWindow,
   toggleQuickInputWindow,
-  quitApp
+  quitApp,
+  cleanupQuickInputKeyboard
 } from './windows'
 import { cleanupSelectionHook, openExplorerFromSelection, showQrCodeFromSelection } from './system'
 import onBrowserWindowCreated from './onBrowserWindowCreated'
@@ -58,6 +59,7 @@ app.on('will-quit', () => {
   stopWindowsVolumeListener()
   cleanupSelectionHook()
   globalShortcut.unregisterAll()
+  cleanupQuickInputKeyboard()
 })
 
 app.on('window-all-closed', () => {
@@ -87,3 +89,4 @@ function registerGlobalShortcuts(): void {
 process.on('SIGTERM', () => {
   quitApp()
 })
+
