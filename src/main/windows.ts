@@ -71,7 +71,7 @@ export function createManagedWindows(): void {
     width: 400,
     height: 200,
     show: false,
-    // focusable: false,
+    focusable: false,
     resizable: false,
     maximizable: false,
     minimizable: false,
