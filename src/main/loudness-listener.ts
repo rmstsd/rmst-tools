@@ -102,6 +102,7 @@ function showVolumeChange(state: VolumeState): void {
 
   loudnessWindow.webContents.send('volume-change', state)
   loudnessWindow.setOpacity(1)
+  loudnessWindow.moveTop()
 
   if (hideTimer) {
     clearTimeout(hideTimer)
