@@ -6,6 +6,9 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   main: {
     build: {
+      externalizeDeps: {
+        exclude: ['env-path-resolver']
+      },
       sourcemap: true
     }
   },

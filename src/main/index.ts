@@ -68,7 +68,7 @@ app.on('window-all-closed', () => {
   }
 })
 
-function registerGlobalShortcuts(): void {
+function registerGlobalShortcuts() {
   globalShortcut.register('Alt+Space', () => {
     toggleOpenFolderWindow()
   })
@@ -78,15 +78,14 @@ function registerGlobalShortcuts(): void {
   })
 
   globalShortcut.register('Alt+R', () => {
-    void showQrCodeFromSelection()
+    showQrCodeFromSelection()
   })
 
   globalShortcut.register('Alt+E', () => {
-    void openExplorerFromSelection()
+    openExplorerFromSelection()
   })
 }
 
 process.on('SIGTERM', () => {
   quitApp()
 })
-

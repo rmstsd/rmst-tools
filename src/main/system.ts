@@ -1,9 +1,10 @@
 import { app, BrowserWindow, clipboard, dialog, shell } from 'electron'
 import { Key, keyboard } from '@nut-tree-fork/nut-js'
+import { resolveEnvPath } from 'env-path-resolver'
 import { execFile, spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
-import path, { basename } from 'node:path'
+import { basename } from 'node:path'
 import { promisify } from 'node:util'
 import SelectionHook, { type SelectionHookInstance } from 'selection-hook'
 import { STORE_KEYS, deleteStoreValue, getStoreValue, setStoreValue } from './store'
@@ -192,7 +193,7 @@ export async function openWithTerminal(projectPath: string): Promise<void> {
 }
 
 export async function openInExplorer(inputPath: string): Promise<void> {
-  const normalizedPath = path.normalize(inputPath)
+  const normalizedPath = resolveEnvPath(inputPath)
 
   shell.showItemInFolder(normalizedPath)
 }
