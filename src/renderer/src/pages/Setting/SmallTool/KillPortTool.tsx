@@ -1,17 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { Button, InputNumber, Toast, Typography } from '@douyinfe/semi-ui'
+import { Button, Form, InputNumber, Toast, Typography } from '@douyinfe/semi-ui'
 import { invoke, notifyError } from '../../../api'
 
 const { Title } = Typography
 
 export default function KillPortTool(): React.JSX.Element {
-  const ref = useRef<HTMLInputElement>(null)
   const [port, setPort] = useState<number | undefined>()
   const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    ref.current?.focus()
-  }, [])
 
   const kill = async (): Promise<void> => {
     if (!port) {
@@ -33,11 +28,10 @@ export default function KillPortTool(): React.JSX.Element {
   return (
     <section className="tool-section">
       <div className="section-title">
-        <Title heading={5}>端口清理</Title>
+        <Title heading={6}>端口清理</Title>
       </div>
       <div className="inline-row compact">
         <InputNumber
-          ref={ref}
           value={port}
           min={1}
           max={65535}

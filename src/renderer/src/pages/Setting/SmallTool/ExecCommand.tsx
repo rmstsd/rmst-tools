@@ -63,7 +63,7 @@ export default function ExecCommand(): React.JSX.Element {
   return (
     <section className="tool-section">
       <div className="section-header">
-        <Title heading={5}>常用命令</Title>
+        <Title heading={6}>常用命令</Title>
         <Button icon={<IconSave />} onClick={() => void saveHandler()}>
           保存
         </Button>

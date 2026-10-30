@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Button, Input, Tag, Toast, Typography } from '@douyinfe/semi-ui'
+import { Button, Divider, Input, Tag, Toast, Typography } from '@douyinfe/semi-ui'
 import { IconDelete, IconDownload, IconPlus, IconRefresh, IconSave, IconUpload } from '@douyinfe/semi-icons'
 import { invoke, notifyError } from '../../api'
 import type { SettingData } from '../../types'
 import Updater from './Updater'
+import SmallTool from './SmallTool'
+import QrCode from './QrCode'
+
+import './Setting.less'
 
 const { Title } = Typography
 
@@ -80,7 +84,7 @@ export default function SettingConfig(): React.JSX.Element {
   }
 
   return (
-    <div>
+    <div className="setting-page">
       <div className="app-info">
         {Object.entries(appInfo).map(([key, value]) => (
           <Tag key={key} size="large" color="blue" style={{ userSelect: 'auto' }}>
@@ -91,7 +95,7 @@ export default function SettingConfig(): React.JSX.Element {
 
       <div className="setting-config">
         <div className="setting-toolbar">
-          <Title heading={4}>设置</Title>
+          <Title heading={6}>设置</Title>
           <Button icon={<IconSave />} type="primary" loading={saving} onClick={() => void saveHandler()}>
             保存
           </Button>
@@ -110,26 +114,38 @@ export default function SettingConfig(): React.JSX.Element {
           <Updater />
         </div>
 
-        <ArrayEditor
-          title="编辑器 shell"
-          values={setting.editorPaths ?? []}
-          placeholder="例如: Code"
-          onChange={editorPaths => setSetting(current => ({ ...current, editorPaths }))}
-        />
+        <div className="rr-container">
+          <div className="left-set">
+            <ArrayEditor
+              title="编辑器 shell"
+              values={setting.editorPaths ?? []}
+              placeholder="例如: Code"
+              onChange={editorPaths => setSetting(current => ({ ...current, editorPaths }))}
+            />
 
-        <ArrayEditor
-          title="项目目录列表"
-          values={setting.projectPaths ?? []}
-          placeholder="例如: E:\\project"
-          onChange={projectPaths => setSetting(current => ({ ...current, projectPaths }))}
-        />
+            <ArrayEditor
+              title="项目目录列表"
+              values={setting.projectPaths ?? []}
+              placeholder="例如: E:\\project"
+              onChange={projectPaths => setSetting(current => ({ ...current, projectPaths }))}
+            />
 
-        <ArrayEditor
-          title="笔记列表"
-          values={setting.notes ?? []}
-          placeholder="任意字符串"
-          onChange={notes => setSetting(current => ({ ...current, notes }))}
-        />
+            <ArrayEditor
+              title="笔记列表"
+              values={setting.notes ?? []}
+              placeholder="任意字符串"
+              onChange={notes => setSetting(current => ({ ...current, notes }))}
+            />
+          </div>
+
+          <div className="right-set">
+            <SmallTool />
+
+            <Divider margin={12} />
+
+            <QrCode />
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -150,17 +166,17 @@ function ArrayEditor({ title, values, placeholder, onChange }: ArrayEditorProps)
   return (
     <section className="setting-section">
       <div className="section-title">
-        <Title heading={5}>{title}</Title>
+        <Title heading={6}>{title}</Title>
       </div>
       <div className="setting-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))' }}>
         {values.map((item, index) => (
           <div className="inline-row" key={`${title}-${index}`}>
             <Input value={item} placeholder={placeholder} onChange={value => updateValue(index, value)} />
             <Button
+              size="small"
               type="danger"
               theme="borderless"
               icon={<IconDelete />}
-              aria-label="删除"
               onClick={() => onChange(values.filter((_, currentIndex) => currentIndex !== index))}
             />
           </div>

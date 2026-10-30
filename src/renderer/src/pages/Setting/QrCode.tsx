@@ -1,12 +1,18 @@
 import { Input } from '@douyinfe/semi-ui'
 import { QRCodeSVG } from 'qrcode.react'
+import { useEffect, useState } from 'react'
 
-interface Props {
-  value: string
-  setValue: (value: string) => void
-}
+export default function QrCode() {
+  const [value, setValue] = useState('rmst')
 
-export default function QrCode({ value, setValue }: Props): React.JSX.Element {
+  useEffect(
+    () =>
+      window.api.onShowQrCode(value => {
+        setValue(value)
+      }),
+    []
+  )
+
   return (
     <div className="qrcode-page">
       <Input value={value} onChange={setValue} />
