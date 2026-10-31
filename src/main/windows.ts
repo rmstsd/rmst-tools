@@ -97,31 +97,6 @@ export function createManagedWindows(): void {
   })
   loudnessWindow.setPosition(20, 20)
 
-  createManagedWindow('translation', {
-    width: 800,
-    height: 600,
-    resizable: false,
-    maximizable: false,
-    autoHideMenuBar: true,
-    show: false,
-    titleBarStyle: 'hidden',
-    // expose window controls in Windows/Linux
-    ...(process.platform !== 'darwin'
-      ? {
-          titleBarOverlay: { height: 32, color: '#00000000' }
-        }
-      : {})
-  })
-
-  // createManagedWindow('rerun', {
-  //   width: 1200,
-  //   height: 800,
-  //   autoHideMenuBar: true,
-  //   webPreferences: {
-  //     webSecurity: false // 调试阶段可临时关闭，或在 CSP 中允许 http://localhost:9080
-  //   }
-  // })
-
   warmUpCaretHelper()
 }
 

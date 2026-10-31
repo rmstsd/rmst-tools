@@ -1,0 +1,80 @@
+.open-folder {
+  width: 100vw;
+  min-height: 60px;
+  background: #ffffff;
+}
+
+.open-folder-search {
+  position: relative;
+  height: 100%;
+  display: flex;
+}
+
+.open-folder-input.semi-input-wrapper {
+  width: 0;
+  flex-grow: 1;
+  flex-shrink: 0;
+  height: 60px;
+  border: none;
+  border-radius: 0;
+  background: #fafbfc;
+}
+
+.open-folder-input .semi-input {
+  font-size: 18px;
+  height: 100%;
+}
+
+.open-folder-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  border-left: 1px solid #e5e7eb;
+  background: #ffffff;
+
+  .semi-button {
+    padding: 0 6px;
+  }
+}
+
+.editor-switcher {
+  display: flex;
+  gap: 2px;
+  overflow: hidden;
+
+  .semi-button {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+}
+
+.open-folder-list {
+  max-height: 540px;
+  overflow: auto;
+  border-top: 1px solid #f0f1f4;
+  background: #ffffff;
+}
+
+.project-option {
+  display: flex;
+  width: 100%;
+  min-height: 38px;
+  align-items: center;
+  padding: 8px 14px;
+  border: 0;
+  background: transparent;
+  color: #24262b;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover,
+  &.is-active {
+    background: #eef4ff;
+  }
+
+  b {
+    color: #0b63ce;
+    font-weight: 700;
+  }
+}

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { Button, Form, InputNumber, Toast, Typography } from '@douyinfe/semi-ui'
+import { useState } from 'react'
+import { Button, InputNumber, Toast, Typography } from '@douyinfe/semi-ui'
 import { invoke, notifyError } from '../../../api'
 
 const { Title } = Typography

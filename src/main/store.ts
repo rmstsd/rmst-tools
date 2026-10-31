@@ -4,7 +4,6 @@ import { dirname, join } from 'node:path'
 
 export const STORE_KEYS = {
   setting: 'setting',
-  commands: 'commands',
   historyOpenedUrls: 'historyOpenedUrls'
 } as const
 

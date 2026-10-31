@@ -5,6 +5,7 @@ import { invoke } from '../api'
 import { useElementResize, useWindowFocus } from '../hooks'
 import { findAllChunks, findPosIndexList, searchProjects } from '../search'
 import type { DirNamesTree, SettingData } from '../types'
+import './OpenFolder.less'
 
 export default function OpenFolder(): React.JSX.Element {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -24,7 +25,10 @@ export default function OpenFolder(): React.JSX.Element {
   }, [])
 
   const loadInitialData = useCallback(async () => {
-    const [tree, setting] = await Promise.all([invoke<DirNamesTree[]>('Get_Project_Names_Tree'), invoke<SettingData>('Get_Setting')])
+    const [tree, setting] = await Promise.all([
+      invoke<DirNamesTree[]>('Get_Project_Names_Tree'),
+      invoke<SettingData>('Get_Setting')
+    ])
 
     setDirNamesTree(tree)
     setEditorPaths(setting.editorPaths ?? [])

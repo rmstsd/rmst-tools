@@ -6,22 +6,11 @@ import QuickInput from './pages/QuickInput'
 import SettingPage from './pages/Setting'
 import { LoudnessView } from './pages/LoudnessView/LoudnessView'
 
-function App(): React.JSX.Element {
+function App() {
   const [route, setRoute] = useState(() => window.location.hash.slice(1) || 'setting')
 
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent): void => {
-      if (event.key === 'Escape') {
-        void window.api.invoke('Hide_Window')
-      }
-    }
-
-    document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
-  }, [])
-
-  useEffect(() => {
-    const onHashChange = (): void => {
+    const onHashChange = () => {
       setRoute(window.location.hash.slice(1) || 'setting')
     }
 
@@ -35,7 +24,6 @@ function App(): React.JSX.Element {
       {route === 'quickInput' && <QuickInput />}
       {route === 'setting' && <SettingPage />}
       {route === 'loudness' && <LoudnessView />}
-      {/* {route === 'rerun' && <RerunView />} */}
     </ConfigProvider>
   )
 }

@@ -12,13 +12,6 @@ export interface SettingData {
   nodeModulesFolders?: NodeModulesFolder[]
 }
 
-export interface CommandItem {
-  label: string
-  cmd: string
-  arg: string
-  currentDir: string
-}
-
 export interface DirNamesTree {
   name: string
   children: string[]

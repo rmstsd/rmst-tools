@@ -3,9 +3,7 @@ import { checkUpdate as checkUpdateImpl, downloadAndInstall as downloadAndInstal
 import {
   clearSettingStore,
   copyAndPaste,
-  execCommandByLabel,
   exportSetting,
-  getCommands,
   getPackageInfo,
   getProjectNamesTree,
   getSetting,
@@ -14,10 +12,9 @@ import {
   openFolderEditor,
   openInExplorer,
   openWithTerminal,
-  saveCommands,
   saveSetting
 } from './system'
-import type { CommandItem, SettingData } from './types'
+import type { SettingData } from './types'
 import {
   clearHistoryOpenedUrls,
   getHistoryOpenedUrls,
@@ -25,7 +22,6 @@ import {
   hideWindowForWebContents,
   setWindowSizeForWebContents
 } from './windows'
-import { translate } from './ai/ai'
 
 export function registerIpcHandlers(): void {
   ipcMain.handle('Hide_Window', event => {
@@ -46,12 +42,6 @@ export function registerIpcHandlers(): void {
   ipcMain.handle('Get_Setting', () => getSetting())
   ipcMain.handle('Clear_Store', () => clearSettingStore())
 
-  ipcMain.handle('Save_Commands', (_event, args: { commands?: CommandItem[] }) => {
-    saveCommands(args.commands ?? [])
-  })
-  ipcMain.handle('Get_Commands', () => getCommands())
-  ipcMain.handle('Exec_Command', (_event, args: { label: string }) => execCommandByLabel(args.label))
-
   ipcMain.handle('Get_Project_Names_Tree', () => getProjectNamesTree())
   ipcMain.handle('Open_Folder_Editor', (_event, args: { projectPath: string; editorPath: string }) =>
     openFolderEditor(args.projectPath, args.editorPath)
@@ -70,9 +60,5 @@ export function registerIpcHandlers(): void {
   ipcMain.handle('Hide_Loudness_Window', () => {
     const loudnessWindow = getManagedWindow('loudness')
     loudnessWindow?.setOpacity(0)
-  })
-
-  ipcMain.handle('Translate_Text', (_, args: { text: string }) => {
-    return translate(args.text)
   })
 }

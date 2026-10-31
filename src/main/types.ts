@@ -1,11 +1,4 @@
-export type ManagedWindowKey =
-  | 'setting'
-  | 'openFolder'
-  | 'quickInput'
-  | 'loudness'
-  //
-  | 'translation'
-  | 'rerun'
+export type ManagedWindowKey = 'setting' | 'openFolder' | 'quickInput' | 'loudness'
 
 export interface SettingData {
   cmdPath?: string
@@ -13,13 +6,6 @@ export interface SettingData {
   projectPaths?: string[]
   notes?: string[]
   historyOpenedUrls?: string[]
-}
-
-export interface CommandItem {
-  label: string
-  cmd: string
-  arg: string
-  currentDir: string
 }
 
 export interface NamesTree {

@@ -1,4 +1,4 @@
-import type { CommandItem, DirNamesTree, SettingData } from './types'
+import type { DirNamesTree, SettingData } from './types'
 
 export function installDevApiFallback(): void {
   if (window.api) {
@@ -12,15 +12,12 @@ export function installDevApiFallback(): void {
     nodeModulesFolders: [{ selected: true, path: 'E:/project/demo' }]
   }
 
-  const commands: CommandItem[] = [{ label: 'dev', cmd: 'npm', arg: 'run dev', currentDir: 'E:/project/demo' }]
-
   const tree: DirNamesTree[] = [{ name: 'E:/project', children: ['rmst-toolkit', 'electron-temp', 'demo-app'] }]
 
   window.api = {
     async invoke<T = unknown>(channel: string): Promise<T> {
       const data: Record<string, unknown> = {
         getSetting: setting,
-        getCommands: commands,
         getProjectNamesTree: tree,
         get_package_info: {
           name: 'rmst-toolkit-electron',

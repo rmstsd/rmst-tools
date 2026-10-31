@@ -27,7 +27,6 @@
     "env-path-resolver": "^1.0.1",
     "koffi": "^3.0.1",
     "node-global-key-listener": "^0.3.0",
-    "qrcode.react": "^4.2.0",
     "selection-hook": "^2.0.1"
   },
   "devDependencies": {

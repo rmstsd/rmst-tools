@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Button, Divider, Input, Tag, Toast, Typography } from '@douyinfe/semi-ui'
+import { Button, Input, Modal, Tag, Toast, Typography } from '@douyinfe/semi-ui'
 import { IconDelete, IconDownload, IconPlus, IconRefresh, IconSave, IconUpload } from '@douyinfe/semi-icons'
 import { invoke, notifyError } from '../../api'
 import type { SettingData } from '../../types'
 import Updater from './Updater'
-import SmallTool from './SmallTool'
-import QrCode from './QrCode'
 
 import './Setting.less'
+import KillPortTool from './SmallTool/KillPortTool'
 
 const { Title } = Typography
 
@@ -74,13 +73,19 @@ export default function SettingConfig(): React.JSX.Element {
   }
 
   const clearStore = async (): Promise<void> => {
-    try {
-      await invoke('Clear_Store')
-      Toast.success('操作成功')
-      await loadSetting()
-    } catch (error) {
-      Toast.error(notifyError(error))
-    }
+    Modal.confirm({
+      title: '确认清空本地缓存吗？',
+      content: '清空后所有缓存将被删除，是否继续？',
+      onOk: async () => {
+        try {
+          await invoke('Clear_Store')
+          Toast.success('操作成功')
+          await loadSetting()
+        } catch (error) {
+          Toast.error(notifyError(error))
+        }
+      }
+    })
   }
 
   return (
@@ -95,7 +100,6 @@ export default function SettingConfig(): React.JSX.Element {
 
       <div className="setting-config">
         <div className="setting-toolbar">
-          <Title heading={6}>设置</Title>
           <Button icon={<IconSave />} type="primary" loading={saving} onClick={() => void saveHandler()}>
             保存
           </Button>
@@ -108,7 +112,7 @@ export default function SettingConfig(): React.JSX.Element {
           <Button icon={<IconUpload />} onClick={() => void importSetting()}>
             导入
           </Button>
-          <Button type="danger" onClick={() => void clearStore()}>
+          <Button type="danger" onClick={() => clearStore()}>
             清空本地缓存
           </Button>
           <Updater />
@@ -139,11 +143,7 @@ export default function SettingConfig(): React.JSX.Element {
           </div>
 
           <div className="right-set">
-            <SmallTool />
-
-            <Divider margin={12} />
-
-            <QrCode />
+            <KillPortTool />
           </div>
         </div>
       </div>

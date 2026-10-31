@@ -8,7 +8,7 @@ import { basename } from 'node:path'
 import { promisify } from 'node:util'
 import SelectionHook, { type SelectionHookInstance } from 'selection-hook'
 import { STORE_KEYS, deleteStoreValue, getStoreValue, setStoreValue } from './store'
-import type { CommandItem, NamesTree, SettingData } from './types'
+import type { NamesTree, SettingData } from './types'
 import { getManagedWindow, hideWindowByKey, openManagedWindow } from './windows'
 
 keyboard.config.autoDelayMs = 0
@@ -66,63 +66,6 @@ export async function exportSetting(): Promise<void> {
 
 export function clearSettingStore(): void {
   deleteStoreValue(STORE_KEYS.setting)
-}
-
-export function getCommands(): CommandItem[] {
-  return getStoreValue<CommandItem[]>(STORE_KEYS.commands, [])
-}
-
-export function saveCommands(commands: CommandItem[] = []): void {
-  setStoreValue(STORE_KEYS.commands, commands)
-}
-
-export async function execCommandByLabel(label: string): Promise<void> {
-  const command = getCommands().find(item => item.label === label)
-
-  if (!command) {
-    return
-  }
-
-  await runCommand(command)
-}
-
-async function runCommand(command: CommandItem): Promise<void> {
-  await new Promise<void>((resolvePromise, reject) => {
-    const child = spawn(command.cmd, splitArgs(command.arg), {
-      cwd: command.currentDir || undefined,
-      shell: true,
-      windowsHide: true,
-      stdio: 'ignore'
-    })
-
-    let stderr = ''
-
-    child.stderr?.on('data', chunk => {
-      stderr += String(chunk)
-    })
-
-    child.on('error', error => reject(error))
-    child.on('close', code => {
-      if (code === 0) {
-        resolvePromise()
-        return
-      }
-
-      reject(new Error(stderr.trim() || `命令执行失败，退出码：${code}`))
-    })
-  })
-}
-
-function splitArgs(value: string): string[] {
-  const args: string[] = []
-  const regexp = /"([^"]*)"|'([^']*)'|[^\s]+/g
-  let match: RegExpExecArray | null
-
-  while ((match = regexp.exec(value)) !== null) {
-    args.push(match[1] ?? match[2] ?? match[0])
-  }
-
-  return args
 }
 
 export async function getProjectNamesTree(): Promise<NamesTree[]> {
@@ -268,7 +211,6 @@ export function getPackageInfo(): Record<string, string> {
   return {
     name: app.getName(),
     version: app.getVersion(),
-    author: 'rmstsd',
     electron: process.versions.electron,
     chrome: process.versions.chrome,
     node: process.versions.node

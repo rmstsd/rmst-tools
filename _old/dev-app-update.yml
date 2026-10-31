@@ -1,4 +1,0 @@
-provider: github
-owner: rmstsd
-repo: rmst-tools
-updaterCacheDirName: rmst-tools-updater
